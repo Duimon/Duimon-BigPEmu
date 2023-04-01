@@ -1,0 +1,3337 @@
+#version 430 es
+precision mediump float;
+precision highp int;
+
+layout(binding = 0, std140) uniform UBO
+{
+    highp mat4 MVP;
+    highp vec4 SourceSize;
+    highp vec4 OriginalSize;
+    highp vec4 CorePassSize;
+    highp vec4 CorePassFeedbackSize;
+    highp vec4 OutputSize;
+    highp vec4 FinalViewportSize;
+    highp vec4 NegativeCropAddedPassSize;
+    highp vec4 DerezedPassSize;
+    int FrameDirection;
+    uint FrameCount;
+    highp float HSM_RESOLUTION_DEBUG_ON;
+    highp float HSM_SINDEN_BORDER_ON;
+    highp float HSM_SINDEN_BORDER_OPACITY;
+    highp float HSM_SINDEN_BORDER_BRIGHTNESS;
+    highp float HSM_SINDEN_AMBIENT_LIGHTING;
+    highp float HSM_SINDEN_BORDER_THICKNESS;
+    highp float HSM_SINDEN_BORDER_EMPTY_TUBE_COMPENSATION;
+    highp float HSM_CACHE_GRAPHICS_ON;
+    highp float HSM_CACHE_UPDATE_INDICATOR_MODE;
+    highp float HSM_GLOBAL_GRAPHICS_BRIGHTNESS;
+    highp float HSM_STATIC_LAYERS_GAMMA;
+    highp float HSM_AMBIENT_LIGHTING_OPACITY;
+    highp float HSM_AMBIENT1_OPACITY;
+    highp float HSM_AMBIENT2_OPACITY;
+    highp float HSM_AMBIENT_LIGHTING_SWAP_IMAGE_MODE;
+    highp float HSM_AMBIENT1_HUE;
+    highp float HSM_AMBIENT1_SATURATION;
+    highp float HSM_AMBIENT1_VALUE;
+    highp float HSM_AMBIENT1_CONTRAST;
+    highp float HSM_AMBIENT1_SCALE_KEEP_ASPECT;
+    highp float HSM_AMBIENT1_SCALE_INHERIT_MODE;
+    highp float HSM_AMBIENT1_SCALE;
+    highp float HSM_AMBIENT1_SCALE_X;
+    highp float HSM_AMBIENT1_ROTATE;
+    highp float HSM_AMBIENT1_MIRROR_HORZ;
+    highp float HSM_AMBIENT1_POS_INHERIT_MODE;
+    highp float HSM_AMBIENT1_POSITION_X;
+    highp float HSM_AMBIENT1_POSITION_Y;
+    highp float HSM_AMBIENT1_DITHERING_SAMPLES;
+    highp float HSM_AMBIENT2_HUE;
+    highp float HSM_AMBIENT2_SATURATION;
+    highp float HSM_AMBIENT2_VALUE;
+    highp float HSM_AMBIENT2_CONTRAST;
+    highp float HSM_AMBIENT2_SCALE_KEEP_ASPECT;
+    highp float HSM_AMBIENT2_SCALE_INHERIT_MODE;
+    highp float HSM_AMBIENT2_SCALE;
+    highp float HSM_AMBIENT2_SCALE_X;
+    highp float HSM_AMBIENT2_ROTATE;
+    highp float HSM_AMBIENT2_MIRROR_HORZ;
+    highp float HSM_AMBIENT2_POS_INHERIT_MODE;
+    highp float HSM_AMBIENT2_POSITION_X;
+    highp float HSM_AMBIENT2_POSITION_Y;
+    highp float HSM_VIEWPORT_ZOOM;
+    highp float HSM_VIEWPORT_POSITION_X;
+    highp float HSM_VIEWPORT_POSITION_Y;
+    highp float HSM_VIEWPORT_ZOOM_MASK;
+    highp float HSM_FLIP_VIEWPORT_VERTICAL;
+    highp float HSM_FLIP_VIEWPORT_HORIZONTAL;
+    highp float HSM_FLIP_CORE_VERTICAL;
+    highp float HSM_FLIP_CORE_HORIZONTAL;
+    highp float HSM_ROTATE_CORE_IMAGE;
+    highp float HSM_ASPECT_RATIO_ORIENTATION;
+    highp float HSM_ASPECT_RATIO_MODE;
+    highp float HSM_ASPECT_RATIO_EXPLICIT;
+    highp float HSM_INT_SCALE_MODE;
+    highp float HSM_INT_SCALE_MULTIPLE_OFFSET;
+    highp float HSM_INT_SCALE_MULTIPLE_OFFSET_LONG;
+    highp float HSM_INT_SCALE_MAX_HEIGHT;
+    highp float HSM_VERTICAL_PRESET;
+    highp float HSM_NON_INTEGER_SCALE;
+    highp float HSM_USE_PHYSICAL_SIZE_FOR_NON_INTEGER;
+    highp float HSM_PHYSICAL_MONITOR_ASPECT_RATIO;
+    highp float HSM_PHYSICAL_MONITOR_DIAGONAL_SIZE;
+    highp float HSM_PHYSICAL_SIM_TUBE_DIAGONAL_SIZE;
+    highp float HSM_USE_IMAGE_FOR_PLACEMENT;
+    highp float HSM_PLACEMENT_IMAGE_USE_HORIZONTAL;
+    highp float HSM_PLACEMENT_IMAGE_MODE;
+    highp float HSM_NON_INTEGER_SCALE_OFFSET;
+    highp float HSM_USE_SNAP_TO_CLOSEST_INT_SCALE;
+    highp float HSM_SNAP_TO_CLOSEST_INT_SCALE_TOLERANCE;
+    highp float HSM_SCREEN_POSITION_X;
+    highp float HSM_SCREEN_POSITION_Y;
+    highp float HSM_CROP_MODE;
+    highp float HSM_CROP_PERCENT_ZOOM;
+    highp float HSM_CROP_PERCENT_TOP;
+    highp float HSM_CROP_PERCENT_BOTTOM;
+    highp float HSM_CROP_PERCENT_LEFT;
+    highp float HSM_CROP_PERCENT_RIGHT;
+    highp float HSM_CROP_BLACK_THRESHOLD;
+    highp float HSM_SCANLINE_DIRECTION;
+    highp float HSM_CORE_RES_SAMPLING_MULT_SCANLINE_DIR;
+    highp float HSM_DOWNSAMPLE_BLUR_SCANLINE_DIR;
+    highp float HSM_CORE_RES_SAMPLING_MULT_OPPOSITE_DIR;
+    highp float HSM_DOWNSAMPLE_BLUR_OPPOSITE_DIR;
+    highp float HSM_CORE_RES_SAMPLING_SHIFT_OPPOSITE_DIR;
+    highp float HSM_INTERLACE_TRIGGER_RES;
+    highp float HSM_INTERLACE_MODE;
+    highp float HSM_INTERLACE_EFFECT_SMOOTHNESS_INTERS;
+    highp float HSM_INTERLACE_SCANLINE_EFFECT;
+    highp float iscans;
+    highp float HSM_FAKE_SCANLINE_MODE;
+    highp float HSM_FAKE_SCANLINE_OPACITY;
+    highp float HSM_FAKE_SCANLINE_RES_MODE;
+    highp float HSM_FAKE_SCANLINE_RES;
+    highp float HSM_FAKE_SCANLINE_INT_SCALE;
+    highp float HSM_FAKE_SCANLINE_ROLL;
+    highp float HSM_FAKE_SCANLINE_CURVATURE;
+    highp float HSM_FAKE_SCANLINE_BRIGHTNESS_CUTOFF;
+    highp float HSM_DUALSCREEN_MODE;
+    highp float HSM_DUALSCREEN_CORE_IMAGE_SPLIT_MODE;
+    highp float HSM_DUALSCREEN_CORE_IMAGE_SWAP_SCREENS;
+    highp float HSM_DUALSCREEN_CORE_IMAGE_SPLIT_OFFSET;
+    highp float HSM_DUALSCREEN_VIEWPORT_SPLIT_LOCATION;
+    highp float HSM_DUALSCREEN_SHIFT_POSITION_WITH_SCALE;
+    highp float HSM_DUALSCREEN_POSITION_OFFSET_BETWEEN_SCREENS;
+    highp float HSM_2ND_SCREEN_ASPECT_RATIO_MODE;
+    highp float HSM_2ND_SCREEN_INDEPENDENT_SCALE;
+    highp float HSM_2ND_SCREEN_SCALE_OFFSET;
+    highp float HSM_2ND_SCREEN_POS_X;
+    highp float HSM_2ND_SCREEN_POS_Y;
+    highp float HSM_2ND_SCREEN_CROP_PERCENT_ZOOM;
+    highp float HSM_2ND_SCREEN_CROP_PERCENT_TOP;
+    highp float HSM_2ND_SCREEN_CROP_PERCENT_BOTTOM;
+    highp float HSM_2ND_SCREEN_CROP_PERCENT_LEFT;
+    highp float HSM_2ND_SCREEN_CROP_PERCENT_RIGHT;
+    highp float HSM_CURVATURE_MODE;
+    highp float HSM_CURVATURE_2D_SCALE_LONG_AXIS;
+    highp float HSM_CURVATURE_2D_SCALE_SHORT_AXIS;
+    highp float HSM_CURVATURE_3D_RADIUS;
+    highp float HSM_CURVATURE_3D_VIEW_DIST;
+    highp float HSM_CURVATURE_3D_TILT_ANGLE_X;
+    highp float HSM_CURVATURE_3D_TILT_ANGLE_Y;
+    highp float HSM_CRT_CURVATURE_SCALE;
+    highp float HSM_SIGNAL_NOISE_ON;
+    highp float HSM_SIGNAL_NOISE_AMOUNT;
+    highp float HSM_SIGNAL_NOISE_BLACK_LEVEL;
+    highp float HSM_SIGNAL_NOISE_SIZE_MODE;
+    highp float HSM_SIGNAL_NOISE_SIZE_MULT;
+    highp float HSM_SIGNAL_NOISE_TYPE;
+    highp float HSM_ANTI_FLICKER_ON;
+    highp float HSM_ANTI_FLICKER_THRESHOLD;
+    highp float HSM_AB_COMPARE_SHOW_MODE;
+    highp float HSM_AB_COMPARE_AREA;
+    highp float HSM_AB_COMPARE_FREEZE_CRT_TUBE;
+    highp float HSM_AB_COMPARE_FREEZE_GRAPHICS;
+    highp float HSM_AB_COMPARE_SPLIT_AREA;
+    highp float HSM_AB_COMPARE_SPLIT_POSITION;
+    highp float HSM_SHOW_PASS_INDEX;
+    highp float HSM_SHOW_PASS_ALPHA;
+    highp float HSM_SHOW_PASS_APPLY_SCREEN_COORD;
+    highp float HSM_SCREEN_VIGNETTE_ON;
+    highp float HSM_SCREEN_VIGNETTE_DUALSCREEN_VIS_MODE;
+    highp float HSM_SCREEN_VIGNETTE_STRENGTH;
+    highp float HSM_SCREEN_VIGNETTE_POWER;
+    highp float HSM_SCREEN_VIGNETTE_IN_REFLECTION;
+    highp float HSM_MONOCHROME_MODE;
+    highp float HSM_MONOCHROME_BRIGHTNESS;
+    highp float HSM_MONOCHROME_GAMMA;
+    highp float HSM_MONOCHROME_HUE_OFFSET;
+    highp float HSM_MONOCHROME_SATURATION;
+    highp float HSM_MONOCHROME_DUALSCREEN_VIS_MODE;
+    highp float HSM_SCREEN_REFLECTION_SCALE;
+    highp float HSM_SCREEN_REFLECTION_POS_X;
+    highp float HSM_SCREEN_REFLECTION_POS_Y;
+    highp float HSM_TUBE_DIFFUSE_MODE;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_DUALSCREEN_VIS_MODE;
+    highp float HSM_TUBE_OPACITY;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_AMOUNT;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_HUE;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_COLORIZE_ON;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_SATURATION;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_BRIGHTNESS;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_GAMMA;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_AMBIENT_LIGHTING;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_AMBIENT2_LIGHTING;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_SCALE;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_SCALE_X;
+    highp float HSM_TUBE_DIFFUSE_IMAGE_ROTATION;
+    highp float HSM_TUBE_EMPTY_THICKNESS;
+    highp float HSM_TUBE_EMPTY_THICKNESS_X_SCALE;
+    highp float HSM_TUBE_DIFFUSE_FORCE_ASPECT;
+    highp float HSM_TUBE_EXPLICIT_ASPECT;
+    highp float HSM_SCREEN_CORNER_RADIUS_SCALE;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_ON;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_DUALSCREEN_VIS_MODE;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_MULTIPLY_AMOUNT;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_AMOUNT;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_BRIGHTNESS;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_VIGNETTE;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_TRANSPARENCY_THRESHOLD;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_ADDITIVE_AMOUNT;
+    highp float HSM_SHOW_CRT_ON_TOP_OF_COLORED_GEL;
+    highp float HSM_TUBE_SHADOW_IMAGE_ON;
+    highp float HSM_TUBE_SHADOW_IMAGE_OPACITY;
+    highp float HSM_TUBE_SHADOW_IMAGE_SCALE_X;
+    highp float HSM_TUBE_SHADOW_IMAGE_SCALE_Y;
+    highp float HSM_TUBE_SHADOW_IMAGE_POS_X;
+    highp float HSM_TUBE_SHADOW_IMAGE_POS_Y;
+    highp float HSM_TUBE_SHADOW_CURVATURE_SCALE;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT_LIGHTING;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT2_LIGHTING;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_FAKE_SCANLINE_AMOUNT;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_SCALE;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_FLIP_HORIZONTAL;
+    highp float HSM_TUBE_COLORED_GEL_IMAGE_FLIP_VERTICAL;
+    highp float HSM_TUBE_STATIC_REFLECTION_IMAGE_ON;
+    highp float HSM_TUBE_STATIC_REFLECTION_IMAGE_DUALSCREEN_VIS_MODE;
+    highp float HSM_TUBE_STATIC_REFLECTION_IMAGE_OPACITY;
+    highp float HSM_TUBE_STATIC_OPACITY_DIFFUSE_MULTIPLY;
+    highp float HSM_TUBE_STATIC_BLACK_LEVEL;
+    highp float HSM_TUBE_STATIC_AMBIENT_LIGHTING;
+    highp float HSM_TUBE_STATIC_AMBIENT2_LIGHTING;
+    highp float HSM_TUBE_STATIC_SCALE;
+    highp float HSM_TUBE_STATIC_SCALE_X;
+    highp float HSM_TUBE_STATIC_POS_X;
+    highp float HSM_TUBE_STATIC_POS_Y;
+    highp float HSM_TUBE_STATIC_SHADOW_OPACITY;
+    highp float HSM_TUBE_STATIC_DITHER_SAMPLES;
+    highp float HSM_TUBE_STATIC_DITHER_DISTANCE;
+    highp float HSM_TUBE_STATIC_DITHER_AMOUNT;
+    highp float HSM_CRT_BLEND_MODE;
+    highp float HSM_CRT_BLEND_AMOUNT;
+    highp float HSM_CRT_SCREEN_BLEND_MODE;
+    highp float HSM_GLOBAL_CORNER_RADIUS;
+    highp float HSM_TUBE_BLACK_EDGE_CORNER_RADIUS_SCALE;
+    highp float HSM_TUBE_BLACK_EDGE_SHARPNESS;
+    highp float HSM_TUBE_BLACK_EDGE_CURVATURE_SCALE;
+    highp float HSM_TUBE_BLACK_EDGE_THICKNESS;
+    highp float HSM_TUBE_BLACK_EDGE_THICKNESS_X_SCALE;
+    highp float HSM_BZL_USE_INDEPENDENT_SCALE;
+    highp float HSM_BZL_INDEPENDENT_SCALE;
+    highp float HSM_BZL_USE_INDEPENDENT_CURVATURE;
+    highp float HSM_BZL_INDEPENDENT_CURVATURE_SCALE_LONG_AXIS;
+    highp float HSM_BZL_INDEPENDENT_CURVATURE_SCALE_SHORT_AXIS;
+    highp float HSM_BZL_OPACITY;
+    highp float HSM_BZL_BLEND_MODE;
+    highp float HSM_BZL_WIDTH;
+    highp float HSM_BZL_HEIGHT;
+    highp float HSM_BZL_SCALE_OFFSET;
+    highp float HSM_BZL_INNER_CURVATURE_SCALE;
+    highp float HSM_BZL_INNER_CORNER_RADIUS_SCALE;
+    highp float HSM_BZL_OUTER_CURVATURE_SCALE;
+    highp float HSM_BZL_INNER_EDGE_THICKNESS;
+    highp float HSM_BZL_INNER_EDGE_SHARPNESS;
+    highp float HSM_BZL_OUTER_CORNER_RADIUS_SCALE;
+    highp float HSM_BZL_INNER_EDGE_SHADOW;
+    highp float HSM_BZL_COLOR_HUE;
+    highp float HSM_BZL_COLOR_SATURATION;
+    highp float HSM_BZL_COLOR_VALUE;
+    highp float HSM_BZL_NOISE;
+    highp float HSM_BZL_BRIGHTNESS;
+    highp float HSM_BZL_BRIGHTNESS_MULT_TOP;
+    highp float HSM_BZL_BRIGHTNESS_MULT_BOTTOM;
+    highp float HSM_BZL_BRIGHTNESS_MULT_SIDES;
+    highp float HSM_BZL_BRIGHTNESS_MULT_SIDE_LEFT;
+    highp float HSM_BZL_BRIGHTNESS_MULT_SIDE_RIGHT;
+    highp float HSM_BZL_HIGHLIGHT;
+    highp float HSM_BZL_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_BZL_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_FRM_USE_INDEPENDENT_COLOR;
+    highp float HSM_FRM_COLOR_HUE;
+    highp float HSM_FRM_COLOR_SATURATION;
+    highp float HSM_FRM_COLOR_VALUE;
+    highp float HSM_FRM_NOISE;
+    highp float HSM_FRM_OUTER_CURVATURE_SCALE;
+    highp float HSM_FRM_THICKNESS;
+    highp float HSM_FRM_THICKNESS_SCALE_X;
+    highp float HSM_FRM_OUTER_POS_Y;
+    highp float HSM_FRM_INNER_EDGE_THICKNESS;
+    highp float HSM_FRM_OUTER_EDGE_THICKNESS;
+    highp float HSM_FRM_OUTER_EDGE_SHADING;
+    highp float HSM_FRM_OUTER_CORNER_RADIUS;
+    highp float HSM_BZL_OUTER_POSITION_Y;
+    highp float HSM_FRM_SHADOW_OPACITY;
+    highp float HSM_FRM_SHADOW_WIDTH;
+    highp float HSM_REFLECT_CORNER_FADE;
+    highp float HSM_REFLECT_CORNER_INNER_SPREAD;
+    highp float HSM_REFLECT_CORNER_OUTER_SPREAD;
+    highp float HSM_REFLECT_CORNER_ROTATION_OFFSET_TOP;
+    highp float HSM_REFLECT_CORNER_ROTATION_OFFSET_BOTTOM;
+    highp float HSM_REFLECT_CORNER_SPREAD_FALLOFF;
+    highp float HSM_REFLECT_CORNER_FADE_DISTANCE;
+    highp float HSM_REFLECT_GLOBAL_AMOUNT;
+    highp float HSM_REFLECT_GLOBAL_GAMMA_ADJUST;
+    highp float HSM_REFLECT_BEZEL_INNER_EDGE_AMOUNT;
+    highp float HSM_REFLECT_BEZEL_INNER_EDGE_FULLSCREEN_GLOW;
+    highp float HSM_REFLECT_FRAME_INNER_EDGE_AMOUNT;
+    highp float HSM_REFLECT_FRAME_INNER_EDGE_SHARPNESS;
+    highp float HSM_REFLECT_SHOW_TUBE_FX_AMOUNT;
+    highp float HSM_REFLECT_DIRECT_AMOUNT;
+    highp float HSM_REFLECT_DIFFUSED_AMOUNT;
+    highp float HSM_REFLECT_FULLSCREEN_GLOW;
+    highp float HSM_REFLECT_FULLSCREEN_GLOW_GAMMA;
+    highp float HSM_REFLECT_FADE_AMOUNT;
+    highp float HSM_REFLECT_RADIAL_FADE_WIDTH;
+    highp float HSM_REFLECT_RADIAL_FADE_HEIGHT;
+    highp float HSM_REFLECT_LATERAL_OUTER_FADE_POSITION;
+    highp float HSM_REFLECT_LATERAL_OUTER_FADE_DISTANCE;
+    highp float HSM_REFLECT_NOISE_AMOUNT;
+    highp float HSM_REFLECT_NOISE_SAMPLES;
+    highp float HSM_REFLECT_NOISE_SAMPLE_DISTANCE;
+    highp float HSM_REFLECT_BLUR_NUM_SAMPLES;
+    highp float HSM_REFLECT_BLUR_FALLOFF_DISTANCE;
+    highp float HSM_REFLECT_BLUR_MIN;
+    highp float HSM_REFLECT_BLUR_MAX;
+    highp float HSM_REFLECT_MASK_IMAGE_AMOUNT;
+    highp float HSM_REFLECT_MASK_FOLLOW_LAYER;
+    highp float HSM_REFLECT_MASK_FOLLOW_MODE;
+    highp float HSM_REFLECT_MASK_BRIGHTNESS;
+    highp float HSM_REFLECT_MASK_BLACK_LEVEL;
+    highp float HSM_REFLECT_MASK_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_GLASS_BORDER_ON;
+    highp float HSM_REFLECT_VIGNETTE_AMOUNT;
+    highp float HSM_REFLECT_VIGNETTE_SIZE;
+    highp float HSM_POTATO_SHOW_BG_OVER_SCREEN;
+    highp float HSM_POTATO_COLORIZE_CRT_WITH_BG;
+    highp float HSM_POTATO_COLORIZE_BRIGHTNESS;
+    highp float HSM_STANDARD_DECAL_SCALE_WITH_FRAME;
+    highp float HSM_STANDARD_TOP_SCALE_WITH_FRAME;
+    highp float HSM_BG_LAYER_ORDER;
+    highp float HSM_VIEWPORT_VIGNETTE_LAYER_ORDER;
+    highp float HSM_CRT_LAYER_ORDER;
+    highp float HSM_DEVICE_LAYER_ORDER;
+    highp float HSM_DEVICELED_LAYER_ORDER;
+    highp float HSM_CAB_GLASS_LAYER_ORDER;
+    highp float HSM_DECAL_LAYER_ORDER;
+    highp float HSM_LED_LAYER_ORDER;
+    highp float HSM_TOP_LAYER_ORDER;
+    highp float HSM_CUTOUT_ASPECT_MODE;
+    highp float HSM_CUTOUT_EXPLICIT_ASPECT;
+    highp float HSM_CUTOUT_FOLLOW_LAYER;
+    highp float HSM_CUTOUT_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_CUTOUT_SCALE;
+    highp float HSM_CUTOUT_SCALE_X;
+    highp float HSM_CUTOUT_CORNER_RADIUS;
+    highp float HSM_CUTOUT_POS_X;
+    highp float HSM_CUTOUT_POS_Y;
+    highp float HSM_BG_OPACITY;
+    highp float HSM_BG_HUE;
+    highp float HSM_BG_COLORIZE_ON;
+    highp float HSM_BG_SATURATION;
+    highp float HSM_BG_BRIGHTNESS;
+    highp float HSM_BG_GAMMA;
+    highp float HSM_BG_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_BG_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_BG_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_BG_BLEND_MODE;
+    highp float HSM_BG_SOURCE_MATTE_TYPE;
+    highp float HSM_BG_MASK_MODE;
+    highp float HSM_BG_CUTOUT_MODE;
+    highp float HSM_BG_DUALSCREEN_VIS_MODE;
+    highp float HSM_BG_FOLLOW_LAYER;
+    highp float HSM_BG_FOLLOW_MODE;
+    highp float HSM_BG_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_BG_FILL_MODE;
+    highp float HSM_BG_SPLIT_PRESERVE_CENTER;
+    highp float HSM_BG_SPLIT_REPEAT_WIDTH;
+    highp float HSM_BG_SCALE;
+    highp float HSM_BG_SCALE_X;
+    highp float HSM_BG_POS_X;
+    highp float HSM_BG_POS_Y;
+    highp float HSM_BG_WRAP_MODE;
+    highp float HSM_BG_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_VIEWPORT_VIGNETTE_OPACITY;
+    highp float HSM_VIEWPORT_VIGNETTE_MASK_MODE;
+    highp float HSM_VIEWPORT_VIGNETTE_CUTOUT_MODE;
+    highp float HSM_VIEWPORT_VIGNETTE_FOLLOW_LAYER;
+    highp float HSM_VIEWPORT_VIGNETTE_SCALE;
+    highp float HSM_VIEWPORT_VIGNETTE_SCALE_X;
+    highp float HSM_VIEWPORT_VIGNETTE_POS_X;
+    highp float HSM_VIEWPORT_VIGNETTE_POS_Y;
+    highp float HSM_LED_OPACITY;
+    highp float HSM_LED_HUE;
+    highp float HSM_LED_COLORIZE_ON;
+    highp float HSM_LED_SATURATION;
+    highp float HSM_LED_BRIGHTNESS;
+    highp float HSM_LED_GAMMA;
+    highp float HSM_LED_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_LED_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_LED_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_LED_BLEND_MODE;
+    highp float HSM_LED_SOURCE_MATTE_TYPE;
+    highp float HSM_LED_MASK_MODE;
+    highp float HSM_LED_CUTOUT_MODE;
+    highp float HSM_LED_DUALSCREEN_VIS_MODE;
+    highp float HSM_LED_FOLLOW_LAYER;
+    highp float HSM_LED_FOLLOW_MODE;
+    highp float HSM_LED_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_LED_FILL_MODE;
+    highp float HSM_LED_SPLIT_PRESERVE_CENTER;
+    highp float HSM_LED_SPLIT_REPEAT_WIDTH;
+    highp float HSM_LED_SCALE;
+    highp float HSM_LED_SCALE_X;
+    highp float HSM_LED_POS_X;
+    highp float HSM_LED_POS_Y;
+    highp float HSM_LED_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_DEVICE_OPACITY;
+    highp float HSM_DEVICE_HUE;
+    highp float HSM_DEVICE_COLORIZE_ON;
+    highp float HSM_DEVICE_SATURATION;
+    highp float HSM_DEVICE_BRIGHTNESS;
+    highp float HSM_DEVICE_GAMMA;
+    highp float HSM_DEVICE_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_DEVICE_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_DEVICE_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_DEVICE_BLEND_MODE;
+    highp float HSM_DEVICE_SOURCE_MATTE_TYPE;
+    highp float HSM_DEVICE_MASK_MODE;
+    highp float HSM_DEVICE_CUTOUT_MODE;
+    highp float HSM_DEVICE_DUALSCREEN_VIS_MODE;
+    highp float HSM_DEVICE_FOLLOW_LAYER;
+    highp float HSM_DEVICE_FOLLOW_MODE;
+    highp float HSM_DEVICE_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_DEVICE_FILL_MODE;
+    highp float HSM_DEVICE_SPLIT_PRESERVE_CENTER;
+    highp float HSM_DEVICE_SPLIT_REPEAT_WIDTH;
+    highp float HSM_DEVICE_SCALE;
+    highp float HSM_DEVICE_SCALE_X;
+    highp float HSM_DEVICE_POS_X;
+    highp float HSM_DEVICE_POS_Y;
+    highp float HSM_DEVICE_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_DEVICELED_OPACITY;
+    highp float HSM_DEVICELED_HUE;
+    highp float HSM_DEVICELED_COLORIZE_ON;
+    highp float HSM_DEVICELED_SATURATION;
+    highp float HSM_DEVICELED_BRIGHTNESS;
+    highp float HSM_DEVICELED_GAMMA;
+    highp float HSM_DEVICELED_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_DEVICELED_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_DEVICELED_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_DEVICELED_BLEND_MODE;
+    highp float HSM_DEVICELED_SOURCE_MATTE_TYPE;
+    highp float HSM_DEVICELED_MASK_MODE;
+    highp float HSM_DEVICELED_CUTOUT_MODE;
+    highp float HSM_DEVICELED_DUALSCREEN_VIS_MODE;
+    highp float HSM_DEVICELED_FOLLOW_LAYER;
+    highp float HSM_DEVICELED_FOLLOW_MODE;
+    highp float HSM_DEVICELED_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_DEVICELED_FILL_MODE;
+    highp float HSM_DEVICELED_SPLIT_PRESERVE_CENTER;
+    highp float HSM_DEVICELED_SPLIT_REPEAT_WIDTH;
+    highp float HSM_DEVICELED_SCALE;
+    highp float HSM_DEVICELED_SCALE_X;
+    highp float HSM_DEVICELED_POS_X;
+    highp float HSM_DEVICELED_POS_Y;
+    highp float HSM_DEVICELED_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_FRM_OPACITY;
+    highp float HSM_FRM_BLEND_MODE;
+    highp float HSM_FRM_TEXTURE_OPACITY;
+    highp float HSM_FRM_TEXTURE_BLEND_MODE;
+    highp float HSM_DECAL_OPACITY;
+    highp float HSM_DECAL_HUE;
+    highp float HSM_DECAL_COLORIZE_ON;
+    highp float HSM_DECAL_SATURATION;
+    highp float HSM_DECAL_BRIGHTNESS;
+    highp float HSM_DECAL_GAMMA;
+    highp float HSM_DECAL_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_DECAL_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_DECAL_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_DECAL_BLEND_MODE;
+    highp float HSM_DECAL_SOURCE_MATTE_TYPE;
+    highp float HSM_DECAL_MASK_MODE;
+    highp float HSM_DECAL_CUTOUT_MODE;
+    highp float HSM_DECAL_DUALSCREEN_VIS_MODE;
+    highp float HSM_DECAL_FOLLOW_LAYER;
+    highp float HSM_DECAL_FOLLOW_MODE;
+    highp float HSM_DECAL_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_DECAL_FILL_MODE;
+    highp float HSM_DECAL_SPLIT_PRESERVE_CENTER;
+    highp float HSM_DECAL_SPLIT_REPEAT_WIDTH;
+    highp float HSM_DECAL_SCALE;
+    highp float HSM_DECAL_SCALE_X;
+    highp float HSM_DECAL_POS_X;
+    highp float HSM_DECAL_POS_Y;
+    highp float HSM_DECAL_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_CAB_GLASS_OPACITY;
+    highp float HSM_CAB_GLASS_HUE;
+    highp float HSM_CAB_GLASS_COLORIZE_ON;
+    highp float HSM_CAB_GLASS_SATURATION;
+    highp float HSM_CAB_GLASS_BRIGHTNESS;
+    highp float HSM_CAB_GLASS_GAMMA;
+    highp float HSM_CAB_GLASS_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_CAB_GLASS_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_CAB_GLASS_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_CAB_GLASS_BLEND_MODE;
+    highp float HSM_CAB_GLASS_SOURCE_MATTE_TYPE;
+    highp float HSM_CAB_GLASS_MASK_MODE;
+    highp float HSM_CAB_GLASS_CUTOUT_MODE;
+    highp float HSM_CAB_GLASS_DUALSCREEN_VIS_MODE;
+    highp float HSM_CAB_GLASS_FOLLOW_LAYER;
+    highp float HSM_CAB_GLASS_FOLLOW_MODE;
+    highp float HSM_CAB_GLASS_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_CAB_GLASS_FILL_MODE;
+    highp float HSM_CAB_GLASS_SPLIT_PRESERVE_CENTER;
+    highp float HSM_CAB_GLASS_SPLIT_REPEAT_WIDTH;
+    highp float HSM_CAB_GLASS_SCALE;
+    highp float HSM_CAB_GLASS_SCALE_X;
+    highp float HSM_CAB_GLASS_POS_X;
+    highp float HSM_CAB_GLASS_POS_Y;
+    highp float HSM_CAB_GLASS_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_TOP_OPACITY;
+    highp float HSM_TOP_HUE;
+    highp float HSM_TOP_COLORIZE_ON;
+    highp float HSM_TOP_SATURATION;
+    highp float HSM_TOP_BRIGHTNESS;
+    highp float HSM_TOP_GAMMA;
+    highp float HSM_TOP_AMBIENT_LIGHTING_MULTIPLIER;
+    highp float HSM_TOP_AMBIENT2_LIGHTING_MULTIPLIER;
+    highp float HSM_TOP_APPLY_AMBIENT_IN_ADD_MODE;
+    highp float HSM_TOP_BLEND_MODE;
+    highp float HSM_TOP_SOURCE_MATTE_TYPE;
+    highp float HSM_TOP_MASK_MODE;
+    highp float HSM_TOP_CUTOUT_MODE;
+    highp float HSM_TOP_DUALSCREEN_VIS_MODE;
+    highp float HSM_TOP_FOLLOW_LAYER;
+    highp float HSM_TOP_FOLLOW_MODE;
+    highp float HSM_TOP_FOLLOW_FULL_USES_ZOOM;
+    highp float HSM_TOP_FILL_MODE;
+    highp float HSM_TOP_SPLIT_PRESERVE_CENTER;
+    highp float HSM_TOP_SPLIT_REPEAT_WIDTH;
+    highp float HSM_TOP_SCALE;
+    highp float HSM_TOP_SCALE_X;
+    highp float HSM_TOP_POS_X;
+    highp float HSM_TOP_POS_Y;
+    highp float HSM_TOP_MIRROR_WRAP;
+    highp float HSM_TOP_MIPMAPPING_BLEND_BIAS;
+    highp float HSM_RENDER_SIMPLE_MODE;
+    highp float HSM_RENDER_SIMPLE_MASK_TYPE;
+    highp float HSM_LAYERING_DEBUG_MASK_MODE;
+    highp float HSM_INTRO_LOGO_BLEND_MODE;
+    highp float HSM_INTRO_LOGO_FLIP_VERTICAL;
+    highp float HSM_INTRO_NOISE_BLEND_MODE;
+    highp float HSM_INTRO_NOISE_HOLD;
+    highp float HSM_INTRO_NOISE_FADE_OUT;
+    highp float HSM_INTRO_SOLID_BLACK_HOLD;
+    highp float HSM_INTRO_SOLID_BLACK_FADE_OUT;
+    highp float HSM_INTRO_SOLID_COLOR_BLEND_MODE;
+    highp float HSM_INTRO_LOGO_OVER_SOLID_COLOR;
+    highp float HSM_INTRO_LOGO_PLACEMENT;
+    highp float HSM_INTRO_LOGO_HEIGHT;
+    highp float HSM_INTRO_LOGO_POS_X;
+    highp float HSM_INTRO_LOGO_POS_Y;
+    highp float HSM_INTRO_WHEN_TO_SHOW;
+    highp float HSM_INTRO_SPEED;
+    highp float HSM_INTRO_LOGO_WAIT;
+    highp float HSM_INTRO_LOGO_FADE_IN;
+    highp float HSM_INTRO_LOGO_HOLD;
+    highp float HSM_INTRO_LOGO_FADE_OUT;
+    highp float HSM_INTRO_SOLID_COLOR_HUE;
+    highp float HSM_INTRO_SOLID_COLOR_SAT;
+    highp float HSM_INTRO_SOLID_COLOR_VALUE;
+    highp float HSM_INTRO_SOLID_COLOR_HOLD;
+    highp float HSM_INTRO_SOLID_COLOR_FADE_OUT;
+    highp float GAMMA_INPUT;
+    highp float gamma_out;
+    highp float post_br;
+    highp float post_br_affect_black_level;
+    highp float m_glow;
+    highp float m_glow_low;
+    highp float m_glow_high;
+    highp float m_glow_dist;
+    highp float m_glow_mask;
+    highp float smask_mit;
+    highp float glow;
+    highp float bloom;
+    highp float mask_bloom;
+    highp float bloom_dist;
+    highp float halation;
+    highp float TATE;
+    highp float IOS;
+    highp float GDV_RASTER_BLOOM_ON;
+    highp float OS;
+    highp float BLOOM;
+    highp float GDV_OVERSCAN;
+    highp float GDV_OVERSCAN_X;
+    highp float GDV_OVERSCAN_Y;
+    highp float overscanX;
+    highp float overscanY;
+    highp float intres;
+    highp float prescalex;
+    highp float c_shape;
+    highp float sborder;
+    highp float csize;
+    highp float bsize1;
+    highp float warpX;
+    highp float warpY;
+    highp float gamma_c;
+    highp float brightboost;
+    highp float brightboost1;
+    highp float blendMode;
+    highp float gsl;
+    highp float scanline1;
+    highp float scanline2;
+    highp float beam_min;
+    highp float beam_max;
+    highp float beam_size;
+    highp float vertmask;
+    highp float scans;
+    highp float scan_falloff;
+    highp float spike;
+    highp float ring;
+    highp float no_scanlines;
+    highp float scangamma;
+    highp float rolling_scan;
+    highp float h_sharp;
+    highp float s_sharp;
+    highp float smart_ei;
+    highp float ei_limit;
+    highp float sth;
+    highp float barspeed;
+    highp float barintensity;
+    highp float bardir;
+    highp float shadowMask;
+    highp float maskstr;
+    highp float mcut;
+    highp float maskboost;
+    highp float masksize;
+    highp float masksizeautothreshold;
+    highp float maskDark;
+    highp float maskLight;
+    highp float mask_gamma;
+    highp float slotmask;
+    highp float slotmask1;
+    highp float slotwidth;
+    highp float double_slot;
+    highp float slotms;
+    highp float mclip;
+    highp float smoothmask;
+    highp float mshift;
+    highp float mask_layout;
+    highp float GDV_DECONVERGENCE_ON;
+    highp float decons;
+    highp float deconrr;
+    highp float deconrg;
+    highp float deconrb;
+    highp float deconrry;
+    highp float deconrgy;
+    highp float deconrby;
+    highp float deconsmooth;
+    highp float dctypex;
+    highp float dctypey;
+    highp float dcscalemode;
+    highp float GDV_NOISE_ON;
+    highp float addnoised;
+    highp float noisetype;
+    highp float noiseresd;
+    highp float noiseresd4kmult;
+    highp float g_grade_on;
+    highp float wp_temperature;
+    highp float g_satr;
+    highp float g_satg;
+    highp float g_satb;
+    highp float AS;
+    highp float asat;
+    highp float hcrt_h_size;
+    highp float hcrt_v_size;
+    highp float hcrt_h_cent;
+    highp float hcrt_v_cent;
+    highp float hcrt_pin_phase;
+    highp float hcrt_pin_amp;
+} global;
+
+layout(binding = 1) uniform highp sampler2D InfoCachePass;
+layout(binding = 9) uniform highp sampler2D ReflectionPass;
+layout(binding = 8) uniform highp sampler2D PostCRTPass;
+layout(binding = 7) uniform highp sampler2D CRTPass;
+layout(binding = 6) uniform highp sampler2D LinearizePass;
+layout(binding = 5) uniform highp sampler2D ColorCorrectPass;
+layout(binding = 4) uniform highp sampler2D DeditherPass;
+layout(binding = 3) uniform highp sampler2D DerezedPass;
+layout(binding = 2) uniform highp sampler2D CorePass;
+layout(binding = 11) uniform highp sampler2D BR_LayersOverCRTPass;
+layout(binding = 10) uniform highp sampler2D BR_LayersUnderCRTPass;
+layout(binding = 12) uniform highp sampler2D CombinePassFeedback;
+
+layout(location = 6) in highp vec2 vTexCoord;
+layout(location = 0) out highp vec4 FragColor;
+highp float FOLLOW_MODE_SCALE_AND_POS;
+highp float FOLLOW_MODE_EXACT;
+highp float NEGATIVE_CROP_EXPAND_MULTIPLIER;
+highp float MAX_NEGATIVE_CROP;
+highp float DEFAULT_SCREEN_ASPECT;
+highp float DEFAULT_BEZEL_ASPECT;
+highp vec2 DEFAULT_SCREEN_SCALE;
+highp vec2 DEFAULT_BEZEL_SCALE;
+int INFOCACHE_MAX_INDEX;
+bool CACHE_INFO_CHANGED;
+highp float CURRENT_FRAME_FROM_CACHE_INFO;
+highp float TUBE_DIFFUSE_MASK;
+highp float TUBE_MASK;
+highp float BEZEL_MASK;
+highp float INSIDE_BEZEL_MASK;
+highp float OUTSIDE_TUBE_MASK_FOR_IMAGE;
+highp float FRAME_MASK;
+highp float FRAME_MASK_FOR_IMAGE;
+highp float OUTSIDE_BEZEL_MASK;
+highp float OUTSIDE_FRAME_MASK_FOR_IMAGE;
+highp float OUTSIDE_FRAME_MASK;
+highp float CUTOUT_MASK;
+highp float SCREEN_INDEX;
+highp float SCREEN_ASPECT;
+highp vec2 SCREEN_SCALE;
+highp vec2 SCREEN_SCALE_WITH_ZOOM;
+highp vec2 SCREEN_POS_OFFSET;
+highp vec2 SCREEN_SCALE_2ND_SCREEN;
+highp vec2 SCREEN_POS_OFFSET_1ST_SCREEN;
+highp vec2 SCREEN_POS_OFFSET_2ND_SCREEN;
+highp vec2 VIEWPORT_SCALE;
+highp vec2 VIEWPORT_POS;
+highp vec2 TUBE_SCALE;
+highp vec2 TUBE_DIFFUSE_SCALE;
+highp float TUBE_DIFFUSE_ASPECT;
+highp vec2 TUBE_DIFFUSE_SCALE_1ST_SCREEN;
+highp vec2 TUBE_DIFFUSE_SCALE_2ND_SCREEN;
+highp vec2 FRAME_SCALE;
+highp vec2 BEZEL_OUTSIDE_SCALE;
+highp vec2 BACKGROUND_SCALE;
+highp vec2 LED_SCALE;
+highp vec2 DEVICE_SCALE;
+highp vec2 DEVICELED_SCALE;
+highp vec2 DECAL_SCALE;
+highp vec2 CAB_GLASS_SCALE;
+highp vec2 TOP_IMAGE_SCALE;
+highp float AVERAGE_LUMA;
+highp float USE_VERTICAL_SCANLINES;
+highp float SAMPLING_SCANLINE_DIR_MULT;
+highp float SAMPLING_OPPOSITE_DIR_MULT;
+highp vec2 CORE_SIZE;
+highp vec2 ROTATED_CORE_ORIGINAL_SIZE;
+highp vec2 ROTATED_CORE_PREPPED_SIZE;
+highp vec2 ROTATED_DEREZED_SIZE;
+highp vec2 CROPPED_ROTATED_SIZE_WITH_RES_MULT;
+highp vec2 CROPPED_ROTATED_SIZE_WITH_RES_MULT_FEEDBACK;
+highp vec2 CROPPED_ROTATED_SIZE;
+highp vec2 SAMPLE_AREA_START_PIXEL_COORD;
+highp vec2 SCREEN_SIZE;
+highp vec2 VIEWPORT_UNSCALED_COORD;
+highp vec2 SCREEN_COORD;
+highp vec2 TUBE_COORD;
+highp vec2 TUBE_DIFFUSE_COORD;
+highp vec2 TUBE_DIFFUSE_COORD_MIXED_POS;
+highp vec2 BEZEL_OUTSIDE_COORD;
+highp vec2 BACKGROUND_COORD;
+highp vec2 DEVICE_COORD;
+highp vec2 DEVICELED_COORD;
+highp vec2 LED_COORD;
+highp vec2 DECAL_COORD;
+highp vec2 CAB_GLASS_COORD;
+highp vec2 TOP_IMAGE_COORD;
+highp vec2 SCREEN_CURVED_COORD;
+highp vec2 TUBE_CURVED_COORD;
+highp vec2 TUBE_DIFFUSE_CURVED_COORD;
+highp vec2 BEZEL_OUTSIDE_CURVED_COORD;
+highp vec2 FRAME_OUTSIDE_CURVED_COORD;
+highp vec2 BACKGROUND_CURVED_COORD;
+highp vec2 LED_CURVED_COORD;
+highp vec2 DEVICE_CURVED_COORD;
+highp vec2 DEVICELED_CURVED_COORD;
+highp vec2 DECAL_CURVED_COORD;
+highp vec2 CAB_GLASS_CURVED_COORD;
+highp vec2 TOP_IMAGE_CURVED_COORD;
+highp float HSM_RESOLUTION_DEBUG_ON;
+highp float HSM_GLOBAL_GRAPHICS_BRIGHTNESS;
+highp float HSM_STATIC_LAYERS_GAMMA;
+highp float HSM_AMBIENT_LIGHTING_OPACITY;
+highp float HSM_AMBIENT1_OPACITY;
+highp float HSM_AMBIENT2_OPACITY;
+highp float HSM_AMBIENT_LIGHTING_SWAP_IMAGE_MODE;
+highp float HSM_SINDEN_BORDER_ON;
+highp float HSM_SINDEN_BORDER_BRIGHTNESS;
+highp float HSM_SINDEN_BORDER_THICKNESS;
+highp float HSM_SINDEN_BORDER_EMPTY_TUBE_COMPENSATION;
+highp float HSM_VIEWPORT_ZOOM;
+highp float HSM_VIEWPORT_ZOOM_MASK;
+highp float HSM_VIEWPORT_POSITION_X;
+highp float HSM_VIEWPORT_POSITION_Y;
+highp float HSM_FLIP_VIEWPORT_VERTICAL;
+highp float HSM_FLIP_VIEWPORT_HORIZONTAL;
+highp float HSM_FLIP_CORE_VERTICAL;
+highp float HSM_FLIP_CORE_HORIZONTAL;
+highp float HSM_ROTATE_CORE_IMAGE;
+highp float HSM_ASPECT_RATIO_ORIENTATION;
+highp float HSM_ASPECT_RATIO_MODE;
+highp float HSM_ASPECT_RATIO_EXPLICIT;
+highp float HSM_VERTICAL_PRESET;
+highp float HSM_INT_SCALE_MAX_HEIGHT;
+highp float HSM_NON_INTEGER_SCALE;
+highp float HSM_USE_PHYSICAL_SIZE_FOR_NON_INTEGER;
+highp float HSM_PHYSICAL_MONITOR_ASPECT_RATIO;
+highp float HSM_PHYSICAL_MONITOR_DIAGONAL_SIZE;
+highp float HSM_PHYSICAL_SIM_TUBE_DIAGONAL_SIZE;
+highp float HSM_USE_IMAGE_FOR_PLACEMENT;
+highp float HSM_PLACEMENT_IMAGE_USE_HORIZONTAL;
+highp float HSM_PLACEMENT_IMAGE_MODE;
+highp float HSM_NON_INTEGER_SCALE_OFFSET;
+highp float HSM_USE_SNAP_TO_CLOSEST_INT_SCALE;
+highp float HSM_SNAP_TO_CLOSEST_INT_SCALE_TOLERANCE;
+highp float HSM_SCREEN_POSITION_X;
+highp float HSM_SCREEN_POSITION_Y;
+highp float HSM_CROP_MODE;
+highp float HSM_CROP_PERCENT_ZOOM;
+highp float HSM_CROP_PERCENT_TOP;
+highp float HSM_CROP_PERCENT_BOTTOM;
+highp float HSM_CROP_PERCENT_LEFT;
+highp float HSM_CROP_PERCENT_RIGHT;
+highp float HSM_CROP_BLACK_THRESHOLD;
+highp float HSM_SCANLINE_DIRECTION;
+highp float HSM_CORE_RES_SAMPLING_MULT_SCANLINE_DIR;
+highp float HSM_DOWNSAMPLE_BLUR_SCANLINE_DIR;
+highp float HSM_CORE_RES_SAMPLING_MULT_OPPOSITE_DIR;
+highp float HSM_DOWNSAMPLE_BLUR_OPPOSITE_DIR;
+highp float HSM_USE_GEOM;
+highp float HSM_CURVATURE_MODE;
+highp float HSM_CURVATURE_3D_RADIUS;
+highp float HSM_CURVATURE_3D_VIEW_DIST;
+highp float HSM_CURVATURE_3D_TILT_ANGLE_X;
+highp float HSM_CURVATURE_3D_TILT_ANGLE_Y;
+highp float HSM_CRT_CURVATURE_SCALE;
+highp float HSM_CACHE_GRAPHICS_ON;
+highp float HSM_CACHE_UPDATE_INDICATOR_MODE;
+highp float HSM_AB_COMPARE_SHOW_MODE;
+highp float HSM_AB_COMPARE_AREA;
+highp float HSM_AB_COMPARE_SPLIT_POSITION;
+highp float HSM_AB_COMPARE_FREEZE_CRT_TUBE;
+highp float HSM_AB_COMPARE_FREEZE_GRAPHICS;
+highp float HSM_SHOW_PASS_INDEX;
+highp float HSM_SHOW_PASS_APPLY_SCREEN_COORD;
+highp float HSM_SHOW_PASS_ALPHA;
+highp float HSM_SCREEN_VIGNETTE_DUALSCREEN_VIS_MODE;
+highp float HSM_MONOCHROME_DUALSCREEN_VIS_MODE;
+highp float HSM_TUBE_DIFFUSE_MODE;
+highp float HSM_TUBE_DIFFUSE_IMAGE_AMOUNT;
+highp float HSM_TUBE_DIFFUSE_IMAGE_DUALSCREEN_VIS_MODE;
+highp float HSM_TUBE_DIFFUSE_IMAGE_COLORIZE_ON;
+highp float HSM_TUBE_DIFFUSE_IMAGE_HUE;
+highp float HSM_TUBE_DIFFUSE_IMAGE_SATURATION;
+highp float HSM_TUBE_DIFFUSE_IMAGE_BRIGHTNESS;
+highp float HSM_TUBE_DIFFUSE_IMAGE_GAMMA;
+highp float HSM_TUBE_DIFFUSE_IMAGE_AMBIENT_LIGHTING;
+highp float HSM_TUBE_DIFFUSE_IMAGE_AMBIENT2_LIGHTING;
+highp float HSM_TUBE_DIFFUSE_IMAGE_SCALE;
+highp float HSM_TUBE_DIFFUSE_IMAGE_SCALE_X;
+highp float HSM_TUBE_DIFFUSE_IMAGE_ROTATION;
+highp float HSM_TUBE_SHADOW_IMAGE_ON;
+highp float HSM_TUBE_SHADOW_IMAGE_OPACITY;
+highp float HSM_TUBE_SHADOW_IMAGE_POS_X;
+highp float HSM_TUBE_SHADOW_IMAGE_POS_Y;
+highp float HSM_TUBE_SHADOW_IMAGE_SCALE_X;
+highp float HSM_TUBE_SHADOW_IMAGE_SCALE_Y;
+highp float HSM_TUBE_SHADOW_CURVATURE_SCALE;
+highp float HSM_TUBE_STATIC_REFLECTION_IMAGE_ON;
+highp float HSM_TUBE_STATIC_REFLECTION_IMAGE_DUALSCREEN_VIS_MODE;
+highp float HSM_TUBE_STATIC_REFLECTION_IMAGE_OPACITY;
+highp float HSM_TUBE_STATIC_OPACITY_DIFFUSE_MULTIPLY;
+highp float HSM_TUBE_STATIC_BLACK_LEVEL;
+highp float HSM_TUBE_STATIC_AMBIENT_LIGHTING;
+highp float HSM_TUBE_STATIC_AMBIENT2_LIGHTING;
+highp float HSM_TUBE_STATIC_SCALE;
+highp float HSM_TUBE_STATIC_SCALE_X;
+highp float HSM_TUBE_STATIC_POS_X;
+highp float HSM_TUBE_STATIC_POS_Y;
+highp float HSM_TUBE_STATIC_SHADOW_OPACITY;
+highp float HSM_TUBE_STATIC_DITHER_SAMPLES;
+highp float HSM_TUBE_STATIC_DITHER_DISTANCE;
+highp float HSM_TUBE_STATIC_DITHER_AMOUNT;
+highp float HSM_TUBE_OPACITY;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_ON;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_SCALE;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_FLIP_HORIZONTAL;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_FLIP_VERTICAL;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_DUALSCREEN_VIS_MODE;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_MULTIPLY_AMOUNT;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_ADDITIVE_AMOUNT;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_AMOUNT;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_TRANSPARENCY_THRESHOLD;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_BRIGHTNESS;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_VIGNETTE;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_FAKE_SCANLINE_AMOUNT;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT_LIGHTING;
+highp float HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT2_LIGHTING;
+highp float HSM_SHOW_CRT_ON_TOP_OF_COLORED_GEL;
+highp float HSM_DUALSCREEN_MODE;
+highp float HSM_DUALSCREEN_CORE_IMAGE_SPLIT_MODE;
+highp float HSM_DUALSCREEN_CORE_IMAGE_SWAP_SCREENS;
+highp float HSM_DUALSCREEN_CORE_IMAGE_SPLIT_OFFSET;
+highp float HSM_DUALSCREEN_VIEWPORT_SPLIT_LOCATION;
+highp float HSM_DUALSCREEN_SHIFT_POSITION_WITH_SCALE;
+highp float HSM_DUALSCREEN_POSITION_OFFSET_BETWEEN_SCREENS;
+highp float HSM_2ND_SCREEN_ASPECT_RATIO_MODE;
+highp float HSM_2ND_SCREEN_INDEPENDENT_SCALE;
+highp float HSM_2ND_SCREEN_SCALE_OFFSET;
+highp float HSM_2ND_SCREEN_POS_X;
+highp float HSM_2ND_SCREEN_POS_Y;
+highp float HSM_2ND_SCREEN_CROP_PERCENT_ZOOM;
+highp float HSM_2ND_SCREEN_CROP_PERCENT_TOP;
+highp float HSM_2ND_SCREEN_CROP_PERCENT_BOTTOM;
+highp float HSM_2ND_SCREEN_CROP_PERCENT_LEFT;
+highp float HSM_2ND_SCREEN_CROP_PERCENT_RIGHT;
+highp float HSM_SCREEN_REFLECTION_SCALE;
+highp float HSM_SCREEN_REFLECTION_POS_X;
+highp float HSM_SCREEN_REFLECTION_POS_Y;
+highp float HSM_AMBIENT1_HUE;
+highp float HSM_AMBIENT1_SATURATION;
+highp float HSM_AMBIENT1_VALUE;
+highp float HSM_AMBIENT1_CONTRAST;
+highp float HSM_AMBIENT1_SCALE_KEEP_ASPECT;
+highp float HSM_AMBIENT1_SCALE_INHERIT_MODE;
+highp float HSM_AMBIENT1_SCALE;
+highp float HSM_AMBIENT1_SCALE_X;
+highp float HSM_AMBIENT1_ROTATE;
+highp float HSM_AMBIENT1_MIRROR_HORZ;
+highp float HSM_AMBIENT1_POS_INHERIT_MODE;
+highp float HSM_AMBIENT1_POSITION_X;
+highp float HSM_AMBIENT1_POSITION_Y;
+highp float HSM_AMBIENT1_DITHERING_SAMPLES;
+highp float HSM_AMBIENT2_HUE;
+highp float HSM_AMBIENT2_SATURATION;
+highp float HSM_AMBIENT2_VALUE;
+highp float HSM_AMBIENT2_CONTRAST;
+highp float HSM_AMBIENT2_SCALE_KEEP_ASPECT;
+highp float HSM_AMBIENT2_SCALE_INHERIT_MODE;
+highp float HSM_AMBIENT2_SCALE;
+highp float HSM_AMBIENT2_SCALE_X;
+highp float HSM_AMBIENT2_ROTATE;
+highp float HSM_AMBIENT2_MIRROR_HORZ;
+highp float HSM_AMBIENT2_POS_INHERIT_MODE;
+highp float HSM_AMBIENT2_POSITION_X;
+highp float HSM_AMBIENT2_POSITION_Y;
+highp float HSM_BZL_OPACITY;
+highp float HSM_BZL_BLEND_MODE;
+highp float HSM_BZL_WIDTH;
+highp float HSM_BZL_HEIGHT;
+highp float HSM_BZL_INNER_CORNER_RADIUS_SCALE;
+highp float HSM_BZL_INNER_EDGE_THICKNESS;
+highp float HSM_BZL_INNER_EDGE_SHARPNESS;
+highp float HSM_BZL_OUTER_POSITION_Y;
+highp float HSM_BZL_OUTER_CURVATURE_SCALE;
+highp float HSM_BZL_OUTER_CORNER_RADIUS_SCALE;
+highp float HSM_BZL_NOISE;
+highp float HSM_BZL_INNER_EDGE_SHADOW;
+highp float HSM_BZL_BRIGHTNESS;
+highp float HSM_BZL_BRIGHTNESS_MULT_TOP;
+highp float HSM_BZL_BRIGHTNESS_MULT_BOTTOM;
+highp float HSM_BZL_BRIGHTNESS_MULT_SIDES;
+highp float HSM_BZL_BRIGHTNESS_MULT_SIDE_LEFT;
+highp float HSM_BZL_BRIGHTNESS_MULT_SIDE_RIGHT;
+highp float HSM_BZL_HIGHLIGHT;
+highp float HSM_BZL_COLOR_HUE;
+highp float HSM_BZL_COLOR_SATURATION;
+highp float HSM_BZL_COLOR_VALUE;
+highp float HSM_BZL_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_BZL_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_FRM_USE_INDEPENDENT_COLOR;
+highp float HSM_FRM_COLOR_HUE;
+highp float HSM_FRM_COLOR_SATURATION;
+highp float HSM_FRM_COLOR_VALUE;
+highp float HSM_FRM_OPACITY;
+highp float HSM_FRM_BLEND_MODE;
+highp float HSM_FRM_TEXTURE_OPACITY;
+highp float HSM_FRM_TEXTURE_BLEND_MODE;
+highp float HSM_FRM_NOISE;
+highp float HSM_FRM_INNER_EDGE_THICKNESS;
+highp float HSM_FRM_THICKNESS;
+highp float HSM_FRM_THICKNESS_SCALE_X;
+highp float HSM_FRM_OUTER_POS_Y;
+highp float HSM_FRM_OUTER_CURVATURE_SCALE;
+highp float HSM_FRM_OUTER_CORNER_RADIUS;
+highp float HSM_FRM_OUTER_EDGE_THICKNESS;
+highp float HSM_FRM_OUTER_EDGE_SHADING;
+highp float HSM_FRM_SHADOW_OPACITY;
+highp float HSM_FRM_SHADOW_WIDTH;
+highp float HSM_REFLECT_CORNER_FADE;
+highp float HSM_REFLECT_CORNER_FADE_DISTANCE;
+highp float HSM_REFLECT_CORNER_INNER_SPREAD;
+highp float HSM_REFLECT_CORNER_OUTER_SPREAD;
+highp float HSM_REFLECT_CORNER_ROTATION_OFFSET_TOP;
+highp float HSM_REFLECT_CORNER_ROTATION_OFFSET_BOTTOM;
+highp float HSM_REFLECT_CORNER_SPREAD_FALLOFF;
+highp float HSM_BG_LAYER_ORDER;
+highp float HSM_VIEWPORT_VIGNETTE_LAYER_ORDER;
+highp float HSM_LED_LAYER_ORDER;
+highp float HSM_DEVICE_LAYER_ORDER;
+highp float HSM_DEVICELED_LAYER_ORDER;
+highp float HSM_CRT_LAYER_ORDER;
+highp float HSM_DECAL_LAYER_ORDER;
+highp float HSM_CAB_GLASS_LAYER_ORDER;
+highp float HSM_TOP_LAYER_ORDER;
+highp float HSM_CUTOUT_ASPECT_MODE;
+highp float HSM_CUTOUT_EXPLICIT_ASPECT;
+highp float HSM_CUTOUT_FOLLOW_LAYER;
+highp float HSM_CUTOUT_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_CUTOUT_SCALE;
+highp float HSM_CUTOUT_SCALE_X;
+highp float HSM_CUTOUT_POS_X;
+highp float HSM_CUTOUT_POS_Y;
+highp float HSM_CUTOUT_CORNER_RADIUS;
+highp float HSM_LAYERING_DEBUG_MASK_MODE;
+highp float HSM_BG_OPACITY;
+highp float HSM_BG_COLORIZE_ON;
+highp float HSM_BG_HUE;
+highp float HSM_BG_SATURATION;
+highp float HSM_BG_BRIGHTNESS;
+highp float HSM_BG_GAMMA;
+highp float HSM_BG_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_BG_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_BG_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_BG_BLEND_MODE;
+highp float HSM_BG_SOURCE_MATTE_TYPE;
+highp float HSM_BG_MIPMAPPING_BLEND_BIAS;
+highp float HSM_BG_MASK_MODE;
+highp float HSM_BG_CUTOUT_MODE;
+highp float HSM_BG_DUALSCREEN_VIS_MODE;
+highp float HSM_BG_FOLLOW_LAYER;
+highp float HSM_BG_FOLLOW_MODE;
+highp float HSM_BG_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_BG_FILL_MODE;
+highp float HSM_BG_SPLIT_PRESERVE_CENTER;
+highp float HSM_BG_SPLIT_REPEAT_WIDTH;
+highp float HSM_BG_SCALE;
+highp float HSM_BG_SCALE_X;
+highp float HSM_BG_POS_X;
+highp float HSM_BG_POS_Y;
+highp float HSM_BG_WRAP_MODE;
+highp float HSM_VIEWPORT_VIGNETTE_OPACITY;
+highp float HSM_VIEWPORT_VIGNETTE_MASK_MODE;
+highp float HSM_VIEWPORT_VIGNETTE_CUTOUT_MODE;
+highp float HSM_VIEWPORT_VIGNETTE_FOLLOW_LAYER;
+highp float HSM_VIEWPORT_VIGNETTE_SCALE;
+highp float HSM_VIEWPORT_VIGNETTE_SCALE_X;
+highp float HSM_VIEWPORT_VIGNETTE_POS_X;
+highp float HSM_VIEWPORT_VIGNETTE_POS_Y;
+highp float HSM_LED_OPACITY;
+highp float HSM_LED_COLORIZE_ON;
+highp float HSM_LED_HUE;
+highp float HSM_LED_SATURATION;
+highp float HSM_LED_BRIGHTNESS;
+highp float HSM_LED_GAMMA;
+highp float HSM_LED_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_LED_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_LED_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_LED_BLEND_MODE;
+highp float HSM_LED_SOURCE_MATTE_TYPE;
+highp float HSM_LED_MASK_MODE;
+highp float HSM_LED_MIPMAPPING_BLEND_BIAS;
+highp float HSM_LED_CUTOUT_MODE;
+highp float HSM_LED_DUALSCREEN_VIS_MODE;
+highp float HSM_LED_FOLLOW_LAYER;
+highp float HSM_LED_FOLLOW_MODE;
+highp float HSM_LED_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_LED_FILL_MODE;
+highp float HSM_LED_SPLIT_PRESERVE_CENTER;
+highp float HSM_LED_SPLIT_REPEAT_WIDTH;
+highp float HSM_LED_SCALE;
+highp float HSM_LED_SCALE_X;
+highp float HSM_LED_POS_X;
+highp float HSM_LED_POS_Y;
+highp float HSM_DEVICE_OPACITY;
+highp float HSM_DEVICE_COLORIZE_ON;
+highp float HSM_DEVICE_HUE;
+highp float HSM_DEVICE_SATURATION;
+highp float HSM_DEVICE_BRIGHTNESS;
+highp float HSM_DEVICE_GAMMA;
+highp float HSM_DEVICE_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_DEVICE_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_DEVICE_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_DEVICE_BLEND_MODE;
+highp float HSM_DEVICE_SOURCE_MATTE_TYPE;
+highp float HSM_DEVICE_MASK_MODE;
+highp float HSM_DEVICE_MIPMAPPING_BLEND_BIAS;
+highp float HSM_DEVICE_CUTOUT_MODE;
+highp float HSM_DEVICE_DUALSCREEN_VIS_MODE;
+highp float HSM_DEVICE_FOLLOW_LAYER;
+highp float HSM_DEVICE_FOLLOW_MODE;
+highp float HSM_DEVICE_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_DEVICE_FILL_MODE;
+highp float HSM_DEVICE_SPLIT_PRESERVE_CENTER;
+highp float HSM_DEVICE_SPLIT_REPEAT_WIDTH;
+highp float HSM_DEVICE_SCALE;
+highp float HSM_DEVICE_SCALE_X;
+highp float HSM_DEVICE_POS_X;
+highp float HSM_DEVICE_POS_Y;
+highp float HSM_DEVICELED_OPACITY;
+highp float HSM_DEVICELED_COLORIZE_ON;
+highp float HSM_DEVICELED_HUE;
+highp float HSM_DEVICELED_SATURATION;
+highp float HSM_DEVICELED_BRIGHTNESS;
+highp float HSM_DEVICELED_GAMMA;
+highp float HSM_DEVICELED_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_DEVICELED_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_DEVICELED_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_DEVICELED_BLEND_MODE;
+highp float HSM_DEVICELED_SOURCE_MATTE_TYPE;
+highp float HSM_DEVICELED_MASK_MODE;
+highp float HSM_DEVICELED_MIPMAPPING_BLEND_BIAS;
+highp float HSM_DEVICELED_CUTOUT_MODE;
+highp float HSM_DEVICELED_DUALSCREEN_VIS_MODE;
+highp float HSM_DEVICELED_FOLLOW_LAYER;
+highp float HSM_DEVICELED_FOLLOW_MODE;
+highp float HSM_DEVICELED_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_DEVICELED_FILL_MODE;
+highp float HSM_DEVICELED_SPLIT_PRESERVE_CENTER;
+highp float HSM_DEVICELED_SPLIT_REPEAT_WIDTH;
+highp float HSM_DEVICELED_SCALE;
+highp float HSM_DEVICELED_SCALE_X;
+highp float HSM_DEVICELED_POS_X;
+highp float HSM_DEVICELED_POS_Y;
+highp float HSM_DECAL_OPACITY;
+highp float HSM_DECAL_COLORIZE_ON;
+highp float HSM_DECAL_HUE;
+highp float HSM_DECAL_SATURATION;
+highp float HSM_DECAL_BRIGHTNESS;
+highp float HSM_DECAL_GAMMA;
+highp float HSM_DECAL_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_DECAL_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_DECAL_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_DECAL_BLEND_MODE;
+highp float HSM_DECAL_SOURCE_MATTE_TYPE;
+highp float HSM_DECAL_MIPMAPPING_BLEND_BIAS;
+highp float HSM_DECAL_MASK_MODE;
+highp float HSM_DECAL_CUTOUT_MODE;
+highp float HSM_DECAL_DUALSCREEN_VIS_MODE;
+highp float HSM_DECAL_FOLLOW_LAYER;
+highp float HSM_DECAL_FOLLOW_MODE;
+highp float HSM_DECAL_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_DECAL_FILL_MODE;
+highp float HSM_DECAL_SPLIT_PRESERVE_CENTER;
+highp float HSM_DECAL_SPLIT_REPEAT_WIDTH;
+highp float HSM_DECAL_SCALE;
+highp float HSM_DECAL_SCALE_X;
+highp float HSM_DECAL_POS_X;
+highp float HSM_DECAL_POS_Y;
+highp float HSM_CAB_GLASS_OPACITY;
+highp float HSM_CAB_GLASS_COLORIZE_ON;
+highp float HSM_CAB_GLASS_HUE;
+highp float HSM_CAB_GLASS_SATURATION;
+highp float HSM_CAB_GLASS_BRIGHTNESS;
+highp float HSM_CAB_GLASS_GAMMA;
+highp float HSM_CAB_GLASS_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_CAB_GLASS_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_CAB_GLASS_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_CAB_GLASS_BLEND_MODE;
+highp float HSM_CAB_GLASS_SOURCE_MATTE_TYPE;
+highp float HSM_CAB_GLASS_MIPMAPPING_BLEND_BIAS;
+highp float HSM_CAB_GLASS_MASK_MODE;
+highp float HSM_CAB_GLASS_CUTOUT_MODE;
+highp float HSM_CAB_GLASS_DUALSCREEN_VIS_MODE;
+highp float HSM_CAB_GLASS_FOLLOW_LAYER;
+highp float HSM_CAB_GLASS_FOLLOW_MODE;
+highp float HSM_CAB_GLASS_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_CAB_GLASS_FILL_MODE;
+highp float HSM_CAB_GLASS_SPLIT_PRESERVE_CENTER;
+highp float HSM_CAB_GLASS_SPLIT_REPEAT_WIDTH;
+highp float HSM_CAB_GLASS_SCALE;
+highp float HSM_CAB_GLASS_SCALE_X;
+highp float HSM_CAB_GLASS_POS_X;
+highp float HSM_CAB_GLASS_POS_Y;
+highp float HSM_TOP_OPACITY;
+highp float HSM_TOP_COLORIZE_ON;
+highp float HSM_TOP_HUE;
+highp float HSM_TOP_SATURATION;
+highp float HSM_TOP_BRIGHTNESS;
+highp float HSM_TOP_GAMMA;
+highp float HSM_TOP_AMBIENT_LIGHTING_MULTIPLIER;
+highp float HSM_TOP_AMBIENT2_LIGHTING_MULTIPLIER;
+highp float HSM_TOP_APPLY_AMBIENT_IN_ADD_MODE;
+highp float HSM_TOP_BLEND_MODE;
+highp float HSM_TOP_SOURCE_MATTE_TYPE;
+highp float HSM_TOP_MIPMAPPING_BLEND_BIAS;
+highp float HSM_TOP_MASK_MODE;
+highp float HSM_TOP_CUTOUT_MODE;
+highp float HSM_TOP_DUALSCREEN_VIS_MODE;
+highp float HSM_TOP_FOLLOW_LAYER;
+highp float HSM_TOP_FOLLOW_MODE;
+highp float HSM_TOP_FOLLOW_FULL_USES_ZOOM;
+highp float HSM_TOP_FILL_MODE;
+highp float HSM_TOP_SPLIT_PRESERVE_CENTER;
+highp float HSM_TOP_SPLIT_REPEAT_WIDTH;
+highp float HSM_TOP_SCALE;
+highp float HSM_TOP_SCALE_X;
+highp float HSM_TOP_POS_X;
+highp float HSM_TOP_POS_Y;
+highp float HSM_TOP_MIRROR_WRAP;
+highp float HSM_RENDER_SIMPLE_MODE;
+highp float HSM_RENDER_SIMPLE_MASK_TYPE;
+highp float SOURCE_MATTE_PREMULTIPLIED;
+highp float SOURCE_MATTE_WHITE;
+highp float SOURCE_MATTE_NONE;
+highp float BLEND_MODE_OFF;
+highp float BLEND_MODE_NORMAL;
+highp float BLEND_MODE_ADD;
+highp float BLEND_MODE_MULTIPLY;
+highp float CURVATURE_MODE_OFF;
+highp float CURVATURE_MODE_2D;
+highp float CURVATURE_MODE_2D_CYLINDER;
+highp float CURVATURE_MODE_3D_1;
+highp float CURVATURE_MODE_3D_2;
+highp float CURVATURE_MODE_3D_CYLINDER;
+highp float MAX_LAYER_ORDER;
+highp vec2 UNFLIPPED_VIEWPORT_COORD;
+highp vec2 FLIPPED_VIEWPORT_COORD;
+
+highp vec2 HSM_GetViewportCoordWithFlip(highp vec2 viewport_coord)
+{
+    highp vec2 out_coord = viewport_coord;
+    if (HSM_FLIP_VIEWPORT_VERTICAL == (-1.0))
+    {
+        out_coord.y = 1.0 - out_coord.y;
+    }
+    if (HSM_FLIP_VIEWPORT_HORIZONTAL == (-1.0))
+    {
+        out_coord.x = 1.0 - out_coord.x;
+    }
+    return out_coord;
+}
+
+highp vec2 HSM_GetViewportCoordWithZoomAndPan(highp vec2 viewport_coord)
+{
+    highp vec2 param = viewport_coord;
+    highp vec2 out_coord = HSM_GetViewportCoordWithFlip(param);
+    out_coord = ((out_coord - vec2(0.5)) / vec2(HSM_VIEWPORT_ZOOM)) + vec2(0.5);
+    out_coord.x += HSM_VIEWPORT_POSITION_X;
+    out_coord.y -= HSM_VIEWPORT_POSITION_Y;
+    return out_coord;
+}
+
+highp float HSM_GetScreenIndex(highp vec2 viewport_coord)
+{
+    highp float out_index = 1.0;
+    highp float output_aspect = global.FinalViewportSize.x / global.FinalViewportSize.y;
+    if (HSM_DUALSCREEN_MODE == 0.0)
+    {
+        out_index = 1.0;
+    }
+    if (HSM_DUALSCREEN_MODE == 1.0)
+    {
+        out_index = float((viewport_coord.y < (0.5 + (HSM_DUALSCREEN_VIEWPORT_SPLIT_LOCATION / output_aspect))) ? 1 : 2);
+    }
+    if (HSM_DUALSCREEN_MODE == 2.0)
+    {
+        out_index = float((viewport_coord.x < (0.5 + (HSM_DUALSCREEN_VIEWPORT_SPLIT_LOCATION / output_aspect))) ? 1 : 2);
+    }
+    return out_index;
+}
+
+highp vec4 HSM_GetCacheSampleRange(highp float column_index, highp float row_index)
+{
+    highp float num_rows = 8.0;
+    highp float num_columns = 8.0;
+    highp float range_width = 1.0 / num_columns;
+    highp float range_height = 1.0 / num_rows;
+    highp float zero_based_row_index = row_index - 1.0;
+    highp float zero_based_column_index = column_index - 1.0;
+    highp vec4 out_sample_range = vec4(0.0);
+    out_sample_range.x = zero_based_column_index * range_width;
+    out_sample_range.y = zero_based_row_index * range_height;
+    out_sample_range.z = out_sample_range.x + range_width;
+    out_sample_range.w = out_sample_range.y + range_height;
+    return out_sample_range;
+}
+
+highp vec2 HSM_GetCacheSampleCoord(highp float column_index, highp float row_index)
+{
+    highp float num_rows = 8.0;
+    highp float num_columns = 8.0;
+    highp float range_width = 1.0 / num_columns;
+    highp float range_height = 1.0 / num_rows;
+    highp float param = column_index;
+    highp float param_1 = row_index;
+    highp vec4 sample_range = HSM_GetCacheSampleRange(param, param_1);
+    return vec2(sample_range.x + (range_width / 2.0), sample_range.y + (range_height / 2.0));
+}
+
+highp vec2 HSM_GetCoordWithPositionOffset(highp vec2 in_coord, highp vec2 position_offset)
+{
+    return in_coord - position_offset;
+}
+
+highp vec2 HSM_GetInverseScaledCoord(highp vec2 in_coord, highp vec2 in_scale)
+{
+    highp vec2 middle = vec2(0.499989986419677734375);
+    highp vec2 diff = in_coord - middle;
+    highp vec2 screen_inverse_scale = vec2(1.0) / in_scale;
+    highp vec2 scaled_coord = middle + (diff * screen_inverse_scale);
+    return scaled_coord;
+}
+
+highp vec2 HSM_GetVTexCoordWithArgs(highp vec2 in_coord, highp vec2 in_scale, highp vec2 position_offset)
+{
+    highp vec2 param = in_coord;
+    highp vec2 param_1 = position_offset;
+    highp vec2 param_2 = HSM_GetCoordWithPositionOffset(param, param_1);
+    highp vec2 param_3 = in_scale;
+    return HSM_GetInverseScaledCoord(param_2, param_3);
+}
+
+highp vec4 HSM_UpdateGlobalScreenValuesFromCache(highp sampler2D in_cache_pass, highp vec2 vTexCoord_1)
+{
+    highp float output_aspect = global.FinalViewportSize.x / global.FinalViewportSize.y;
+    highp vec2 param = vTexCoord_1;
+    highp vec2 flipped_viewport_coord = HSM_GetViewportCoordWithZoomAndPan(param);
+    highp vec2 param_1 = flipped_viewport_coord;
+    SCREEN_INDEX = HSM_GetScreenIndex(param_1);
+    highp vec2 sample_coord = vec2(0.0);
+    highp vec4 texture_sample = vec4(0.0);
+    highp float param_2 = 1.0;
+    highp float param_3 = 1.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_2, param_3);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    AVERAGE_LUMA = texture_sample.w;
+    SAMPLING_SCANLINE_DIR_MULT = texture_sample.x;
+    SAMPLING_OPPOSITE_DIR_MULT = texture_sample.y;
+    highp float res_mult_size_sum = 0.0;
+    highp float res_mult_size2_sum = 0.0;
+    if (SCREEN_INDEX == 1.0)
+    {
+        highp float param_4 = 2.0;
+        highp float param_5 = 1.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_4, param_5);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        SCREEN_ASPECT = texture_sample.x;
+        SCREEN_SCALE = texture_sample.zw;
+        highp float param_6 = 3.0;
+        highp float param_7 = 1.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_6, param_7);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        TUBE_SCALE = texture_sample.xy;
+        SCREEN_POS_OFFSET = texture_sample.zw;
+        highp float param_8 = 3.0;
+        highp float param_9 = 4.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_8, param_9);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        TUBE_DIFFUSE_SCALE = texture_sample.xy;
+        TUBE_DIFFUSE_ASPECT = (TUBE_DIFFUSE_SCALE.x / TUBE_DIFFUSE_SCALE.y) * output_aspect;
+        highp float param_10 = 4.0;
+        highp float param_11 = 1.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_10, param_11);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        CROPPED_ROTATED_SIZE_WITH_RES_MULT = texture_sample.xy;
+        res_mult_size_sum = CROPPED_ROTATED_SIZE_WITH_RES_MULT.x + CROPPED_ROTATED_SIZE_WITH_RES_MULT.y;
+        ROTATED_CORE_PREPPED_SIZE = texture_sample.zw;
+        highp float param_12 = 1.0;
+        highp float param_13 = 2.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_12, param_13);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        CROPPED_ROTATED_SIZE = texture_sample.xy;
+        SAMPLE_AREA_START_PIXEL_COORD = texture_sample.zw;
+        highp float param_14 = 4.0;
+        highp float param_15 = 4.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_14, param_15);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        SCREEN_SIZE = texture_sample.xy;
+    }
+    if (SCREEN_INDEX == 2.0)
+    {
+        highp float param_16 = 2.0;
+        highp float param_17 = 2.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_16, param_17);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        SCREEN_ASPECT = texture_sample.x;
+        SCREEN_SCALE = texture_sample.yz;
+        highp float param_18 = 3.0;
+        highp float param_19 = 2.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_18, param_19);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        TUBE_SCALE = texture_sample.xy;
+        SCREEN_POS_OFFSET = texture_sample.zw;
+        highp float param_20 = 3.0;
+        highp float param_21 = 4.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_20, param_21);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        TUBE_DIFFUSE_SCALE = texture_sample.zw;
+        TUBE_DIFFUSE_ASPECT = (TUBE_DIFFUSE_SCALE.x / TUBE_DIFFUSE_SCALE.y) * output_aspect;
+        highp float param_22 = 4.0;
+        highp float param_23 = 2.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_22, param_23);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        CROPPED_ROTATED_SIZE_WITH_RES_MULT = texture_sample.xy;
+        res_mult_size2_sum = CROPPED_ROTATED_SIZE_WITH_RES_MULT.x + CROPPED_ROTATED_SIZE_WITH_RES_MULT.y;
+        highp float param_24 = 1.0;
+        highp float param_25 = 3.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_24, param_25);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        CROPPED_ROTATED_SIZE = texture_sample.xy;
+        SAMPLE_AREA_START_PIXEL_COORD = texture_sample.zw;
+        highp float param_26 = 4.0;
+        highp float param_27 = 4.0;
+        sample_coord = HSM_GetCacheSampleCoord(param_26, param_27);
+        texture_sample = texture(in_cache_pass, sample_coord);
+        SCREEN_SIZE = texture_sample.zw;
+    }
+    highp float param_28 = 3.0;
+    highp float param_29 = 1.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_28, param_29);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    SCREEN_POS_OFFSET_1ST_SCREEN = texture_sample.zw;
+    highp float param_30 = 3.0;
+    highp float param_31 = 4.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_30, param_31);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    TUBE_DIFFUSE_SCALE_1ST_SCREEN = texture_sample.xy;
+    highp float param_32 = 3.0;
+    highp float param_33 = 2.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_32, param_33);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    SCREEN_POS_OFFSET_2ND_SCREEN = texture_sample.zw;
+    highp float param_34 = 3.0;
+    highp float param_35 = 4.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_34, param_35);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    TUBE_DIFFUSE_SCALE_2ND_SCREEN = texture_sample.zw;
+    highp float param_36 = 2.0;
+    highp float param_37 = 3.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_36, param_37);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    CORE_SIZE = texture_sample.xy;
+    ROTATED_CORE_ORIGINAL_SIZE = texture_sample.zw;
+    highp float param_38 = 3.0;
+    highp float param_39 = 3.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_38, param_39);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    VIEWPORT_SCALE = texture_sample.xy;
+    VIEWPORT_POS = texture_sample.zw;
+    highp float param_40 = 4.0;
+    highp float param_41 = 3.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_40, param_41);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    SCREEN_SCALE_2ND_SCREEN = texture_sample.xy;
+    SCREEN_POS_OFFSET_2ND_SCREEN = texture_sample.zw;
+    highp float param_42 = 1.0;
+    highp float param_43 = 4.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_42, param_43);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    CURRENT_FRAME_FROM_CACHE_INFO = texture_sample.y;
+    ROTATED_DEREZED_SIZE = texture_sample.zw;
+    highp float param_44 = 2.0;
+    highp float param_45 = 4.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_44, param_45);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    NEGATIVE_CROP_EXPAND_MULTIPLIER = texture_sample.x;
+    MAX_NEGATIVE_CROP = texture_sample.y;
+    USE_VERTICAL_SCANLINES = texture_sample.z;
+    highp float param_46 = 8.0;
+    highp float param_47 = 8.0;
+    sample_coord = HSM_GetCacheSampleCoord(param_46, param_47);
+    texture_sample = texture(in_cache_pass, sample_coord);
+    CACHE_INFO_CHANGED = (texture_sample.x > 0.5) ? true : false;
+    SCREEN_SCALE_WITH_ZOOM = SCREEN_SCALE * HSM_VIEWPORT_ZOOM;
+    highp vec2 param_48 = flipped_viewport_coord;
+    highp vec2 param_49 = SCREEN_SCALE;
+    highp vec2 param_50 = SCREEN_POS_OFFSET;
+    SCREEN_COORD = HSM_GetVTexCoordWithArgs(param_48, param_49, param_50);
+    highp vec2 param_51 = flipped_viewport_coord;
+    highp vec2 param_52 = TUBE_DIFFUSE_SCALE;
+    highp vec2 param_53 = SCREEN_POS_OFFSET;
+    TUBE_DIFFUSE_COORD = HSM_GetVTexCoordWithArgs(param_51, param_52, param_53);
+    highp vec2 param_54 = flipped_viewport_coord;
+    highp vec2 param_55 = TUBE_DIFFUSE_SCALE_1ST_SCREEN;
+    highp vec2 param_56 = (SCREEN_POS_OFFSET_1ST_SCREEN + SCREEN_POS_OFFSET_2ND_SCREEN) / vec2(2.0);
+    TUBE_DIFFUSE_COORD_MIXED_POS = HSM_GetVTexCoordWithArgs(param_54, param_55, param_56);
+    return vec4(0.0);
+}
+
+highp float intersect(highp vec2 in_coord, highp vec2 sinangle, highp vec2 cosangle, highp float in_radius, highp float in_distance)
+{
+    highp float A = dot(in_coord, in_coord) + (in_distance * in_distance);
+    highp float B = 2.0 * ((in_radius * (dot(in_coord, sinangle) - ((in_distance * cosangle.x) * cosangle.y))) - (in_distance * in_distance));
+    highp float C = (in_distance * in_distance) + ((((2.0 * in_radius) * in_distance) * cosangle.x) * cosangle.y);
+    return ((-B) - sqrt((B * B) - ((4.0 * A) * C))) / (2.0 * A);
+}
+
+highp vec2 bkwtrans(highp vec2 in_coord, highp vec2 sinangle, highp vec2 cosangle, highp float in_radius, highp float in_distance)
+{
+    highp vec2 param = in_coord;
+    highp vec2 param_1 = sinangle;
+    highp vec2 param_2 = cosangle;
+    highp float param_3 = in_radius;
+    highp float param_4 = in_distance;
+    highp float c = intersect(param, param_1, param_2, param_3, param_4);
+    highp vec2 pt = vec2(c) * in_coord;
+    pt -= (vec2(-in_radius) * sinangle);
+    pt /= vec2(in_radius);
+    highp vec2 tang = sinangle / cosangle;
+    highp vec2 poc = pt / cosangle;
+    highp float A = dot(tang, tang) + 1.0;
+    highp float B = (-2.0) * dot(poc, tang);
+    highp float C = dot(poc, poc) - 1.0;
+    highp float a = ((-B) + sqrt((B * B) - ((4.0 * A) * C))) / (2.0 * A);
+    highp vec2 uv = (pt - (sinangle * a)) / cosangle;
+    highp float r = max(abs(in_radius * acos(a)), 9.9999997473787516355514526367188e-06);
+    return (uv * r) / vec2(sin(r / in_radius));
+}
+
+highp vec2 fwtrans(inout highp vec2 uv, highp vec2 sinangle, highp vec2 cosangle, highp float in_radius, highp float in_distance)
+{
+    highp float r = max(abs(sqrt(dot(uv, uv))), 9.9999997473787516355514526367188e-06);
+    uv *= (sin(r / in_radius) / r);
+    highp float x = 1.0 - cos(r / in_radius);
+    highp float D = ((in_distance / in_radius) + ((x * cosangle.x) * cosangle.y)) + dot(uv, sinangle);
+    return (((uv * cosangle) - (sinangle * x)) * in_distance) / vec2(D);
+}
+
+highp vec3 maxscale(highp vec2 sinangle, highp vec2 cosangle, highp float in_radius, highp float in_distance, highp float in_aspect)
+{
+    highp vec2 aspect_vec2 = vec2(1.0, 1.0 / in_aspect);
+    highp vec2 param = (sinangle * (-in_radius)) / vec2(1.0 + (((in_radius / in_distance) * cosangle.x) * cosangle.y));
+    highp vec2 param_1 = sinangle;
+    highp vec2 param_2 = cosangle;
+    highp float param_3 = in_radius;
+    highp float param_4 = in_distance;
+    highp vec2 c = bkwtrans(param, param_1, param_2, param_3, param_4);
+    highp vec2 a = vec2(0.5) * aspect_vec2;
+    highp vec2 param_5 = vec2(-a.x, c.y);
+    highp vec2 param_6 = sinangle;
+    highp vec2 param_7 = cosangle;
+    highp float param_8 = in_radius;
+    highp float param_9 = in_distance;
+    highp vec2 _4681 = fwtrans(param_5, param_6, param_7, param_8, param_9);
+    highp vec2 param_10 = vec2(c.x, -a.y);
+    highp vec2 param_11 = sinangle;
+    highp vec2 param_12 = cosangle;
+    highp float param_13 = in_radius;
+    highp float param_14 = in_distance;
+    highp vec2 _4698 = fwtrans(param_10, param_11, param_12, param_13, param_14);
+    highp vec2 lo = vec2(_4681.x, _4698.y) / aspect_vec2;
+    highp vec2 param_15 = vec2(a.x, c.y);
+    highp vec2 param_16 = sinangle;
+    highp vec2 param_17 = cosangle;
+    highp float param_18 = in_radius;
+    highp float param_19 = in_distance;
+    highp vec2 _4718 = fwtrans(param_15, param_16, param_17, param_18, param_19);
+    highp vec2 param_20 = vec2(c.x, a.y);
+    highp vec2 param_21 = sinangle;
+    highp vec2 param_22 = cosangle;
+    highp float param_23 = in_radius;
+    highp float param_24 = in_distance;
+    highp vec2 _4734 = fwtrans(param_20, param_21, param_22, param_23, param_24);
+    highp vec2 hi = vec2(_4718.x, _4734.y) / aspect_vec2;
+    return vec3(((hi + lo) * aspect_vec2) * 0.5, max(hi.x - lo.x, hi.y - lo.y));
+}
+
+highp vec2 transform(inout highp vec2 coord, highp vec3 stretch, highp vec2 sinangle, highp vec2 cosangle, highp float in_radius, highp float in_distance, highp vec2 aspect)
+{
+    coord = (((coord - vec2(0.5)) * aspect) * stretch.z) + stretch.xy;
+    highp vec2 param = coord;
+    highp vec2 param_1 = sinangle;
+    highp vec2 param_2 = cosangle;
+    highp float param_3 = in_radius;
+    highp float param_4 = in_distance;
+    return (bkwtrans(param, param_1, param_2, param_3, param_4) / aspect) + vec2(0.5);
+}
+
+highp vec2 HSM_GetGeomCurvedCoord(highp vec2 in_coord, highp float tilt_x, highp float tilt_y, highp float in_radius, inout highp float in_distance, highp float in_aspect)
+{
+    in_distance *= 1.39999997615814208984375;
+    highp vec2 ang = vec2(tilt_x, tilt_y);
+    highp vec2 v_sinangle = sin(ang);
+    highp vec2 v_cosangle = cos(ang);
+    highp vec2 param = v_sinangle;
+    highp vec2 param_1 = v_cosangle;
+    highp float param_2 = in_radius;
+    highp float param_3 = in_distance;
+    highp float param_4 = in_aspect;
+    highp vec3 v_stretch = maxscale(param, param_1, param_2, param_3, param_4);
+    highp vec2 aspect_vec2 = vec2(1.0, 1.0 / in_aspect);
+    highp vec2 param_5 = in_coord;
+    highp vec3 param_6 = v_stretch;
+    highp vec2 param_7 = v_sinangle;
+    highp vec2 param_8 = v_cosangle;
+    highp float param_9 = in_radius;
+    highp float param_10 = in_distance;
+    highp vec2 param_11 = aspect_vec2;
+    highp vec2 _4831 = transform(param_5, param_6, param_7, param_8, param_9, param_10, param_11);
+    highp vec2 curved_coord = _4831;
+    return curved_coord;
+}
+
+highp vec2 HSM_GetGeomCurvedCoordRetainWidth(highp vec2 in_coord, highp float tilt_x, highp float tilt_y, highp float in_radius, highp float in_distance, highp float in_aspect)
+{
+    highp vec2 param = in_coord;
+    highp float param_1 = tilt_x;
+    highp float param_2 = tilt_y;
+    highp float param_3 = in_radius;
+    highp float param_4 = in_distance;
+    highp float param_5 = in_aspect;
+    highp vec2 _4848 = HSM_GetGeomCurvedCoord(param, param_1, param_2, param_3, param_4, param_5);
+    highp vec2 ctr_curved_coord = _4848 - vec2(0.5);
+    highp vec2 param_6 = vec2(1.0, 0.5);
+    highp float param_7 = tilt_x;
+    highp float param_8 = tilt_y;
+    highp float param_9 = in_radius;
+    highp float param_10 = in_distance;
+    highp float param_11 = in_aspect;
+    highp vec2 _4863 = HSM_GetGeomCurvedCoord(param_6, param_7, param_8, param_9, param_10, param_11);
+    highp vec2 right_edge_curved_ctr_coord = _4863 - vec2(0.5);
+    ctr_curved_coord.x = (ctr_curved_coord.x * 0.5) / right_edge_curved_ctr_coord.x;
+    return ctr_curved_coord + vec2(0.5);
+}
+
+highp vec2 hrg_get_aspect_vector(highp float geom_aspect_ratio)
+{
+    highp float geom_max_aspect_ratio = 1.0;
+    highp float geom_clamped_aspect_ratio = min(geom_aspect_ratio, geom_max_aspect_ratio);
+    highp vec2 output_aspect = normalize(vec2(geom_clamped_aspect_ratio, 1.0));
+    return output_aspect;
+}
+
+highp vec3 hrg_sphere_uv_to_xyz(highp vec2 video_uv, highp vec2 output_aspect, highp float in_geom_radius)
+{
+    highp vec2 square_uv = video_uv * output_aspect;
+    highp vec2 square_uv_unit = normalize(square_uv);
+    highp float arc_len = square_uv.y / square_uv_unit.y;
+    highp float angle_from_image_center = arc_len / in_geom_radius;
+    highp float xy_dist_from_sphere_center = sin(angle_from_image_center) * in_geom_radius;
+    highp vec2 xy_pos = square_uv_unit * xy_dist_from_sphere_center;
+    highp float z_pos = cos(angle_from_image_center) * in_geom_radius;
+    highp vec3 intersection_pos_local = vec3(xy_pos.x, -xy_pos.y, z_pos);
+    return intersection_pos_local;
+}
+
+highp vec3 hrg_sphere_alt_uv_to_xyz(highp vec2 video_uv, highp vec2 output_aspect, highp float in_geom_radius)
+{
+    highp vec2 square_uv = video_uv * output_aspect;
+    highp vec2 arc_len = square_uv;
+    highp vec2 angle_from_image_center = arc_len / vec2(in_geom_radius);
+    highp vec2 xy_pos = sin(angle_from_image_center) * in_geom_radius;
+    highp float z_pos = sqrt((in_geom_radius * in_geom_radius) - dot(xy_pos, xy_pos));
+    return vec3(xy_pos.x, -xy_pos.y, z_pos);
+}
+
+highp vec3 hrg_cylinder_uv_to_xyz(highp vec2 video_uv, highp vec2 output_aspect, highp float in_geom_radius)
+{
+    highp vec2 square_uv = video_uv * output_aspect;
+    highp float arc_len = square_uv.x;
+    highp float angle_from_image_center = arc_len / in_geom_radius;
+    highp float x_pos = sin(angle_from_image_center) * in_geom_radius;
+    highp float z_pos = cos(angle_from_image_center) * in_geom_radius;
+    highp vec3 intersection_pos_local = vec3(x_pos, -square_uv.y, z_pos);
+    return intersection_pos_local;
+}
+
+highp vec3 hrg_uv_to_xyz(highp vec2 uv, highp vec2 output_aspect, highp float in_geom_mode, highp float in_geom_radius)
+{
+    highp vec3 _3337;
+    if (in_geom_mode < 1.5)
+    {
+        highp vec2 param = uv;
+        highp vec2 param_1 = output_aspect;
+        highp float param_2 = in_geom_radius;
+        _3337 = hrg_sphere_uv_to_xyz(param, param_1, param_2);
+    }
+    else
+    {
+        highp vec3 _3350;
+        if (in_geom_mode < 2.5)
+        {
+            highp vec2 param_3 = uv;
+            highp vec2 param_4 = output_aspect;
+            highp float param_5 = in_geom_radius;
+            _3350 = hrg_sphere_alt_uv_to_xyz(param_3, param_4, param_5);
+        }
+        else
+        {
+            highp vec2 param_6 = uv;
+            highp vec2 param_7 = output_aspect;
+            highp float param_8 = in_geom_radius;
+            _3350 = hrg_cylinder_uv_to_xyz(param_6, param_7, param_8);
+        }
+        _3337 = _3350;
+    }
+    return _3337;
+}
+
+highp vec3 hrg_get_ideal_global_eye_pos_for_points(inout highp vec3 eye_pos, highp vec2 output_aspect, highp vec3 global_coords[9], int num_points, highp float in_geom_radius, highp float in_geom_view_dist)
+{
+    int max_centering_iters = 1;
+    highp vec3 eyespace_coords[9];
+    highp float _3582;
+    highp float _3595;
+    highp float _3608;
+    highp float _3621;
+    for (int iter = 0; iter < max_centering_iters; iter++)
+    {
+        for (int i = 0; i < num_points; i++)
+        {
+            eyespace_coords[i] = global_coords[i] - eye_pos;
+        }
+        highp float abs_radius = abs(in_geom_radius);
+        highp vec2 offset_dr_min = vec2(10.0 * abs_radius, 10.0 * abs_radius);
+        highp vec2 offset_ul_max = vec2((-10.0) * abs_radius, (-10.0) * abs_radius);
+        for (int i_1 = 0; i_1 < num_points; i_1++)
+        {
+            highp vec2 flipy = vec2(1.0, -1.0);
+            highp vec3 eyespace_xyz = eyespace_coords[i_1];
+            highp vec2 offset_dr = eyespace_xyz.xy - ((vec2(-0.5) * (output_aspect * (-eyespace_xyz.z))) / (flipy * in_geom_view_dist));
+            highp vec2 offset_ul = eyespace_xyz.xy - ((vec2(0.5) * (output_aspect * (-eyespace_xyz.z))) / (flipy * in_geom_view_dist));
+            offset_dr_min = min(offset_dr_min, offset_dr);
+            offset_ul_max = max(offset_ul_max, offset_ul);
+        }
+        highp vec2 center_offset = (offset_ul_max + offset_dr_min) * 0.5;
+        highp vec3 _3516 = eye_pos;
+        highp vec2 _3518 = _3516.xy + center_offset;
+        eye_pos.x = _3518.x;
+        eye_pos.y = _3518.y;
+        for (int i_2 = 0; i_2 < num_points; i_2++)
+        {
+            eyespace_coords[i_2] = global_coords[i_2] - eye_pos;
+        }
+        highp float offset_z_max = ((-10.0) * in_geom_radius) * in_geom_view_dist;
+        for (int i_3 = 0; i_3 < num_points; i_3++)
+        {
+            highp vec3 eyespace_xyz_flipy = eyespace_coords[i_3] * vec3(1.0, -1.0, 1.0);
+            highp vec4 offset_zzzz = eyespace_xyz_flipy.zzzz + ((eyespace_xyz_flipy.xyxy * in_geom_view_dist) / (vec4(-0.5, -0.5, 0.5, 0.5) * vec4(output_aspect, output_aspect)));
+            if (eyespace_xyz_flipy.x < 0.0)
+            {
+                _3582 = max(offset_z_max, offset_zzzz.x);
+            }
+            else
+            {
+                _3582 = offset_z_max;
+            }
+            offset_z_max = _3582;
+            if (eyespace_xyz_flipy.y < 0.0)
+            {
+                _3595 = max(offset_z_max, offset_zzzz.y);
+            }
+            else
+            {
+                _3595 = offset_z_max;
+            }
+            offset_z_max = _3595;
+            if (eyespace_xyz_flipy.x > 0.0)
+            {
+                _3608 = max(offset_z_max, offset_zzzz.z);
+            }
+            else
+            {
+                _3608 = offset_z_max;
+            }
+            offset_z_max = _3608;
+            if (eyespace_xyz_flipy.y > 0.0)
+            {
+                _3621 = max(offset_z_max, offset_zzzz.w);
+            }
+            else
+            {
+                _3621 = offset_z_max;
+            }
+            offset_z_max = _3621;
+            offset_z_max = max(offset_z_max, eyespace_xyz_flipy.z);
+        }
+        eye_pos.z += offset_z_max;
+    }
+    return eye_pos;
+}
+
+highp vec3 hrg_get_ideal_global_eye_pos(highp mat3 local_to_global, highp vec2 output_aspect, highp float in_geom_mode, highp float in_geom_radius, highp float in_geom_view_dist)
+{
+    highp vec3 high_view = vec3(0.0, output_aspect.y, -in_geom_view_dist);
+    highp vec3 low_view = high_view * vec3(1.0, -1.0, 1.0);
+    highp float len_sq = dot(high_view, high_view);
+    highp float fov = abs(acos(dot(high_view, low_view) / len_sq));
+    highp float eye_z_spherical = in_geom_radius / sin(fov * 0.5);
+    highp vec3 _3677;
+    if (in_geom_mode < 2.5)
+    {
+        _3677 = vec3(0.0, 0.0, eye_z_spherical);
+    }
+    else
+    {
+        _3677 = vec3(0.0, 0.0, max(in_geom_view_dist, eye_z_spherical));
+    }
+    highp vec3 eye_pos = _3677;
+    int num_points = 9;
+    highp vec2 param = vec2(0.0);
+    highp vec2 param_1 = output_aspect;
+    highp float param_2 = in_geom_mode;
+    highp float param_3 = in_geom_radius;
+    highp vec3 global_coords[9];
+    global_coords[0] = hrg_uv_to_xyz(param, param_1, param_2, param_3) * local_to_global;
+    highp vec2 param_4 = vec2(0.0, -0.5);
+    highp vec2 param_5 = output_aspect;
+    highp float param_6 = in_geom_mode;
+    highp float param_7 = in_geom_radius;
+    global_coords[1] = hrg_uv_to_xyz(param_4, param_5, param_6, param_7) * local_to_global;
+    highp vec2 param_8 = vec2(0.0, 0.5);
+    highp vec2 param_9 = output_aspect;
+    highp float param_10 = in_geom_mode;
+    highp float param_11 = in_geom_radius;
+    global_coords[2] = hrg_uv_to_xyz(param_8, param_9, param_10, param_11) * local_to_global;
+    highp vec2 param_12 = vec2(-0.5, 0.0);
+    highp vec2 param_13 = output_aspect;
+    highp float param_14 = in_geom_mode;
+    highp float param_15 = in_geom_radius;
+    global_coords[3] = hrg_uv_to_xyz(param_12, param_13, param_14, param_15) * local_to_global;
+    highp vec2 param_16 = vec2(0.5, 0.0);
+    highp vec2 param_17 = output_aspect;
+    highp float param_18 = in_geom_mode;
+    highp float param_19 = in_geom_radius;
+    global_coords[4] = hrg_uv_to_xyz(param_16, param_17, param_18, param_19) * local_to_global;
+    highp vec2 param_20 = vec2(-0.5);
+    highp vec2 param_21 = output_aspect;
+    highp float param_22 = in_geom_mode;
+    highp float param_23 = in_geom_radius;
+    global_coords[5] = hrg_uv_to_xyz(param_20, param_21, param_22, param_23) * local_to_global;
+    highp vec2 param_24 = vec2(0.5, -0.5);
+    highp vec2 param_25 = output_aspect;
+    highp float param_26 = in_geom_mode;
+    highp float param_27 = in_geom_radius;
+    global_coords[6] = hrg_uv_to_xyz(param_24, param_25, param_26, param_27) * local_to_global;
+    highp vec2 param_28 = vec2(-0.5, 0.5);
+    highp vec2 param_29 = output_aspect;
+    highp float param_30 = in_geom_mode;
+    highp float param_31 = in_geom_radius;
+    global_coords[7] = hrg_uv_to_xyz(param_28, param_29, param_30, param_31) * local_to_global;
+    highp vec2 param_32 = vec2(0.5);
+    highp vec2 param_33 = output_aspect;
+    highp float param_34 = in_geom_mode;
+    highp float param_35 = in_geom_radius;
+    global_coords[8] = hrg_uv_to_xyz(param_32, param_33, param_34, param_35) * local_to_global;
+    highp float num_negative_z_coords = 0.0;
+    for (int i = 0; i < num_points; i++)
+    {
+        num_negative_z_coords += float(global_coords[0].z < 0.0);
+    }
+    highp vec3 _3820;
+    if (num_negative_z_coords > 0.5)
+    {
+        _3820 = eye_pos;
+    }
+    else
+    {
+        highp vec3 param_36 = eye_pos;
+        highp vec2 param_37 = output_aspect;
+        highp vec3 param_38[9] = global_coords;
+        int param_39 = num_points;
+        highp float param_40 = in_geom_radius;
+        highp float param_41 = in_geom_view_dist;
+        highp vec3 _3837 = hrg_get_ideal_global_eye_pos_for_points(param_36, param_37, param_38, param_39, param_40, param_41);
+        _3820 = _3837;
+    }
+    return _3820;
+}
+
+highp vec2 hrg_quadratic_solve(highp float a, highp float b_over_2, highp float c)
+{
+    highp float discriminant = (b_over_2 * b_over_2) - (a * c);
+    highp float solution0 = c / ((-b_over_2) + sqrt(discriminant));
+    return vec2(solution0, discriminant);
+}
+
+highp vec2 hrg_intersect_sphere(highp vec3 view_vec, highp vec3 eye_pos_vec, highp float in_geom_radius)
+{
+    highp float a = dot(view_vec, view_vec);
+    highp float b_over_2 = dot(view_vec, eye_pos_vec);
+    highp float c = dot(eye_pos_vec, eye_pos_vec) - (in_geom_radius * in_geom_radius);
+    highp float param = a;
+    highp float param_1 = b_over_2;
+    highp float param_2 = c;
+    return hrg_quadratic_solve(param, param_1, param_2);
+}
+
+highp vec2 hrg_intersect_cylinder(highp vec3 view_vec, highp vec3 eye_pos_vec, highp float in_geom_radius)
+{
+    highp vec3 cylinder_top_vec = vec3(0.0, in_geom_radius, 0.0);
+    highp vec3 cylinder_axis_vec = vec3(0.0, 1.0, 0.0);
+    highp vec3 top_to_eye_vec = eye_pos_vec - cylinder_top_vec;
+    highp vec3 axis_x_view = cross(cylinder_axis_vec, view_vec);
+    highp vec3 axis_x_top_to_eye = cross(cylinder_axis_vec, top_to_eye_vec);
+    highp float a = dot(axis_x_view, axis_x_view);
+    highp float b_over_2 = dot(axis_x_top_to_eye, axis_x_view);
+    highp float c = dot(axis_x_top_to_eye, axis_x_top_to_eye) - (in_geom_radius * in_geom_radius);
+    highp float param = a;
+    highp float param_1 = b_over_2;
+    highp float param_2 = c;
+    return hrg_quadratic_solve(param, param_1, param_2);
+}
+
+highp vec2 hrg_intersect(highp vec3 view_vec_local, highp vec3 eye_pos_local, highp float in_geom_mode, highp float in_geom_radius)
+{
+    highp vec2 _3276;
+    if (in_geom_mode < 2.5)
+    {
+        highp vec3 param = view_vec_local;
+        highp vec3 param_1 = eye_pos_local;
+        highp float param_2 = in_geom_radius;
+        _3276 = hrg_intersect_sphere(param, param_1, param_2);
+    }
+    else
+    {
+        highp vec3 param_3 = view_vec_local;
+        highp vec3 param_4 = eye_pos_local;
+        highp float param_5 = in_geom_radius;
+        _3276 = hrg_intersect_cylinder(param_3, param_4, param_5);
+    }
+    return _3276;
+}
+
+highp vec2 hrg_sphere_xyz_to_uv(highp vec3 intersection_pos_local, highp vec2 output_aspect, highp float in_geom_radius)
+{
+    highp vec3 image_center_pos_local = vec3(0.0, 0.0, in_geom_radius);
+    highp float cp_len = length(cross(intersection_pos_local, image_center_pos_local));
+    highp float dp = dot(intersection_pos_local, image_center_pos_local);
+    highp float angle_from_image_center = atan(cp_len, dp);
+    highp float arc_len = angle_from_image_center * in_geom_radius;
+    highp vec2 square_uv_unit = normalize(vec2(intersection_pos_local.x, -intersection_pos_local.y));
+    highp vec2 square_uv = square_uv_unit * arc_len;
+    highp vec2 video_uv = square_uv / output_aspect;
+    return video_uv;
+}
+
+highp vec2 hrg_sphere_alt_xyz_to_uv(highp vec3 intersection_pos_local, highp vec2 output_aspect, highp float in_geom_radius)
+{
+    highp vec2 angle_from_image_center = atan(vec2(intersection_pos_local.x, -intersection_pos_local.y), intersection_pos_local.zz);
+    highp vec2 signed_arc_len = angle_from_image_center * in_geom_radius;
+    highp vec2 video_uv = signed_arc_len / output_aspect;
+    return video_uv;
+}
+
+highp vec2 hrg_cylinder_xyz_to_uv(highp vec3 intersection_pos_local, highp vec2 output_aspect, highp float in_geom_radius)
+{
+    highp float angle_from_image_center = atan(intersection_pos_local.x, intersection_pos_local.z);
+    highp float signed_arc_len = angle_from_image_center * in_geom_radius;
+    highp vec2 square_uv = vec2(signed_arc_len, -intersection_pos_local.y);
+    highp vec2 video_uv = square_uv / output_aspect;
+    return video_uv;
+}
+
+highp vec2 hrg_xyz_to_uv(highp vec3 intersection_pos_local, highp vec2 output_aspect, highp float in_geom_mode, highp float in_geom_radius)
+{
+    highp vec2 _3300;
+    if (in_geom_mode < 1.5)
+    {
+        highp vec3 param = intersection_pos_local;
+        highp vec2 param_1 = output_aspect;
+        highp float param_2 = in_geom_radius;
+        _3300 = hrg_sphere_xyz_to_uv(param, param_1, param_2);
+    }
+    else
+    {
+        highp vec2 _3313;
+        if (in_geom_mode < 2.5)
+        {
+            highp vec3 param_3 = intersection_pos_local;
+            highp vec2 param_4 = output_aspect;
+            highp float param_5 = in_geom_radius;
+            _3313 = hrg_sphere_alt_xyz_to_uv(param_3, param_4, param_5);
+        }
+        else
+        {
+            highp vec3 param_6 = intersection_pos_local;
+            highp vec2 param_7 = output_aspect;
+            highp float param_8 = in_geom_radius;
+            _3313 = hrg_cylinder_xyz_to_uv(param_6, param_7, param_8);
+        }
+        _3300 = _3313;
+    }
+    return _3300;
+}
+
+highp vec2 hrg_view_vec_to_uv(highp vec3 view_vec_local, highp vec3 eye_pos_local, highp vec2 output_aspect, highp float in_geom_mode, highp float in_geom_radius, out highp vec3 intersection_pos)
+{
+    highp vec3 param = view_vec_local;
+    highp vec3 param_1 = eye_pos_local;
+    highp float param_2 = in_geom_mode;
+    highp float param_3 = in_geom_radius;
+    highp vec2 intersect_dist_and_discriminant = hrg_intersect(param, param_1, param_2, param_3);
+    highp vec3 intersection_pos_local = eye_pos_local + (view_vec_local * intersect_dist_and_discriminant.x);
+    intersection_pos = intersection_pos_local;
+    highp vec2 _3394;
+    if (intersect_dist_and_discriminant.y > 0.004999999888241291046142578125)
+    {
+        highp vec3 param_4 = intersection_pos_local;
+        highp vec2 param_5 = output_aspect;
+        highp float param_6 = in_geom_mode;
+        highp float param_7 = in_geom_radius;
+        _3394 = hrg_xyz_to_uv(param_4, param_5, param_6, param_7);
+    }
+    else
+    {
+        _3394 = vec2(1.0);
+    }
+    return _3394;
+}
+
+highp mat3 hrg_get_pixel_to_object_matrix(highp mat3 global_to_local, highp vec3 eye_pos_local, highp vec3 view_vec_global, highp vec3 intersection_pos_local, highp vec3 normal, highp vec2 output_pixel_size)
+{
+    highp vec3 pos = intersection_pos_local;
+    highp vec3 eye_pos = eye_pos_local;
+    highp vec3 view_vec_right_global = view_vec_global + vec3(output_pixel_size.x, 0.0, 0.0);
+    highp vec3 view_vec_down_global = view_vec_global + vec3(0.0, -output_pixel_size.y, 0.0);
+    highp vec3 view_vec_right_local = view_vec_right_global * global_to_local;
+    highp vec3 view_vec_down_local = view_vec_down_global * global_to_local;
+    highp vec3 intersection_vec_dot_normal = vec3(dot(pos - eye_pos, normal));
+    highp vec3 right_pos = eye_pos + ((intersection_vec_dot_normal / vec3(dot(view_vec_right_local, normal))) * view_vec_right_local);
+    highp vec3 down_pos = eye_pos + ((intersection_vec_dot_normal / vec3(dot(view_vec_down_local, normal))) * view_vec_down_local);
+    highp vec3 object_right_vec = right_pos - pos;
+    highp vec3 object_down_vec = down_pos - pos;
+    highp mat3 pixel_to_object = mat3(vec3(object_right_vec.x, object_down_vec.x, 0.0), vec3(object_right_vec.y, object_down_vec.y, 0.0), vec3(object_right_vec.z, object_down_vec.z, 0.0));
+    return pixel_to_object;
+}
+
+highp mat3 hrg_get_object_to_tangent_matrix(highp vec3 intersection_pos_local, highp vec3 normal, highp vec2 output_aspect, highp float in_geom_mode)
+{
+    highp vec3 pos = intersection_pos_local;
+    highp vec3 x_vec = vec3(1.0, 0.0, 0.0);
+    highp vec3 y_vec = vec3(0.0, 1.0, 0.0);
+    highp vec3 cotangent_unscaled;
+    highp vec3 cobitangent_unscaled;
+    if (in_geom_mode < 1.5)
+    {
+        cotangent_unscaled = normalize(cross(y_vec, pos)) * output_aspect.y;
+        cobitangent_unscaled = normalize(cross(x_vec, pos)) * output_aspect.x;
+    }
+    else
+    {
+        if (in_geom_mode < 2.5)
+        {
+            highp vec3 tangent = normalize(cross(y_vec, vec3(pos.x, 0.0, pos.z))) * output_aspect.x;
+            highp vec3 bitangent = normalize(cross(x_vec, vec3(0.0, pos.yz))) * output_aspect.y;
+            cotangent_unscaled = cross(normal, bitangent);
+            cobitangent_unscaled = cross(tangent, normal);
+        }
+        else
+        {
+            cotangent_unscaled = cross(y_vec, normal) * output_aspect.y;
+            cobitangent_unscaled = vec3(0.0, -output_aspect.x, 0.0);
+        }
+    }
+    highp vec3 computed_normal = cross(cobitangent_unscaled, cotangent_unscaled);
+    highp float inv_determinant = inversesqrt(dot(computed_normal, computed_normal));
+    highp vec3 cotangent = cotangent_unscaled * inv_determinant;
+    highp vec3 cobitangent = cobitangent_unscaled * inv_determinant;
+    highp mat3 object_to_tangent = mat3(vec3(cotangent), vec3(cobitangent), vec3(normal));
+    return object_to_tangent;
+}
+
+highp vec2 hrg_get_curved_video_uv_coords_and_tangent_matrix(highp vec2 flat_video_uv, highp vec3 eye_pos_local, highp vec2 output_pixel_size, highp vec2 output_aspect, highp float in_geom_mode, highp float in_geom_radius, highp float in_geom_view_dist, highp mat3 global_to_local, out highp mat2 pixel_to_tangent_video_uv)
+{
+    highp vec2 view_uv = (flat_video_uv - vec2(0.5)) * output_aspect;
+    highp vec3 view_vec_global = vec3(view_uv.x, -view_uv.y, -in_geom_view_dist);
+    highp vec3 view_vec_local = view_vec_global * global_to_local;
+    highp vec3 param = view_vec_local;
+    highp vec3 param_1 = eye_pos_local;
+    highp vec2 param_2 = output_aspect;
+    highp float param_3 = in_geom_mode;
+    highp float param_4 = in_geom_radius;
+    highp vec3 param_5;
+    highp vec2 _4062 = hrg_view_vec_to_uv(param, param_1, param_2, param_3, param_4, param_5);
+    highp vec3 pos = param_5;
+    highp vec2 centered_uv = _4062;
+    highp vec2 video_uv = centered_uv + vec2(0.5);
+    bool geom_force_correct_tangent_matrix = true;
+    if (geom_force_correct_tangent_matrix)
+    {
+        highp vec3 _4074;
+        if (in_geom_mode < 2.5)
+        {
+            _4074 = pos;
+        }
+        else
+        {
+            _4074 = vec3(pos.x, 0.0, pos.z);
+        }
+        highp vec3 normal_base = _4074;
+        highp vec3 normal = normalize(normal_base);
+        highp mat3 param_6 = global_to_local;
+        highp vec3 param_7 = eye_pos_local;
+        highp vec3 param_8 = view_vec_global;
+        highp vec3 param_9 = pos;
+        highp vec3 param_10 = normal;
+        highp vec2 param_11 = output_pixel_size;
+        highp mat3 pixel_to_object = hrg_get_pixel_to_object_matrix(param_6, param_7, param_8, param_9, param_10, param_11);
+        highp vec3 param_12 = pos;
+        highp vec3 param_13 = normal;
+        highp vec2 param_14 = output_aspect;
+        highp float param_15 = in_geom_mode;
+        highp mat3 object_to_tangent = hrg_get_object_to_tangent_matrix(param_12, param_13, param_14, param_15);
+        highp mat3 pixel_to_tangent3x3 = pixel_to_object * object_to_tangent;
+        pixel_to_tangent_video_uv = mat2(vec2(pixel_to_tangent3x3[0].x, pixel_to_tangent3x3[0].y), vec2(pixel_to_tangent3x3[1].x, pixel_to_tangent3x3[1].y));
+    }
+    else
+    {
+        pixel_to_tangent_video_uv = mat2(vec2(output_pixel_size.x, 0.0), vec2(0.0, output_pixel_size.y));
+    }
+    return video_uv;
+}
+
+highp vec2 HRG_GetGeomCurvedCoord(highp vec2 in_coord, highp float in_geom_mode, highp float in_geom_radius, highp float in_geom_view_dist, highp float in_geom_tilt_angle_x, highp float in_geom_tilt_angle_y, highp float in_screen_aspect, highp float pin_inner_edge, highp vec2 in_source_size, highp vec2 in_output_size, out highp mat2 pixel_to_video_uv)
+{
+    highp vec2 output_pixel_size = vec2(1.0) / in_output_size;
+    highp float geom_radius_scaled = in_geom_radius;
+    highp float param = in_screen_aspect;
+    highp vec2 output_aspect = hrg_get_aspect_vector(param);
+    highp vec2 geom_tilt_angle = vec2(in_geom_tilt_angle_x, in_geom_tilt_angle_y);
+    highp vec2 sin_tilt = sin(geom_tilt_angle);
+    highp vec2 cos_tilt = cos(geom_tilt_angle);
+    highp mat3 rot_x_matrix = mat3(vec3(1.0, 0.0, 0.0), vec3(0.0, cos_tilt.y, -sin_tilt.y), vec3(0.0, sin_tilt.y, cos_tilt.y));
+    highp mat3 rot_y_matrix = mat3(vec3(cos_tilt.x, 0.0, sin_tilt.x), vec3(0.0, 1.0, 0.0), vec3(-sin_tilt.x, 0.0, cos_tilt.x));
+    highp mat3 local_to_global = rot_x_matrix * rot_y_matrix;
+    highp mat3 global_to_local = transpose(local_to_global);
+    highp mat3 param_1 = local_to_global;
+    highp vec2 param_2 = output_aspect;
+    highp float param_3 = in_geom_mode;
+    highp float param_4 = geom_radius_scaled;
+    highp float param_5 = in_geom_view_dist;
+    highp vec3 eye_pos_global = hrg_get_ideal_global_eye_pos(param_1, param_2, param_3, param_4, param_5);
+    highp vec3 eye_pos_local = eye_pos_global * global_to_local;
+    highp vec2 curved_coord;
+    if (in_geom_mode > 0.5)
+    {
+        highp vec2 param_6 = in_coord;
+        highp vec3 param_7 = eye_pos_local;
+        highp vec2 param_8 = output_pixel_size;
+        highp vec2 param_9 = output_aspect;
+        highp float param_10 = in_geom_mode;
+        highp float param_11 = geom_radius_scaled;
+        highp float param_12 = in_geom_view_dist;
+        highp mat3 param_13 = global_to_local;
+        highp mat2 param_14;
+        highp vec2 _4242 = hrg_get_curved_video_uv_coords_and_tangent_matrix(param_6, param_7, param_8, param_9, param_10, param_11, param_12, param_13, param_14);
+        pixel_to_video_uv = param_14;
+        highp vec2 ctr_curved_coord = _4242 - vec2(0.5);
+        if ((in_geom_tilt_angle_x == 0.0) && (in_geom_tilt_angle_y == 0.0))
+        {
+            highp vec2 param_15 = vec2(1.0, 0.5);
+            highp vec3 param_16 = eye_pos_local;
+            highp vec2 param_17 = output_pixel_size;
+            highp vec2 param_18 = output_aspect;
+            highp float param_19 = in_geom_mode;
+            highp float param_20 = geom_radius_scaled;
+            highp float param_21 = in_geom_view_dist;
+            highp mat3 param_22 = global_to_local;
+            highp mat2 param_23;
+            highp vec2 _4271 = hrg_get_curved_video_uv_coords_and_tangent_matrix(param_15, param_16, param_17, param_18, param_19, param_20, param_21, param_22, param_23);
+            pixel_to_video_uv = param_23;
+            highp vec2 right_edge_curved_ctr_coord = _4271 - vec2(0.5);
+            highp vec2 param_24 = vec2(0.5, 1.0);
+            highp vec3 param_25 = eye_pos_local;
+            highp vec2 param_26 = output_pixel_size;
+            highp vec2 param_27 = output_aspect;
+            highp float param_28 = in_geom_mode;
+            highp float param_29 = geom_radius_scaled;
+            highp float param_30 = in_geom_view_dist;
+            highp mat3 param_31 = global_to_local;
+            highp mat2 param_32;
+            highp vec2 _4293 = hrg_get_curved_video_uv_coords_and_tangent_matrix(param_24, param_25, param_26, param_27, param_28, param_29, param_30, param_31, param_32);
+            pixel_to_video_uv = param_32;
+            highp vec2 bottom_edge_curved_ctr_coord = _4293 - vec2(0.5);
+            ctr_curved_coord.x = (ctr_curved_coord.x * 0.5) / right_edge_curved_ctr_coord.x;
+            ctr_curved_coord.y = (ctr_curved_coord.y * 0.5) / bottom_edge_curved_ctr_coord.y;
+        }
+        if (pin_inner_edge == 1.0)
+        {
+            if (in_geom_tilt_angle_y != 0.0)
+            {
+                highp vec2 param_33 = vec2(0.5, 0.0);
+                highp vec3 param_34 = eye_pos_local;
+                highp vec2 param_35 = output_pixel_size;
+                highp vec2 param_36 = output_aspect;
+                highp float param_37 = in_geom_mode;
+                highp float param_38 = geom_radius_scaled;
+                highp float param_39 = in_geom_view_dist;
+                highp mat3 param_40 = global_to_local;
+                highp mat2 param_41;
+                highp vec2 _4336 = hrg_get_curved_video_uv_coords_and_tangent_matrix(param_33, param_34, param_35, param_36, param_37, param_38, param_39, param_40, param_41);
+                pixel_to_video_uv = param_41;
+                highp vec2 top_edge_curved_ctr_coord = _4336;
+                ctr_curved_coord.y -= top_edge_curved_ctr_coord.y;
+            }
+            if (in_geom_tilt_angle_x != 0.0)
+            {
+                highp vec2 param_42 = vec2(0.0, 0.5);
+                highp vec3 param_43 = eye_pos_local;
+                highp vec2 param_44 = output_pixel_size;
+                highp vec2 param_45 = output_aspect;
+                highp float param_46 = in_geom_mode;
+                highp float param_47 = geom_radius_scaled;
+                highp float param_48 = in_geom_view_dist;
+                highp mat3 param_49 = global_to_local;
+                highp mat2 param_50;
+                highp vec2 _4365 = hrg_get_curved_video_uv_coords_and_tangent_matrix(param_42, param_43, param_44, param_45, param_46, param_47, param_48, param_49, param_50);
+                pixel_to_video_uv = param_50;
+                highp vec2 left_edge_curved_ctr_coord = _4365;
+                ctr_curved_coord.x -= left_edge_curved_ctr_coord.x;
+            }
+        }
+        curved_coord = ctr_curved_coord + vec2(0.5);
+    }
+    else
+    {
+        curved_coord = in_coord;
+        pixel_to_video_uv = mat2(vec2(output_pixel_size.x, 0.0), vec2(0.0, output_pixel_size.y));
+    }
+    return curved_coord;
+}
+
+highp vec2 HSM_GetCurvatureValues(highp float screen_aspect)
+{
+    highp vec2 _4392;
+    if (screen_aspect < 1.0)
+    {
+        _4392 = vec2((((2.0 * global.HSM_CURVATURE_2D_SCALE_SHORT_AXIS) / 100.0) * 2.0) / 100.0, ((global.HSM_CURVATURE_2D_SCALE_LONG_AXIS / 100.0) * 3.0) / 100.0);
+    }
+    else
+    {
+        _4392 = vec2(((global.HSM_CURVATURE_2D_SCALE_LONG_AXIS / 100.0) * 3.0) / 100.0, (((2.0 * global.HSM_CURVATURE_2D_SCALE_SHORT_AXIS) / 100.0) * 2.0) / 100.0);
+    }
+    highp vec2 curvature_values = _4392;
+    return curvature_values;
+}
+
+highp vec2 HSM_GetCrtPiCurvedCoord(inout highp vec2 in_coord, inout highp vec2 in_curvature)
+{
+    in_curvature *= 5.0;
+    highp vec2 barrelScale = vec2(1.0) - (in_curvature * 0.23000000417232513427734375);
+    in_coord -= vec2(0.5);
+    highp float _4896;
+    if (HSM_CURVATURE_MODE == 2.0)
+    {
+        _4896 = 0.0;
+    }
+    else
+    {
+        _4896 = in_coord.y * in_coord.y;
+    }
+    highp float rsq = (in_coord.x * in_coord.x) + _4896;
+    in_coord += (in_coord * (in_curvature * rsq));
+    in_coord *= barrelScale;
+    in_coord += vec2(0.5);
+    return in_coord;
+}
+
+highp vec2 HSM_Get2DCurvedCoord(highp vec2 in_coord, highp vec2 curvature_values)
+{
+    highp vec2 ctr_curved_coord = vec2(0.0);
+    highp vec2 param = in_coord;
+    highp vec2 param_1 = curvature_values;
+    highp vec2 _4927 = HSM_GetCrtPiCurvedCoord(param, param_1);
+    ctr_curved_coord = _4927 - vec2(0.5);
+    highp vec2 param_2 = vec2(1.0, 0.5);
+    highp vec2 param_3 = curvature_values;
+    highp vec2 _4934 = HSM_GetCrtPiCurvedCoord(param_2, param_3);
+    highp vec2 right_edge_curved_ctr_coord = _4934 - vec2(0.5);
+    ctr_curved_coord.x = (ctr_curved_coord.x * 0.5) / right_edge_curved_ctr_coord.x;
+    highp vec2 param_4 = vec2(0.5, 1.0);
+    highp vec2 param_5 = curvature_values;
+    highp vec2 _4948 = HSM_GetCrtPiCurvedCoord(param_4, param_5);
+    highp vec2 bottom_edge_curved_ctr_coord = _4948 - vec2(0.5);
+    ctr_curved_coord.y = (ctr_curved_coord.y * 0.5) / bottom_edge_curved_ctr_coord.y;
+    return ctr_curved_coord + vec2(0.5);
+}
+
+highp vec2 HSM_GetCurvedCoord(highp vec2 in_coord, highp float curvature_multiplier, highp float screen_aspect)
+{
+    if (HSM_CURVATURE_MODE == CURVATURE_MODE_OFF)
+    {
+        return in_coord;
+    }
+    highp float epsilon = 0.00200000009499490261077880859375;
+    highp vec2 adjusted_coord = in_coord;
+    highp float tilt_angle_y = HSM_CURVATURE_3D_TILT_ANGLE_Y;
+    highp float tilt_angle_x = HSM_CURVATURE_3D_TILT_ANGLE_X;
+    highp float pin_inner_edge = 0.0;
+    highp vec2 curved_coord = vec2(0.0);
+    if (HSM_CURVATURE_MODE > CURVATURE_MODE_2D_CYLINDER)
+    {
+        if (HSM_USE_GEOM > 0.5)
+        {
+            highp vec2 param = in_coord;
+            highp float param_1 = HSM_CURVATURE_3D_TILT_ANGLE_X;
+            highp float param_2 = HSM_CURVATURE_3D_TILT_ANGLE_Y;
+            highp float param_3 = HSM_CURVATURE_3D_RADIUS;
+            highp float param_4 = HSM_CURVATURE_3D_VIEW_DIST;
+            highp float param_5 = screen_aspect;
+            curved_coord = HSM_GetGeomCurvedCoordRetainWidth(param, param_1, param_2, param_3, param_4, param_5);
+        }
+        else
+        {
+            highp float geom_radius_with_mult = HSM_CURVATURE_3D_RADIUS;
+            if (HSM_CURVATURE_MODE == CURVATURE_MODE_3D_1)
+            {
+                geom_radius_with_mult -= 0.4000000059604644775390625;
+            }
+            if (HSM_CURVATURE_MODE == CURVATURE_MODE_3D_CYLINDER)
+            {
+                geom_radius_with_mult -= 1.0;
+            }
+            geom_radius_with_mult *= (1.0 / (curvature_multiplier + epsilon));
+            highp float geom_mode = HSM_CURVATURE_MODE - 2.0;
+            highp vec2 param_6 = adjusted_coord;
+            highp float param_7 = geom_mode;
+            highp float param_8 = geom_radius_with_mult;
+            highp float param_9 = HSM_CURVATURE_3D_VIEW_DIST;
+            highp float param_10 = tilt_angle_x;
+            highp float param_11 = tilt_angle_y;
+            highp float param_12 = screen_aspect;
+            highp float param_13 = pin_inner_edge;
+            highp vec2 param_14 = global.SourceSize.xy;
+            highp vec2 param_15 = global.OutputSize.xy;
+            highp mat2 param_16;
+            highp vec2 _5056 = HRG_GetGeomCurvedCoord(param_6, param_7, param_8, param_9, param_10, param_11, param_12, param_13, param_14, param_15, param_16);
+            highp mat2 pixel_to_video_uv = param_16;
+            curved_coord = _5056;
+        }
+    }
+    else
+    {
+        highp float param_17 = screen_aspect;
+        highp vec2 curvature_values = HSM_GetCurvatureValues(param_17) * curvature_multiplier;
+        highp vec2 param_18 = adjusted_coord;
+        highp vec2 param_19 = curvature_values;
+        curved_coord = HSM_Get2DCurvedCoord(param_18, param_19);
+    }
+    return curved_coord;
+}
+
+bool HHLP_IsOutsideCoordSpace(highp vec2 in_coord)
+{
+    bool _2495 = abs(in_coord.x - 0.5) > 0.500999987125396728515625;
+    bool _2505;
+    if (!_2495)
+    {
+        _2505 = abs(in_coord.y - 0.5) > 0.500999987125396728515625;
+    }
+    else
+    {
+        _2505 = _2495;
+    }
+    return _2505;
+}
+
+highp vec2 HSM_GetCRTShaderCurvedCoord(highp vec2 in_coord)
+{
+    highp vec2 param = in_coord;
+    highp float param_1 = 1.0;
+    highp float param_2 = SCREEN_ASPECT;
+    highp vec2 out_coord = HSM_GetCurvedCoord(param, param_1, param_2);
+    highp vec2 param_3 = out_coord;
+    if (HHLP_IsOutsideCoordSpace(param_3))
+    {
+        highp vec2 tube_scale_ratio = TUBE_SCALE / SCREEN_SCALE;
+        out_coord = ((out_coord - vec2(0.5)) / tube_scale_ratio) + vec2(0.5);
+    }
+    else
+    {
+        if (HSM_CRT_CURVATURE_SCALE < 100.0)
+        {
+            highp vec2 param_4 = in_coord;
+            highp float param_5 = HSM_CRT_CURVATURE_SCALE;
+            highp float param_6 = SCREEN_ASPECT;
+            out_coord = HSM_GetCurvedCoord(param_4, param_5, param_6);
+        }
+    }
+    return out_coord;
+}
+
+highp vec4 HSM_ApplyGamma(highp vec4 in_color, highp float in_gamma)
+{
+    highp vec3 out_color = pow(in_color.xyz, vec3(1.0 / in_gamma));
+    return vec4(out_color, in_color.w);
+}
+
+highp vec4 HSM_Delinearize(highp vec4 in_color, highp float in_gamma)
+{
+    highp vec4 param = in_color;
+    highp float param_1 = in_gamma;
+    return HSM_ApplyGamma(param, param_1);
+}
+
+highp vec2 HSM_GetOuterBezelScale(highp vec2 tube_diffuse_scale, highp float screen_aspect)
+{
+    highp vec2 bezel_outer_scale_offset = vec2((HSM_BZL_WIDTH / screen_aspect) + 1.0, HSM_BZL_HEIGHT + 1.0);
+    return bezel_outer_scale_offset;
+}
+
+highp vec2 HSM_GetTubeCurvedCoord(highp vec2 screen_coord, highp float curvature_scale, highp vec2 screen_scale, highp vec2 tube_scale, highp float screen_aspect, highp float apply_black_edge_offset)
+{
+    highp vec2 black_edge_scale_offset = tube_scale / screen_scale;
+    highp vec2 tube_curved_coord = vec2(0.5);
+    if (global.HSM_BZL_USE_INDEPENDENT_CURVATURE == 1.0)
+    {
+        highp vec2 _5164;
+        if (screen_aspect < 1.0)
+        {
+            _5164 = vec2((((2.0 * global.HSM_BZL_INDEPENDENT_CURVATURE_SCALE_SHORT_AXIS) / 100.0) * 2.0) / 100.0, ((global.HSM_BZL_INDEPENDENT_CURVATURE_SCALE_LONG_AXIS / 100.0) * 3.0) / 100.0);
+        }
+        else
+        {
+            _5164 = vec2(((global.HSM_BZL_INDEPENDENT_CURVATURE_SCALE_LONG_AXIS / 100.0) * 3.0) / 100.0, (((2.0 * global.HSM_BZL_INDEPENDENT_CURVATURE_SCALE_SHORT_AXIS) / 100.0) * 2.0) / 100.0);
+        }
+        highp vec2 curvature_values = _5164;
+        curvature_values *= ((curvature_scale * global.HSM_BZL_INNER_CURVATURE_SCALE) / 100.0);
+        highp vec2 param = screen_coord;
+        highp vec2 param_1 = curvature_values;
+        tube_curved_coord = HSM_Get2DCurvedCoord(param, param_1);
+    }
+    else
+    {
+        highp vec2 param_2 = screen_coord;
+        highp float param_3 = (curvature_scale * global.HSM_BZL_INNER_CURVATURE_SCALE) / 100.0;
+        highp float param_4 = screen_aspect;
+        tube_curved_coord = HSM_GetCurvedCoord(param_2, param_3, param_4);
+    }
+    if (apply_black_edge_offset == 1.0)
+    {
+        highp vec2 param_5 = tube_curved_coord;
+        highp vec2 param_6 = black_edge_scale_offset;
+        tube_curved_coord = HSM_GetInverseScaledCoord(param_5, param_6);
+    }
+    return tube_curved_coord;
+}
+
+highp vec2 GetDefaultScreenScale()
+{
+    highp float output_aspect = global.FinalViewportSize.x / global.FinalViewportSize.y;
+    highp vec2 out_placement_scale = vec2(1.1058499813079833984375, 0.82959997653961181640625);
+    out_placement_scale.x /= output_aspect;
+    return out_placement_scale;
+}
+
+highp vec2 GetDefaultBezelScale()
+{
+    highp float output_aspect = global.FinalViewportSize.x / global.FinalViewportSize.y;
+    highp vec2 out_placement_scale = vec2(1.20500004291534423828125, 0.9110000133514404296875);
+    out_placement_scale.x /= output_aspect;
+    return out_placement_scale;
+}
+
+highp float HSM_GetBezelCoords(highp vec2 tube_diffuse_coord, highp vec2 tube_diffuse_scale, highp vec2 tube_scale, highp float screen_aspect, bool curve_coords_on, out highp vec2 bezel_outside_scale, inout highp vec2 bezel_outside_coord, inout highp vec2 bezel_outside_curved_coord, inout highp vec2 frame_outside_curved_coord)
+{
+    highp float output_aspect = global.OutputSize.x / global.OutputSize.y;
+    highp vec2 bezel_outer_pos_offset = vec2(0.0, HSM_BZL_OUTER_POSITION_Y);
+    highp vec2 param = tube_diffuse_scale;
+    highp float param_1 = screen_aspect;
+    highp vec2 bezel_outer_scale_offset = HSM_GetOuterBezelScale(param, param_1);
+    bezel_outside_coord = tube_diffuse_coord + bezel_outer_pos_offset;
+    bezel_outside_curved_coord = bezel_outside_coord;
+    if (curve_coords_on)
+    {
+        bool _5302 = HSM_CURVATURE_MODE > 0.0;
+        bool _5310;
+        if (_5302)
+        {
+            _5310 = (HSM_CURVATURE_3D_TILT_ANGLE_X != 0.0) || (HSM_CURVATURE_3D_TILT_ANGLE_Y != 0.0);
+        }
+        else
+        {
+            _5310 = _5302;
+        }
+        if (_5310)
+        {
+            highp vec2 param_2 = bezel_outside_curved_coord;
+            highp float param_3 = 0.0;
+            highp float param_4 = (bezel_outer_scale_offset.x * output_aspect) / bezel_outer_scale_offset.y;
+            bezel_outside_curved_coord = HSM_GetCurvedCoord(param_2, param_3, param_4);
+        }
+    }
+    highp vec2 black_edge_scale_offset = tube_scale / tube_diffuse_scale;
+    bezel_outside_scale = (tube_diffuse_scale * black_edge_scale_offset) * bezel_outer_scale_offset;
+    highp vec2 param_5 = bezel_outside_coord;
+    highp vec2 param_6 = black_edge_scale_offset * bezel_outer_scale_offset;
+    bezel_outside_coord = HSM_GetInverseScaledCoord(param_5, param_6) + vec2(0.0, HSM_BZL_OUTER_POSITION_Y);
+    highp vec2 param_7 = bezel_outside_curved_coord;
+    highp vec2 param_8 = black_edge_scale_offset * bezel_outer_scale_offset;
+    bezel_outside_curved_coord = HSM_GetInverseScaledCoord(param_7, param_8) + vec2(0.0, HSM_BZL_OUTER_POSITION_Y);
+    frame_outside_curved_coord = (((bezel_outside_curved_coord + vec2(0.0, HSM_FRM_OUTER_POS_Y)) - vec2(0.5)) / vec2(((HSM_FRM_THICKNESS * HSM_FRM_THICKNESS_SCALE_X) / ((tube_diffuse_scale.x / tube_diffuse_scale.y) * output_aspect)) + 1.0, HSM_FRM_THICKNESS + 1.0)) + vec2(0.5);
+    if (HSM_BZL_OUTER_CURVATURE_SCALE > 0.0)
+    {
+        if (curve_coords_on)
+        {
+            highp vec2 param_9 = bezel_outside_curved_coord;
+            highp float param_10 = HSM_BZL_OUTER_CURVATURE_SCALE;
+            highp vec2 param_11 = tube_diffuse_scale;
+            highp vec2 param_12 = tube_scale;
+            highp float param_13 = ((bezel_outer_scale_offset.x * global.OutputSize.x) / global.OutputSize.y) / bezel_outer_scale_offset.y;
+            highp float param_14 = 0.0;
+            bezel_outside_curved_coord = HSM_GetTubeCurvedCoord(param_9, param_10, param_11, param_12, param_13, param_14);
+        }
+        if (curve_coords_on)
+        {
+            if (HSM_FRM_OUTER_CURVATURE_SCALE > 0.0)
+            {
+                highp vec2 param_15 = frame_outside_curved_coord;
+                highp float param_16 = HSM_BZL_OUTER_CURVATURE_SCALE * HSM_FRM_OUTER_CURVATURE_SCALE;
+                highp vec2 param_17 = tube_diffuse_scale;
+                highp vec2 param_18 = tube_scale;
+                highp float param_19 = ((bezel_outer_scale_offset.x * global.OutputSize.x) / global.OutputSize.y) / bezel_outer_scale_offset.y;
+                highp float param_20 = 0.0;
+                frame_outside_curved_coord = HSM_GetTubeCurvedCoord(param_15, param_16, param_17, param_18, param_19, param_20);
+            }
+        }
+    }
+    DEFAULT_SCREEN_SCALE = GetDefaultScreenScale();
+    DEFAULT_BEZEL_SCALE = GetDefaultBezelScale();
+    return 0.0;
+}
+
+highp vec3 PrepGraphicsForHDR(highp vec3 in_color)
+{
+    highp vec3 out_color = in_color;
+    out_color *= HSM_GLOBAL_GRAPHICS_BRIGHTNESS;
+    return out_color;
+}
+
+highp float HSM_GetCornerMask(highp vec2 in_coord, highp float screen_aspect, highp float corner_radius, highp float edge_sharpness)
+{
+    highp vec2 new_coord = min(in_coord, vec2(1.0) - in_coord) * vec2(screen_aspect, 1.0);
+    highp vec2 corner_distance = vec2(max(corner_radius / 1000.0, (1.0 - edge_sharpness) * 0.00999999977648258209228515625));
+    new_coord = corner_distance - min(new_coord, corner_distance);
+    highp float _distance = sqrt(dot(new_coord, new_coord));
+    return clamp((corner_distance.x - _distance) * ((edge_sharpness * 500.0) + 100.0), 0.0, 1.0);
+}
+
+highp vec4 HSM_PreMultAlphaBlend(highp vec4 color_under, highp vec4 color_over)
+{
+    highp vec4 out_color = vec4(color_over.xyz + (color_under.xyz * (1.0 - color_over.w)), clamp(color_under.w + color_over.w, 0.0, 1.0));
+    return out_color;
+}
+
+void main()
+{
+    FOLLOW_MODE_SCALE_AND_POS = 0.0;
+    FOLLOW_MODE_EXACT = 1.0;
+    NEGATIVE_CROP_EXPAND_MULTIPLIER = 0.5;
+    MAX_NEGATIVE_CROP = 0.5;
+    DEFAULT_SCREEN_ASPECT = 1.3329918384552001953125;
+    DEFAULT_BEZEL_ASPECT = 1.32272231578826904296875;
+    DEFAULT_SCREEN_SCALE = vec2(0.0);
+    DEFAULT_BEZEL_SCALE = vec2(0.0);
+    INFOCACHE_MAX_INDEX = 4;
+    CACHE_INFO_CHANGED = false;
+    CURRENT_FRAME_FROM_CACHE_INFO = 0.0;
+    TUBE_DIFFUSE_MASK = 0.0;
+    TUBE_MASK = 0.0;
+    BEZEL_MASK = 0.0;
+    INSIDE_BEZEL_MASK = 0.0;
+    OUTSIDE_TUBE_MASK_FOR_IMAGE = 0.0;
+    FRAME_MASK = 0.0;
+    FRAME_MASK_FOR_IMAGE = 0.0;
+    OUTSIDE_BEZEL_MASK = 0.0;
+    OUTSIDE_FRAME_MASK_FOR_IMAGE = 0.0;
+    OUTSIDE_FRAME_MASK = 0.0;
+    CUTOUT_MASK = 0.0;
+    SCREEN_INDEX = 1.0;
+    SCREEN_ASPECT = 1.0;
+    SCREEN_SCALE = vec2(1.0);
+    SCREEN_SCALE_WITH_ZOOM = vec2(1.0);
+    SCREEN_POS_OFFSET = vec2(0.1500000059604644775390625);
+    SCREEN_SCALE_2ND_SCREEN = vec2(1.0);
+    SCREEN_POS_OFFSET_1ST_SCREEN = vec2(0.1500000059604644775390625);
+    SCREEN_POS_OFFSET_2ND_SCREEN = vec2(0.1500000059604644775390625);
+    VIEWPORT_SCALE = vec2(1.0);
+    VIEWPORT_POS = vec2(1.0);
+    TUBE_SCALE = vec2(1.0);
+    TUBE_DIFFUSE_SCALE = vec2(1.0);
+    TUBE_DIFFUSE_ASPECT = 1.0;
+    TUBE_DIFFUSE_SCALE_1ST_SCREEN = vec2(1.0);
+    TUBE_DIFFUSE_SCALE_2ND_SCREEN = vec2(1.0);
+    FRAME_SCALE = vec2(1.0);
+    BEZEL_OUTSIDE_SCALE = vec2(0.5);
+    BACKGROUND_SCALE = vec2(0.5);
+    LED_SCALE = vec2(0.5);
+    DEVICE_SCALE = vec2(0.5);
+    DEVICELED_SCALE = vec2(0.5);
+    DECAL_SCALE = vec2(0.5);
+    CAB_GLASS_SCALE = vec2(0.5);
+    TOP_IMAGE_SCALE = vec2(0.5);
+    AVERAGE_LUMA = 0.0;
+    USE_VERTICAL_SCANLINES = 0.0;
+    SAMPLING_SCANLINE_DIR_MULT = 0.0;
+    SAMPLING_OPPOSITE_DIR_MULT = 0.0;
+    CORE_SIZE = vec2(1.0);
+    ROTATED_CORE_ORIGINAL_SIZE = vec2(1.0);
+    ROTATED_CORE_PREPPED_SIZE = vec2(1.0);
+    ROTATED_DEREZED_SIZE = vec2(1.0);
+    CROPPED_ROTATED_SIZE_WITH_RES_MULT = vec2(1.0);
+    CROPPED_ROTATED_SIZE_WITH_RES_MULT_FEEDBACK = vec2(1.0);
+    CROPPED_ROTATED_SIZE = vec2(1.0);
+    SAMPLE_AREA_START_PIXEL_COORD = vec2(1.0);
+    SCREEN_SIZE = vec2(1.0);
+    VIEWPORT_UNSCALED_COORD = vec2(0.5);
+    SCREEN_COORD = vec2(0.5);
+    TUBE_COORD = vec2(0.5);
+    TUBE_DIFFUSE_COORD = vec2(0.5);
+    TUBE_DIFFUSE_COORD_MIXED_POS = vec2(0.5);
+    BEZEL_OUTSIDE_COORD = vec2(0.5);
+    BACKGROUND_COORD = vec2(0.5);
+    DEVICE_COORD = vec2(0.5);
+    DEVICELED_COORD = vec2(0.5);
+    LED_COORD = vec2(0.5);
+    DECAL_COORD = vec2(0.5);
+    CAB_GLASS_COORD = vec2(0.5);
+    TOP_IMAGE_COORD = vec2(0.5);
+    SCREEN_CURVED_COORD = vec2(0.5);
+    TUBE_CURVED_COORD = vec2(0.5);
+    TUBE_DIFFUSE_CURVED_COORD = vec2(0.5);
+    BEZEL_OUTSIDE_CURVED_COORD = vec2(0.5);
+    FRAME_OUTSIDE_CURVED_COORD = vec2(0.5);
+    BACKGROUND_CURVED_COORD = vec2(0.5);
+    LED_CURVED_COORD = vec2(0.5);
+    DEVICE_CURVED_COORD = vec2(0.5);
+    DEVICELED_CURVED_COORD = vec2(0.5);
+    DECAL_CURVED_COORD = vec2(0.5);
+    CAB_GLASS_CURVED_COORD = vec2(0.5);
+    TOP_IMAGE_CURVED_COORD = vec2(0.5);
+    HSM_RESOLUTION_DEBUG_ON = global.HSM_RESOLUTION_DEBUG_ON;
+    HSM_GLOBAL_GRAPHICS_BRIGHTNESS = global.HSM_GLOBAL_GRAPHICS_BRIGHTNESS / 100.0;
+    HSM_STATIC_LAYERS_GAMMA = global.HSM_STATIC_LAYERS_GAMMA;
+    HSM_AMBIENT_LIGHTING_OPACITY = global.HSM_AMBIENT_LIGHTING_OPACITY / 100.0;
+    HSM_AMBIENT1_OPACITY = ((global.HSM_AMBIENT1_OPACITY / 100.0) * global.HSM_AMBIENT_LIGHTING_OPACITY) / 100.0;
+    HSM_AMBIENT2_OPACITY = ((global.HSM_AMBIENT2_OPACITY / 100.0) * global.HSM_AMBIENT_LIGHTING_OPACITY) / 100.0;
+    HSM_AMBIENT_LIGHTING_SWAP_IMAGE_MODE = global.HSM_AMBIENT_LIGHTING_SWAP_IMAGE_MODE;
+    HSM_SINDEN_BORDER_ON = global.HSM_SINDEN_BORDER_ON;
+    HSM_SINDEN_BORDER_BRIGHTNESS = global.HSM_SINDEN_BORDER_BRIGHTNESS / 100.0;
+    HSM_SINDEN_BORDER_THICKNESS = global.HSM_SINDEN_BORDER_THICKNESS / 100.0;
+    HSM_SINDEN_BORDER_EMPTY_TUBE_COMPENSATION = global.HSM_SINDEN_BORDER_EMPTY_TUBE_COMPENSATION;
+    HSM_VIEWPORT_ZOOM = global.HSM_VIEWPORT_ZOOM / 100.0;
+    HSM_VIEWPORT_ZOOM_MASK = global.HSM_VIEWPORT_ZOOM_MASK;
+    HSM_VIEWPORT_POSITION_X = ((-1.0) * global.HSM_VIEWPORT_POSITION_X) / 1000.0;
+    HSM_VIEWPORT_POSITION_Y = ((-1.0) * global.HSM_VIEWPORT_POSITION_Y) / 1000.0;
+    HSM_FLIP_VIEWPORT_VERTICAL = -((global.HSM_FLIP_VIEWPORT_VERTICAL * 2.0) - 1.0);
+    HSM_FLIP_VIEWPORT_HORIZONTAL = -((global.HSM_FLIP_VIEWPORT_HORIZONTAL * 2.0) - 1.0);
+    HSM_FLIP_CORE_VERTICAL = -((global.HSM_FLIP_CORE_VERTICAL * 2.0) - 1.0);
+    HSM_FLIP_CORE_HORIZONTAL = -((global.HSM_FLIP_CORE_HORIZONTAL * 2.0) - 1.0);
+    HSM_ROTATE_CORE_IMAGE = global.HSM_ROTATE_CORE_IMAGE;
+    HSM_ASPECT_RATIO_ORIENTATION = global.HSM_ASPECT_RATIO_ORIENTATION;
+    HSM_ASPECT_RATIO_MODE = global.HSM_ASPECT_RATIO_MODE;
+    HSM_ASPECT_RATIO_EXPLICIT = global.HSM_ASPECT_RATIO_EXPLICIT;
+    HSM_VERTICAL_PRESET = global.HSM_VERTICAL_PRESET;
+    HSM_INT_SCALE_MAX_HEIGHT = global.HSM_INT_SCALE_MAX_HEIGHT / 100.0;
+    HSM_NON_INTEGER_SCALE = global.HSM_NON_INTEGER_SCALE / 100.0;
+    HSM_USE_PHYSICAL_SIZE_FOR_NON_INTEGER = global.HSM_USE_PHYSICAL_SIZE_FOR_NON_INTEGER;
+    HSM_PHYSICAL_MONITOR_ASPECT_RATIO = global.HSM_PHYSICAL_MONITOR_ASPECT_RATIO;
+    HSM_PHYSICAL_MONITOR_DIAGONAL_SIZE = global.HSM_PHYSICAL_MONITOR_DIAGONAL_SIZE;
+    HSM_PHYSICAL_SIM_TUBE_DIAGONAL_SIZE = global.HSM_PHYSICAL_SIM_TUBE_DIAGONAL_SIZE;
+    HSM_USE_IMAGE_FOR_PLACEMENT = global.HSM_USE_IMAGE_FOR_PLACEMENT;
+    HSM_PLACEMENT_IMAGE_USE_HORIZONTAL = global.HSM_PLACEMENT_IMAGE_USE_HORIZONTAL;
+    HSM_PLACEMENT_IMAGE_MODE = global.HSM_PLACEMENT_IMAGE_MODE;
+    HSM_NON_INTEGER_SCALE_OFFSET = global.HSM_NON_INTEGER_SCALE_OFFSET / 100.0;
+    HSM_USE_SNAP_TO_CLOSEST_INT_SCALE = global.HSM_USE_SNAP_TO_CLOSEST_INT_SCALE;
+    highp float _636;
+    if (HSM_USE_SNAP_TO_CLOSEST_INT_SCALE > 0.5)
+    {
+        _636 = global.HSM_SNAP_TO_CLOSEST_INT_SCALE_TOLERANCE / 100.0;
+    }
+    else
+    {
+        _636 = 0.0;
+    }
+    HSM_SNAP_TO_CLOSEST_INT_SCALE_TOLERANCE = _636;
+    HSM_SCREEN_POSITION_X = global.HSM_SCREEN_POSITION_X / 1000.0;
+    HSM_SCREEN_POSITION_Y = ((-1.0) * global.HSM_SCREEN_POSITION_Y) / 1000.0;
+    HSM_CROP_MODE = global.HSM_CROP_MODE;
+    HSM_CROP_PERCENT_ZOOM = global.HSM_CROP_PERCENT_ZOOM / 100.0;
+    HSM_CROP_PERCENT_TOP = global.HSM_CROP_PERCENT_TOP / 100.0;
+    HSM_CROP_PERCENT_BOTTOM = global.HSM_CROP_PERCENT_BOTTOM / 100.0;
+    HSM_CROP_PERCENT_LEFT = global.HSM_CROP_PERCENT_LEFT / 100.0;
+    HSM_CROP_PERCENT_RIGHT = global.HSM_CROP_PERCENT_RIGHT / 100.0;
+    HSM_CROP_BLACK_THRESHOLD = global.HSM_CROP_BLACK_THRESHOLD / 100.0;
+    HSM_SCANLINE_DIRECTION = global.HSM_SCANLINE_DIRECTION;
+    HSM_CORE_RES_SAMPLING_MULT_SCANLINE_DIR = global.HSM_CORE_RES_SAMPLING_MULT_SCANLINE_DIR / 100.0;
+    HSM_DOWNSAMPLE_BLUR_SCANLINE_DIR = global.HSM_DOWNSAMPLE_BLUR_SCANLINE_DIR / 100.0;
+    HSM_CORE_RES_SAMPLING_MULT_OPPOSITE_DIR = global.HSM_CORE_RES_SAMPLING_MULT_OPPOSITE_DIR / 100.0;
+    HSM_DOWNSAMPLE_BLUR_OPPOSITE_DIR = global.HSM_DOWNSAMPLE_BLUR_OPPOSITE_DIR / 100.0;
+    HSM_USE_GEOM = 0.0;
+    HSM_CURVATURE_MODE = global.HSM_CURVATURE_MODE;
+    HSM_CURVATURE_3D_RADIUS = global.HSM_CURVATURE_3D_RADIUS / 100.0;
+    HSM_CURVATURE_3D_VIEW_DIST = global.HSM_CURVATURE_3D_VIEW_DIST / 100.0;
+    HSM_CURVATURE_3D_TILT_ANGLE_X = global.HSM_CURVATURE_3D_TILT_ANGLE_X / 100.0;
+    HSM_CURVATURE_3D_TILT_ANGLE_Y = global.HSM_CURVATURE_3D_TILT_ANGLE_Y / 100.0;
+    HSM_CRT_CURVATURE_SCALE = global.HSM_CRT_CURVATURE_SCALE / 100.0;
+    HSM_CACHE_GRAPHICS_ON = global.HSM_CACHE_GRAPHICS_ON;
+    HSM_CACHE_UPDATE_INDICATOR_MODE = global.HSM_CACHE_UPDATE_INDICATOR_MODE;
+    HSM_AB_COMPARE_SHOW_MODE = global.HSM_AB_COMPARE_SHOW_MODE;
+    HSM_AB_COMPARE_AREA = global.HSM_AB_COMPARE_AREA;
+    HSM_AB_COMPARE_SPLIT_POSITION = global.HSM_AB_COMPARE_SPLIT_POSITION / 100.0;
+    HSM_AB_COMPARE_FREEZE_CRT_TUBE = global.HSM_AB_COMPARE_FREEZE_CRT_TUBE;
+    HSM_AB_COMPARE_FREEZE_GRAPHICS = global.HSM_AB_COMPARE_FREEZE_GRAPHICS;
+    HSM_SHOW_PASS_INDEX = global.HSM_SHOW_PASS_INDEX;
+    HSM_SHOW_PASS_APPLY_SCREEN_COORD = global.HSM_SHOW_PASS_APPLY_SCREEN_COORD;
+    HSM_SHOW_PASS_ALPHA = global.HSM_SHOW_PASS_ALPHA;
+    HSM_SCREEN_VIGNETTE_DUALSCREEN_VIS_MODE = global.HSM_SCREEN_VIGNETTE_DUALSCREEN_VIS_MODE;
+    HSM_MONOCHROME_DUALSCREEN_VIS_MODE = global.HSM_MONOCHROME_DUALSCREEN_VIS_MODE;
+    HSM_TUBE_DIFFUSE_MODE = global.HSM_TUBE_DIFFUSE_MODE;
+    HSM_TUBE_DIFFUSE_IMAGE_AMOUNT = global.HSM_TUBE_DIFFUSE_IMAGE_AMOUNT / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_DUALSCREEN_VIS_MODE = global.HSM_TUBE_DIFFUSE_IMAGE_DUALSCREEN_VIS_MODE;
+    HSM_TUBE_DIFFUSE_IMAGE_COLORIZE_ON = global.HSM_TUBE_DIFFUSE_IMAGE_COLORIZE_ON;
+    HSM_TUBE_DIFFUSE_IMAGE_HUE = global.HSM_TUBE_DIFFUSE_IMAGE_HUE / 360.0;
+    HSM_TUBE_DIFFUSE_IMAGE_SATURATION = global.HSM_TUBE_DIFFUSE_IMAGE_SATURATION / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_BRIGHTNESS = global.HSM_TUBE_DIFFUSE_IMAGE_BRIGHTNESS / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_GAMMA = global.HSM_TUBE_DIFFUSE_IMAGE_GAMMA;
+    HSM_TUBE_DIFFUSE_IMAGE_AMBIENT_LIGHTING = global.HSM_TUBE_DIFFUSE_IMAGE_AMBIENT_LIGHTING / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_AMBIENT2_LIGHTING = global.HSM_TUBE_DIFFUSE_IMAGE_AMBIENT2_LIGHTING / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_SCALE = global.HSM_TUBE_DIFFUSE_IMAGE_SCALE / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_SCALE_X = global.HSM_TUBE_DIFFUSE_IMAGE_SCALE_X / 100.0;
+    HSM_TUBE_DIFFUSE_IMAGE_ROTATION = global.HSM_TUBE_DIFFUSE_IMAGE_ROTATION;
+    HSM_TUBE_SHADOW_IMAGE_ON = global.HSM_TUBE_SHADOW_IMAGE_ON;
+    HSM_TUBE_SHADOW_IMAGE_OPACITY = global.HSM_TUBE_SHADOW_IMAGE_OPACITY / 100.0;
+    HSM_TUBE_SHADOW_IMAGE_POS_X = global.HSM_TUBE_SHADOW_IMAGE_POS_X / 100.0;
+    HSM_TUBE_SHADOW_IMAGE_POS_Y = global.HSM_TUBE_SHADOW_IMAGE_POS_Y / 100.0;
+    HSM_TUBE_SHADOW_IMAGE_SCALE_X = global.HSM_TUBE_SHADOW_IMAGE_SCALE_X / 100.0;
+    HSM_TUBE_SHADOW_IMAGE_SCALE_Y = global.HSM_TUBE_SHADOW_IMAGE_SCALE_Y / 100.0;
+    HSM_TUBE_SHADOW_CURVATURE_SCALE = global.HSM_TUBE_SHADOW_CURVATURE_SCALE / 100.0;
+    HSM_TUBE_STATIC_REFLECTION_IMAGE_ON = global.HSM_TUBE_STATIC_REFLECTION_IMAGE_ON;
+    HSM_TUBE_STATIC_REFLECTION_IMAGE_DUALSCREEN_VIS_MODE = global.HSM_TUBE_STATIC_REFLECTION_IMAGE_DUALSCREEN_VIS_MODE;
+    HSM_TUBE_STATIC_REFLECTION_IMAGE_OPACITY = global.HSM_TUBE_STATIC_REFLECTION_IMAGE_OPACITY / 100.0;
+    HSM_TUBE_STATIC_OPACITY_DIFFUSE_MULTIPLY = global.HSM_TUBE_STATIC_OPACITY_DIFFUSE_MULTIPLY / 100.0;
+    HSM_TUBE_STATIC_BLACK_LEVEL = (global.HSM_TUBE_STATIC_BLACK_LEVEL / 1000.0) + 1.0;
+    HSM_TUBE_STATIC_AMBIENT_LIGHTING = global.HSM_TUBE_STATIC_AMBIENT_LIGHTING / 100.0;
+    HSM_TUBE_STATIC_AMBIENT2_LIGHTING = global.HSM_TUBE_STATIC_AMBIENT2_LIGHTING / 100.0;
+    HSM_TUBE_STATIC_SCALE = global.HSM_TUBE_STATIC_SCALE / 100.0;
+    HSM_TUBE_STATIC_SCALE_X = global.HSM_TUBE_STATIC_SCALE_X / 100.0;
+    HSM_TUBE_STATIC_POS_X = global.HSM_TUBE_STATIC_POS_X / (-1000.0);
+    HSM_TUBE_STATIC_POS_Y = global.HSM_TUBE_STATIC_POS_Y / 1000.0;
+    HSM_TUBE_STATIC_SHADOW_OPACITY = global.HSM_TUBE_STATIC_SHADOW_OPACITY / 100.0;
+    HSM_TUBE_STATIC_DITHER_SAMPLES = global.HSM_TUBE_STATIC_DITHER_SAMPLES;
+    HSM_TUBE_STATIC_DITHER_DISTANCE = global.HSM_TUBE_STATIC_DITHER_DISTANCE;
+    HSM_TUBE_STATIC_DITHER_AMOUNT = global.HSM_TUBE_STATIC_DITHER_AMOUNT;
+    HSM_TUBE_OPACITY = global.HSM_TUBE_OPACITY / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_ON = global.HSM_TUBE_COLORED_GEL_IMAGE_ON;
+    HSM_TUBE_COLORED_GEL_IMAGE_SCALE = global.HSM_TUBE_COLORED_GEL_IMAGE_SCALE / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_FLIP_HORIZONTAL = -((global.HSM_TUBE_COLORED_GEL_IMAGE_FLIP_HORIZONTAL * 2.0) - 1.0);
+    HSM_TUBE_COLORED_GEL_IMAGE_FLIP_VERTICAL = -((global.HSM_TUBE_COLORED_GEL_IMAGE_FLIP_VERTICAL * 2.0) - 1.0);
+    HSM_TUBE_COLORED_GEL_IMAGE_DUALSCREEN_VIS_MODE = global.HSM_TUBE_COLORED_GEL_IMAGE_DUALSCREEN_VIS_MODE;
+    HSM_TUBE_COLORED_GEL_IMAGE_MULTIPLY_AMOUNT = global.HSM_TUBE_COLORED_GEL_IMAGE_MULTIPLY_AMOUNT / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_ADDITIVE_AMOUNT = global.HSM_TUBE_COLORED_GEL_IMAGE_ADDITIVE_AMOUNT / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_AMOUNT = global.HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_AMOUNT / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_TRANSPARENCY_THRESHOLD = global.HSM_TUBE_COLORED_GEL_IMAGE_TRANSPARENCY_THRESHOLD / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_BRIGHTNESS = global.HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_BRIGHTNESS / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_VIGNETTE = global.HSM_TUBE_COLORED_GEL_IMAGE_NORMAL_VIGNETTE / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_FAKE_SCANLINE_AMOUNT = global.HSM_TUBE_COLORED_GEL_IMAGE_FAKE_SCANLINE_AMOUNT / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT_LIGHTING = global.HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT_LIGHTING / 100.0;
+    HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT2_LIGHTING = global.HSM_TUBE_COLORED_GEL_IMAGE_AMBIENT2_LIGHTING / 100.0;
+    HSM_SHOW_CRT_ON_TOP_OF_COLORED_GEL = 0.0;
+    HSM_DUALSCREEN_MODE = global.HSM_DUALSCREEN_MODE;
+    HSM_DUALSCREEN_CORE_IMAGE_SPLIT_MODE = global.HSM_DUALSCREEN_CORE_IMAGE_SPLIT_MODE;
+    HSM_DUALSCREEN_CORE_IMAGE_SWAP_SCREENS = global.HSM_DUALSCREEN_CORE_IMAGE_SWAP_SCREENS;
+    HSM_DUALSCREEN_CORE_IMAGE_SPLIT_OFFSET = global.HSM_DUALSCREEN_CORE_IMAGE_SPLIT_OFFSET / 1000.0;
+    HSM_DUALSCREEN_VIEWPORT_SPLIT_LOCATION = global.HSM_DUALSCREEN_VIEWPORT_SPLIT_LOCATION / 1000.0;
+    HSM_DUALSCREEN_SHIFT_POSITION_WITH_SCALE = global.HSM_DUALSCREEN_SHIFT_POSITION_WITH_SCALE;
+    HSM_DUALSCREEN_POSITION_OFFSET_BETWEEN_SCREENS = global.HSM_DUALSCREEN_POSITION_OFFSET_BETWEEN_SCREENS / 1000.0;
+    HSM_2ND_SCREEN_ASPECT_RATIO_MODE = global.HSM_2ND_SCREEN_ASPECT_RATIO_MODE;
+    HSM_2ND_SCREEN_INDEPENDENT_SCALE = global.HSM_2ND_SCREEN_INDEPENDENT_SCALE;
+    HSM_2ND_SCREEN_SCALE_OFFSET = global.HSM_2ND_SCREEN_SCALE_OFFSET / 100.0;
+    HSM_2ND_SCREEN_POS_X = global.HSM_2ND_SCREEN_POS_X / 1000.0;
+    HSM_2ND_SCREEN_POS_Y = global.HSM_2ND_SCREEN_POS_Y / 1000.0;
+    HSM_2ND_SCREEN_CROP_PERCENT_ZOOM = global.HSM_2ND_SCREEN_CROP_PERCENT_ZOOM / 100.0;
+    HSM_2ND_SCREEN_CROP_PERCENT_TOP = global.HSM_2ND_SCREEN_CROP_PERCENT_TOP / 100.0;
+    HSM_2ND_SCREEN_CROP_PERCENT_BOTTOM = global.HSM_2ND_SCREEN_CROP_PERCENT_BOTTOM / 100.0;
+    HSM_2ND_SCREEN_CROP_PERCENT_LEFT = global.HSM_2ND_SCREEN_CROP_PERCENT_LEFT / 100.0;
+    HSM_2ND_SCREEN_CROP_PERCENT_RIGHT = global.HSM_2ND_SCREEN_CROP_PERCENT_RIGHT / 100.0;
+    HSM_SCREEN_REFLECTION_SCALE = global.HSM_SCREEN_REFLECTION_SCALE / 100.0;
+    HSM_SCREEN_REFLECTION_POS_X = global.HSM_SCREEN_REFLECTION_POS_X / 600.0;
+    HSM_SCREEN_REFLECTION_POS_Y = global.HSM_SCREEN_REFLECTION_POS_Y / 600.0;
+    HSM_AMBIENT1_HUE = global.HSM_AMBIENT1_HUE / 360.0;
+    HSM_AMBIENT1_SATURATION = global.HSM_AMBIENT1_SATURATION / 100.0;
+    HSM_AMBIENT1_VALUE = global.HSM_AMBIENT1_VALUE / 100.0;
+    HSM_AMBIENT1_CONTRAST = global.HSM_AMBIENT1_CONTRAST / 100.0;
+    HSM_AMBIENT1_SCALE_KEEP_ASPECT = global.HSM_AMBIENT1_SCALE_KEEP_ASPECT;
+    HSM_AMBIENT1_SCALE_INHERIT_MODE = global.HSM_AMBIENT1_SCALE_INHERIT_MODE;
+    HSM_AMBIENT1_SCALE = global.HSM_AMBIENT1_SCALE / 100.0;
+    HSM_AMBIENT1_SCALE_X = global.HSM_AMBIENT1_SCALE_X / 100.0;
+    HSM_AMBIENT1_ROTATE = global.HSM_AMBIENT1_ROTATE;
+    HSM_AMBIENT1_MIRROR_HORZ = global.HSM_AMBIENT1_MIRROR_HORZ;
+    HSM_AMBIENT1_POS_INHERIT_MODE = global.HSM_AMBIENT1_POS_INHERIT_MODE;
+    HSM_AMBIENT1_POSITION_X = global.HSM_AMBIENT1_POSITION_X / (-1000.0);
+    HSM_AMBIENT1_POSITION_Y = ((-1.0) * global.HSM_AMBIENT1_POSITION_Y) / (-1000.0);
+    HSM_AMBIENT1_DITHERING_SAMPLES = 0.0;
+    HSM_AMBIENT2_HUE = global.HSM_AMBIENT2_HUE / 360.0;
+    HSM_AMBIENT2_SATURATION = global.HSM_AMBIENT2_SATURATION / 100.0;
+    HSM_AMBIENT2_VALUE = global.HSM_AMBIENT2_VALUE / 100.0;
+    HSM_AMBIENT2_CONTRAST = global.HSM_AMBIENT2_CONTRAST / 100.0;
+    HSM_AMBIENT2_SCALE_KEEP_ASPECT = global.HSM_AMBIENT2_SCALE_KEEP_ASPECT;
+    HSM_AMBIENT2_SCALE_INHERIT_MODE = global.HSM_AMBIENT2_SCALE_INHERIT_MODE;
+    HSM_AMBIENT2_SCALE = global.HSM_AMBIENT2_SCALE / 100.0;
+    HSM_AMBIENT2_SCALE_X = global.HSM_AMBIENT2_SCALE_X / 100.0;
+    HSM_AMBIENT2_ROTATE = global.HSM_AMBIENT2_ROTATE;
+    HSM_AMBIENT2_MIRROR_HORZ = global.HSM_AMBIENT2_MIRROR_HORZ;
+    HSM_AMBIENT2_POS_INHERIT_MODE = global.HSM_AMBIENT2_POS_INHERIT_MODE;
+    HSM_AMBIENT2_POSITION_X = global.HSM_AMBIENT2_POSITION_X / (-1000.0);
+    HSM_AMBIENT2_POSITION_Y = ((-1.0) * global.HSM_AMBIENT2_POSITION_Y) / (-1000.0);
+    HSM_BZL_OPACITY = global.HSM_BZL_OPACITY / 100.0;
+    HSM_BZL_BLEND_MODE = global.HSM_BZL_BLEND_MODE;
+    HSM_BZL_WIDTH = global.HSM_BZL_WIDTH * 0.0008623999892733991146087646484375;
+    HSM_BZL_HEIGHT = global.HSM_BZL_HEIGHT * 0.000873200013302266597747802734375;
+    HSM_BZL_INNER_CORNER_RADIUS_SCALE = global.HSM_BZL_INNER_CORNER_RADIUS_SCALE / 100.0;
+    HSM_BZL_INNER_EDGE_THICKNESS = global.HSM_BZL_INNER_EDGE_THICKNESS * 7.0000001869630068540573120117188e-05;
+    HSM_BZL_INNER_EDGE_SHARPNESS = global.HSM_BZL_INNER_EDGE_SHARPNESS / 100.0;
+    HSM_BZL_OUTER_POSITION_Y = global.HSM_BZL_OUTER_POSITION_Y / 2000.0;
+    HSM_BZL_OUTER_CURVATURE_SCALE = global.HSM_BZL_OUTER_CURVATURE_SCALE / 100.0;
+    HSM_BZL_OUTER_CORNER_RADIUS_SCALE = (0.89999997615814208984375 * global.HSM_BZL_OUTER_CORNER_RADIUS_SCALE) / 100.0;
+    HSM_BZL_NOISE = global.HSM_BZL_NOISE / 100.0;
+    HSM_BZL_INNER_EDGE_SHADOW = global.HSM_BZL_INNER_EDGE_SHADOW / 100.0;
+    HSM_BZL_BRIGHTNESS = global.HSM_BZL_BRIGHTNESS / 100.0;
+    HSM_BZL_BRIGHTNESS_MULT_TOP = global.HSM_BZL_BRIGHTNESS_MULT_TOP / 100.0;
+    HSM_BZL_BRIGHTNESS_MULT_BOTTOM = global.HSM_BZL_BRIGHTNESS_MULT_BOTTOM / 100.0;
+    HSM_BZL_BRIGHTNESS_MULT_SIDES = global.HSM_BZL_BRIGHTNESS_MULT_SIDES / 100.0;
+    HSM_BZL_BRIGHTNESS_MULT_SIDE_LEFT = global.HSM_BZL_BRIGHTNESS_MULT_SIDE_LEFT / 100.0;
+    HSM_BZL_BRIGHTNESS_MULT_SIDE_RIGHT = global.HSM_BZL_BRIGHTNESS_MULT_SIDE_RIGHT / 100.0;
+    HSM_BZL_HIGHLIGHT = global.HSM_BZL_HIGHLIGHT / 100.0;
+    HSM_BZL_COLOR_HUE = global.HSM_BZL_COLOR_HUE / 360.0;
+    HSM_BZL_COLOR_SATURATION = global.HSM_BZL_COLOR_SATURATION / 100.0;
+    HSM_BZL_COLOR_VALUE = global.HSM_BZL_COLOR_VALUE / 100.0;
+    HSM_BZL_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_BZL_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_BZL_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_BZL_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_FRM_USE_INDEPENDENT_COLOR = global.HSM_FRM_USE_INDEPENDENT_COLOR;
+    HSM_FRM_COLOR_HUE = global.HSM_FRM_COLOR_HUE / 360.0;
+    HSM_FRM_COLOR_SATURATION = global.HSM_FRM_COLOR_SATURATION / 100.0;
+    HSM_FRM_COLOR_VALUE = global.HSM_FRM_COLOR_VALUE / 100.0;
+    HSM_FRM_OPACITY = global.HSM_FRM_OPACITY / 100.0;
+    HSM_FRM_BLEND_MODE = 1.0;
+    HSM_FRM_TEXTURE_OPACITY = global.HSM_FRM_TEXTURE_OPACITY / 100.0;
+    HSM_FRM_TEXTURE_BLEND_MODE = global.HSM_FRM_TEXTURE_BLEND_MODE;
+    HSM_FRM_NOISE = global.HSM_FRM_NOISE / 100.0;
+    HSM_FRM_INNER_EDGE_THICKNESS = global.HSM_FRM_INNER_EDGE_THICKNESS * 2.9999999242136254906654357910156e-05;
+    HSM_FRM_THICKNESS = global.HSM_FRM_THICKNESS * 0.00069999997504055500030517578125;
+    HSM_FRM_THICKNESS_SCALE_X = global.HSM_FRM_THICKNESS_SCALE_X / 100.0;
+    HSM_FRM_OUTER_POS_Y = global.HSM_FRM_OUTER_POS_Y / 100.0;
+    HSM_FRM_OUTER_CURVATURE_SCALE = global.HSM_FRM_OUTER_CURVATURE_SCALE / 100.0;
+    HSM_FRM_OUTER_CORNER_RADIUS = global.HSM_FRM_OUTER_CORNER_RADIUS;
+    HSM_FRM_OUTER_EDGE_THICKNESS = global.HSM_FRM_OUTER_EDGE_THICKNESS * 5.9999998484272509813308715820312e-05;
+    HSM_FRM_OUTER_EDGE_SHADING = global.HSM_FRM_OUTER_EDGE_SHADING / 100.0;
+    HSM_FRM_SHADOW_OPACITY = global.HSM_FRM_SHADOW_OPACITY / 100.0;
+    HSM_FRM_SHADOW_WIDTH = global.HSM_FRM_SHADOW_WIDTH / 1000.0;
+    HSM_REFLECT_CORNER_FADE = global.HSM_REFLECT_CORNER_FADE / 100.0;
+    HSM_REFLECT_CORNER_FADE_DISTANCE = global.HSM_REFLECT_CORNER_FADE_DISTANCE / 100.0;
+    HSM_REFLECT_CORNER_INNER_SPREAD = global.HSM_REFLECT_CORNER_INNER_SPREAD / 100.0;
+    HSM_REFLECT_CORNER_OUTER_SPREAD = global.HSM_REFLECT_CORNER_OUTER_SPREAD / 100.0;
+    HSM_REFLECT_CORNER_ROTATION_OFFSET_TOP = global.HSM_REFLECT_CORNER_ROTATION_OFFSET_TOP;
+    HSM_REFLECT_CORNER_ROTATION_OFFSET_BOTTOM = global.HSM_REFLECT_CORNER_ROTATION_OFFSET_BOTTOM;
+    HSM_REFLECT_CORNER_SPREAD_FALLOFF = global.HSM_REFLECT_CORNER_SPREAD_FALLOFF;
+    HSM_BG_LAYER_ORDER = global.HSM_BG_LAYER_ORDER;
+    HSM_VIEWPORT_VIGNETTE_LAYER_ORDER = global.HSM_VIEWPORT_VIGNETTE_LAYER_ORDER;
+    HSM_LED_LAYER_ORDER = global.HSM_LED_LAYER_ORDER;
+    HSM_DEVICE_LAYER_ORDER = global.HSM_DEVICE_LAYER_ORDER;
+    HSM_DEVICELED_LAYER_ORDER = global.HSM_DEVICELED_LAYER_ORDER;
+    HSM_CRT_LAYER_ORDER = global.HSM_CRT_LAYER_ORDER;
+    HSM_DECAL_LAYER_ORDER = global.HSM_DECAL_LAYER_ORDER;
+    HSM_CAB_GLASS_LAYER_ORDER = global.HSM_CAB_GLASS_LAYER_ORDER;
+    HSM_TOP_LAYER_ORDER = global.HSM_TOP_LAYER_ORDER;
+    HSM_CUTOUT_ASPECT_MODE = global.HSM_CUTOUT_ASPECT_MODE;
+    HSM_CUTOUT_EXPLICIT_ASPECT = global.HSM_CUTOUT_EXPLICIT_ASPECT;
+    HSM_CUTOUT_FOLLOW_LAYER = global.HSM_CUTOUT_FOLLOW_LAYER;
+    HSM_CUTOUT_FOLLOW_FULL_USES_ZOOM = global.HSM_CUTOUT_FOLLOW_FULL_USES_ZOOM;
+    HSM_CUTOUT_SCALE = global.HSM_CUTOUT_SCALE / 100.0;
+    HSM_CUTOUT_SCALE_X = global.HSM_CUTOUT_SCALE_X / 100.0;
+    HSM_CUTOUT_POS_X = global.HSM_CUTOUT_POS_X / (-100.0);
+    HSM_CUTOUT_POS_Y = global.HSM_CUTOUT_POS_Y / 100.0;
+    HSM_CUTOUT_CORNER_RADIUS = global.HSM_CUTOUT_CORNER_RADIUS;
+    HSM_LAYERING_DEBUG_MASK_MODE = global.HSM_LAYERING_DEBUG_MASK_MODE;
+    HSM_BG_OPACITY = global.HSM_BG_OPACITY / 100.0;
+    HSM_BG_COLORIZE_ON = global.HSM_BG_COLORIZE_ON;
+    HSM_BG_HUE = global.HSM_BG_HUE / 360.0;
+    HSM_BG_SATURATION = global.HSM_BG_SATURATION / 100.0;
+    HSM_BG_BRIGHTNESS = global.HSM_BG_BRIGHTNESS / 100.0;
+    HSM_BG_GAMMA = global.HSM_BG_GAMMA;
+    HSM_BG_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_BG_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_BG_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_BG_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_BG_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_BG_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_BG_BLEND_MODE = global.HSM_BG_BLEND_MODE;
+    HSM_BG_SOURCE_MATTE_TYPE = global.HSM_BG_SOURCE_MATTE_TYPE;
+    HSM_BG_MIPMAPPING_BLEND_BIAS = global.HSM_BG_MIPMAPPING_BLEND_BIAS;
+    HSM_BG_MASK_MODE = global.HSM_BG_MASK_MODE;
+    HSM_BG_CUTOUT_MODE = global.HSM_BG_CUTOUT_MODE;
+    HSM_BG_DUALSCREEN_VIS_MODE = global.HSM_BG_DUALSCREEN_VIS_MODE;
+    HSM_BG_FOLLOW_LAYER = global.HSM_BG_FOLLOW_LAYER;
+    HSM_BG_FOLLOW_MODE = global.HSM_BG_FOLLOW_MODE;
+    HSM_BG_FOLLOW_FULL_USES_ZOOM = global.HSM_BG_FOLLOW_FULL_USES_ZOOM;
+    HSM_BG_FILL_MODE = global.HSM_BG_FILL_MODE;
+    HSM_BG_SPLIT_PRESERVE_CENTER = global.HSM_BG_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_BG_SPLIT_REPEAT_WIDTH = global.HSM_BG_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_BG_SCALE = global.HSM_BG_SCALE / 100.0;
+    HSM_BG_SCALE_X = global.HSM_BG_SCALE_X / 100.0;
+    HSM_BG_POS_X = global.HSM_BG_POS_X / (-100.0);
+    HSM_BG_POS_Y = global.HSM_BG_POS_Y / 100.0;
+    HSM_BG_WRAP_MODE = global.HSM_BG_WRAP_MODE;
+    HSM_VIEWPORT_VIGNETTE_OPACITY = global.HSM_VIEWPORT_VIGNETTE_OPACITY / 100.0;
+    HSM_VIEWPORT_VIGNETTE_MASK_MODE = global.HSM_VIEWPORT_VIGNETTE_MASK_MODE;
+    HSM_VIEWPORT_VIGNETTE_CUTOUT_MODE = global.HSM_VIEWPORT_VIGNETTE_CUTOUT_MODE;
+    HSM_VIEWPORT_VIGNETTE_FOLLOW_LAYER = global.HSM_VIEWPORT_VIGNETTE_FOLLOW_LAYER;
+    HSM_VIEWPORT_VIGNETTE_SCALE = global.HSM_VIEWPORT_VIGNETTE_SCALE / 100.0;
+    HSM_VIEWPORT_VIGNETTE_SCALE_X = global.HSM_VIEWPORT_VIGNETTE_SCALE_X / 100.0;
+    HSM_VIEWPORT_VIGNETTE_POS_X = global.HSM_VIEWPORT_VIGNETTE_POS_X / (-100.0);
+    HSM_VIEWPORT_VIGNETTE_POS_Y = global.HSM_VIEWPORT_VIGNETTE_POS_Y / 100.0;
+    HSM_LED_OPACITY = global.HSM_LED_OPACITY / 100.0;
+    HSM_LED_COLORIZE_ON = global.HSM_LED_COLORIZE_ON;
+    HSM_LED_HUE = global.HSM_LED_HUE / 360.0;
+    HSM_LED_SATURATION = global.HSM_LED_SATURATION / 100.0;
+    HSM_LED_BRIGHTNESS = global.HSM_LED_BRIGHTNESS / 100.0;
+    HSM_LED_GAMMA = global.HSM_LED_GAMMA;
+    HSM_LED_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_LED_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_LED_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_LED_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_LED_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_LED_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_LED_BLEND_MODE = global.HSM_LED_BLEND_MODE;
+    HSM_LED_SOURCE_MATTE_TYPE = global.HSM_LED_SOURCE_MATTE_TYPE;
+    HSM_LED_MASK_MODE = global.HSM_LED_MASK_MODE;
+    HSM_LED_MIPMAPPING_BLEND_BIAS = global.HSM_LED_MIPMAPPING_BLEND_BIAS;
+    HSM_LED_CUTOUT_MODE = global.HSM_LED_CUTOUT_MODE;
+    HSM_LED_DUALSCREEN_VIS_MODE = global.HSM_LED_DUALSCREEN_VIS_MODE;
+    HSM_LED_FOLLOW_LAYER = global.HSM_LED_FOLLOW_LAYER;
+    HSM_LED_FOLLOW_MODE = global.HSM_LED_FOLLOW_MODE;
+    HSM_LED_FOLLOW_FULL_USES_ZOOM = global.HSM_LED_FOLLOW_FULL_USES_ZOOM;
+    HSM_LED_FILL_MODE = global.HSM_LED_FILL_MODE;
+    HSM_LED_SPLIT_PRESERVE_CENTER = global.HSM_LED_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_LED_SPLIT_REPEAT_WIDTH = global.HSM_LED_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_LED_SCALE = global.HSM_LED_SCALE / 100.0;
+    HSM_LED_SCALE_X = global.HSM_LED_SCALE_X / 100.0;
+    HSM_LED_POS_X = global.HSM_LED_POS_X / (-100.0);
+    HSM_LED_POS_Y = global.HSM_LED_POS_Y / 100.0;
+    HSM_DEVICE_OPACITY = global.HSM_DEVICE_OPACITY / 100.0;
+    HSM_DEVICE_COLORIZE_ON = global.HSM_DEVICE_COLORIZE_ON;
+    HSM_DEVICE_HUE = global.HSM_DEVICE_HUE / 360.0;
+    HSM_DEVICE_SATURATION = global.HSM_DEVICE_SATURATION / 100.0;
+    HSM_DEVICE_BRIGHTNESS = global.HSM_DEVICE_BRIGHTNESS / 100.0;
+    HSM_DEVICE_GAMMA = global.HSM_DEVICE_GAMMA;
+    HSM_DEVICE_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_DEVICE_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_DEVICE_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_DEVICE_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_DEVICE_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_DEVICE_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_DEVICE_BLEND_MODE = global.HSM_DEVICE_BLEND_MODE;
+    HSM_DEVICE_SOURCE_MATTE_TYPE = global.HSM_DEVICE_SOURCE_MATTE_TYPE;
+    HSM_DEVICE_MASK_MODE = global.HSM_DEVICE_MASK_MODE;
+    HSM_DEVICE_MIPMAPPING_BLEND_BIAS = global.HSM_DEVICE_MIPMAPPING_BLEND_BIAS;
+    HSM_DEVICE_CUTOUT_MODE = global.HSM_DEVICE_CUTOUT_MODE;
+    HSM_DEVICE_DUALSCREEN_VIS_MODE = global.HSM_DEVICE_DUALSCREEN_VIS_MODE;
+    HSM_DEVICE_FOLLOW_LAYER = global.HSM_DEVICE_FOLLOW_LAYER;
+    HSM_DEVICE_FOLLOW_MODE = global.HSM_DEVICE_FOLLOW_MODE;
+    HSM_DEVICE_FOLLOW_FULL_USES_ZOOM = global.HSM_DEVICE_FOLLOW_FULL_USES_ZOOM;
+    HSM_DEVICE_FILL_MODE = global.HSM_DEVICE_FILL_MODE;
+    HSM_DEVICE_SPLIT_PRESERVE_CENTER = global.HSM_DEVICE_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_DEVICE_SPLIT_REPEAT_WIDTH = global.HSM_DEVICE_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_DEVICE_SCALE = global.HSM_DEVICE_SCALE / 100.0;
+    HSM_DEVICE_SCALE_X = global.HSM_DEVICE_SCALE_X / 100.0;
+    HSM_DEVICE_POS_X = global.HSM_DEVICE_POS_X / (-100.0);
+    HSM_DEVICE_POS_Y = global.HSM_DEVICE_POS_Y / 100.0;
+    HSM_DEVICELED_OPACITY = global.HSM_DEVICELED_OPACITY / 100.0;
+    HSM_DEVICELED_COLORIZE_ON = global.HSM_DEVICELED_COLORIZE_ON;
+    HSM_DEVICELED_HUE = global.HSM_DEVICELED_HUE / 360.0;
+    HSM_DEVICELED_SATURATION = global.HSM_DEVICELED_SATURATION / 100.0;
+    HSM_DEVICELED_BRIGHTNESS = global.HSM_DEVICELED_BRIGHTNESS / 100.0;
+    HSM_DEVICELED_GAMMA = global.HSM_DEVICELED_GAMMA;
+    HSM_DEVICELED_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_DEVICELED_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_DEVICELED_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_DEVICELED_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_DEVICELED_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_DEVICELED_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_DEVICELED_BLEND_MODE = global.HSM_DEVICELED_BLEND_MODE;
+    HSM_DEVICELED_SOURCE_MATTE_TYPE = global.HSM_DEVICELED_SOURCE_MATTE_TYPE;
+    HSM_DEVICELED_MASK_MODE = global.HSM_DEVICELED_MASK_MODE;
+    HSM_DEVICELED_MIPMAPPING_BLEND_BIAS = global.HSM_DEVICELED_MIPMAPPING_BLEND_BIAS;
+    HSM_DEVICELED_CUTOUT_MODE = global.HSM_DEVICELED_CUTOUT_MODE;
+    HSM_DEVICELED_DUALSCREEN_VIS_MODE = global.HSM_DEVICELED_DUALSCREEN_VIS_MODE;
+    HSM_DEVICELED_FOLLOW_LAYER = global.HSM_DEVICELED_FOLLOW_LAYER;
+    HSM_DEVICELED_FOLLOW_MODE = global.HSM_DEVICELED_FOLLOW_MODE;
+    HSM_DEVICELED_FOLLOW_FULL_USES_ZOOM = global.HSM_DEVICELED_FOLLOW_FULL_USES_ZOOM;
+    HSM_DEVICELED_FILL_MODE = global.HSM_DEVICELED_FILL_MODE;
+    HSM_DEVICELED_SPLIT_PRESERVE_CENTER = global.HSM_DEVICELED_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_DEVICELED_SPLIT_REPEAT_WIDTH = global.HSM_DEVICELED_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_DEVICELED_SCALE = global.HSM_DEVICELED_SCALE / 100.0;
+    HSM_DEVICELED_SCALE_X = global.HSM_DEVICELED_SCALE_X / 100.0;
+    HSM_DEVICELED_POS_X = global.HSM_DEVICELED_POS_X / (-100.0);
+    HSM_DEVICELED_POS_Y = global.HSM_DEVICELED_POS_Y / 100.0;
+    HSM_DECAL_OPACITY = global.HSM_DECAL_OPACITY / 100.0;
+    HSM_DECAL_COLORIZE_ON = global.HSM_DECAL_COLORIZE_ON;
+    HSM_DECAL_HUE = global.HSM_DECAL_HUE / 360.0;
+    HSM_DECAL_SATURATION = global.HSM_DECAL_SATURATION / 100.0;
+    HSM_DECAL_BRIGHTNESS = global.HSM_DECAL_BRIGHTNESS / 100.0;
+    HSM_DECAL_GAMMA = global.HSM_DECAL_GAMMA;
+    HSM_DECAL_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_DECAL_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_DECAL_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_DECAL_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_DECAL_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_DECAL_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_DECAL_BLEND_MODE = global.HSM_DECAL_BLEND_MODE;
+    HSM_DECAL_SOURCE_MATTE_TYPE = global.HSM_DECAL_SOURCE_MATTE_TYPE;
+    HSM_DECAL_MIPMAPPING_BLEND_BIAS = global.HSM_DECAL_MIPMAPPING_BLEND_BIAS;
+    HSM_DECAL_MASK_MODE = global.HSM_DECAL_MASK_MODE;
+    HSM_DECAL_CUTOUT_MODE = global.HSM_DECAL_CUTOUT_MODE;
+    HSM_DECAL_DUALSCREEN_VIS_MODE = global.HSM_DECAL_DUALSCREEN_VIS_MODE;
+    HSM_DECAL_FOLLOW_LAYER = global.HSM_DECAL_FOLLOW_LAYER;
+    HSM_DECAL_FOLLOW_MODE = global.HSM_DECAL_FOLLOW_MODE;
+    HSM_DECAL_FOLLOW_FULL_USES_ZOOM = global.HSM_DECAL_FOLLOW_FULL_USES_ZOOM;
+    HSM_DECAL_FILL_MODE = global.HSM_DECAL_FILL_MODE;
+    HSM_DECAL_SPLIT_PRESERVE_CENTER = global.HSM_DECAL_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_DECAL_SPLIT_REPEAT_WIDTH = global.HSM_DECAL_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_DECAL_SCALE = global.HSM_DECAL_SCALE / 100.0;
+    HSM_DECAL_SCALE_X = global.HSM_DECAL_SCALE_X / 100.0;
+    HSM_DECAL_POS_X = global.HSM_DECAL_POS_X / (-100.0);
+    HSM_DECAL_POS_Y = global.HSM_DECAL_POS_Y / 100.0;
+    HSM_CAB_GLASS_OPACITY = global.HSM_CAB_GLASS_OPACITY / 100.0;
+    HSM_CAB_GLASS_COLORIZE_ON = global.HSM_CAB_GLASS_COLORIZE_ON;
+    HSM_CAB_GLASS_HUE = global.HSM_CAB_GLASS_HUE / 360.0;
+    HSM_CAB_GLASS_SATURATION = global.HSM_CAB_GLASS_SATURATION / 100.0;
+    HSM_CAB_GLASS_BRIGHTNESS = global.HSM_CAB_GLASS_BRIGHTNESS / 100.0;
+    HSM_CAB_GLASS_GAMMA = global.HSM_CAB_GLASS_GAMMA;
+    HSM_CAB_GLASS_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_CAB_GLASS_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_CAB_GLASS_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_CAB_GLASS_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_CAB_GLASS_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_CAB_GLASS_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_CAB_GLASS_BLEND_MODE = global.HSM_CAB_GLASS_BLEND_MODE;
+    HSM_CAB_GLASS_SOURCE_MATTE_TYPE = global.HSM_CAB_GLASS_SOURCE_MATTE_TYPE;
+    HSM_CAB_GLASS_MIPMAPPING_BLEND_BIAS = global.HSM_CAB_GLASS_MIPMAPPING_BLEND_BIAS;
+    HSM_CAB_GLASS_MASK_MODE = global.HSM_CAB_GLASS_MASK_MODE;
+    HSM_CAB_GLASS_CUTOUT_MODE = global.HSM_CAB_GLASS_CUTOUT_MODE;
+    HSM_CAB_GLASS_DUALSCREEN_VIS_MODE = global.HSM_CAB_GLASS_DUALSCREEN_VIS_MODE;
+    HSM_CAB_GLASS_FOLLOW_LAYER = global.HSM_CAB_GLASS_FOLLOW_LAYER;
+    HSM_CAB_GLASS_FOLLOW_MODE = global.HSM_CAB_GLASS_FOLLOW_MODE;
+    HSM_CAB_GLASS_FOLLOW_FULL_USES_ZOOM = global.HSM_CAB_GLASS_FOLLOW_FULL_USES_ZOOM;
+    HSM_CAB_GLASS_FILL_MODE = global.HSM_CAB_GLASS_FILL_MODE;
+    HSM_CAB_GLASS_SPLIT_PRESERVE_CENTER = global.HSM_CAB_GLASS_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_CAB_GLASS_SPLIT_REPEAT_WIDTH = global.HSM_CAB_GLASS_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_CAB_GLASS_SCALE = global.HSM_CAB_GLASS_SCALE / 100.0;
+    HSM_CAB_GLASS_SCALE_X = global.HSM_CAB_GLASS_SCALE_X / 100.0;
+    HSM_CAB_GLASS_POS_X = global.HSM_CAB_GLASS_POS_X / (-100.0);
+    HSM_CAB_GLASS_POS_Y = global.HSM_CAB_GLASS_POS_Y / 100.0;
+    HSM_TOP_OPACITY = global.HSM_TOP_OPACITY / 100.0;
+    HSM_TOP_COLORIZE_ON = global.HSM_TOP_COLORIZE_ON;
+    HSM_TOP_HUE = global.HSM_TOP_HUE / 360.0;
+    HSM_TOP_SATURATION = global.HSM_TOP_SATURATION / 100.0;
+    HSM_TOP_BRIGHTNESS = global.HSM_TOP_BRIGHTNESS / 100.0;
+    HSM_TOP_GAMMA = global.HSM_TOP_GAMMA;
+    HSM_TOP_AMBIENT_LIGHTING_MULTIPLIER = global.HSM_TOP_AMBIENT_LIGHTING_MULTIPLIER / 100.0;
+    HSM_TOP_AMBIENT2_LIGHTING_MULTIPLIER = global.HSM_TOP_AMBIENT2_LIGHTING_MULTIPLIER / 100.0;
+    HSM_TOP_APPLY_AMBIENT_IN_ADD_MODE = global.HSM_TOP_APPLY_AMBIENT_IN_ADD_MODE;
+    HSM_TOP_BLEND_MODE = global.HSM_TOP_BLEND_MODE;
+    HSM_TOP_SOURCE_MATTE_TYPE = global.HSM_TOP_SOURCE_MATTE_TYPE;
+    HSM_TOP_MIPMAPPING_BLEND_BIAS = global.HSM_TOP_MIPMAPPING_BLEND_BIAS;
+    HSM_TOP_MASK_MODE = global.HSM_TOP_MASK_MODE;
+    HSM_TOP_CUTOUT_MODE = global.HSM_TOP_CUTOUT_MODE;
+    HSM_TOP_DUALSCREEN_VIS_MODE = global.HSM_TOP_DUALSCREEN_VIS_MODE;
+    HSM_TOP_FOLLOW_LAYER = global.HSM_TOP_FOLLOW_LAYER;
+    HSM_TOP_FOLLOW_MODE = global.HSM_TOP_FOLLOW_MODE;
+    HSM_TOP_FOLLOW_FULL_USES_ZOOM = global.HSM_TOP_FOLLOW_FULL_USES_ZOOM;
+    HSM_TOP_FILL_MODE = global.HSM_TOP_FILL_MODE;
+    HSM_TOP_SPLIT_PRESERVE_CENTER = global.HSM_TOP_SPLIT_PRESERVE_CENTER / 1000.0;
+    HSM_TOP_SPLIT_REPEAT_WIDTH = global.HSM_TOP_SPLIT_REPEAT_WIDTH / 1000.0;
+    HSM_TOP_SCALE = global.HSM_TOP_SCALE / 100.0;
+    HSM_TOP_SCALE_X = global.HSM_TOP_SCALE_X / 100.0;
+    HSM_TOP_POS_X = global.HSM_TOP_POS_X / (-100.0);
+    HSM_TOP_POS_Y = global.HSM_TOP_POS_Y / 100.0;
+    HSM_TOP_MIRROR_WRAP = global.HSM_TOP_MIRROR_WRAP;
+    HSM_RENDER_SIMPLE_MODE = global.HSM_RENDER_SIMPLE_MODE;
+    HSM_RENDER_SIMPLE_MASK_TYPE = global.HSM_RENDER_SIMPLE_MASK_TYPE;
+    SOURCE_MATTE_PREMULTIPLIED = 0.0;
+    SOURCE_MATTE_WHITE = 1.0;
+    SOURCE_MATTE_NONE = 2.0;
+    BLEND_MODE_OFF = 0.0;
+    BLEND_MODE_NORMAL = 1.0;
+    BLEND_MODE_ADD = 2.0;
+    BLEND_MODE_MULTIPLY = 3.0;
+    CURVATURE_MODE_OFF = 0.0;
+    CURVATURE_MODE_2D = 1.0;
+    CURVATURE_MODE_2D_CYLINDER = 2.0;
+    CURVATURE_MODE_3D_1 = 3.0;
+    CURVATURE_MODE_3D_2 = 4.0;
+    CURVATURE_MODE_3D_CYLINDER = 5.0;
+    MAX_LAYER_ORDER = 12.0;
+    UNFLIPPED_VIEWPORT_COORD = vec2(0.5);
+    FLIPPED_VIEWPORT_COORD = vec2(0.5);
+    UNFLIPPED_VIEWPORT_COORD = vTexCoord;
+    highp vec2 param = vTexCoord;
+    highp vec2 VIEWPORT_COORD = HSM_GetViewportCoordWithZoomAndPan(param);
+    highp vec2 param_1 = vTexCoord;
+    highp vec4 _5460 = HSM_UpdateGlobalScreenValuesFromCache(InfoCachePass, param_1);
+    if (HSM_SHOW_PASS_INDEX > 0.5)
+    {
+        FragColor = vec4(0.0);
+        highp vec2 _5470;
+        if (HSM_SHOW_PASS_APPLY_SCREEN_COORD > 0.5)
+        {
+            highp vec2 param_2 = SCREEN_COORD;
+            _5470 = HSM_GetCRTShaderCurvedCoord(param_2);
+        }
+        else
+        {
+            _5470 = vTexCoord;
+        }
+        highp vec2 coord_for_raw_passes = _5470;
+        if (HSM_SHOW_PASS_INDEX == 1.0)
+        {
+            FragColor = texture(ReflectionPass, vTexCoord);
+        }
+        if (HSM_SHOW_PASS_INDEX == 2.0)
+        {
+            FragColor = texture(PostCRTPass, vTexCoord);
+        }
+        if (HSM_SHOW_PASS_INDEX == 3.0)
+        {
+            FragColor = texture(CRTPass, vTexCoord);
+        }
+        if (HSM_SHOW_PASS_INDEX == 4.0)
+        {
+            FragColor = texture(LinearizePass, (floor(coord_for_raw_passes * vec2(textureSize(LinearizePass, 0))) + vec2(0.5)) / vec2(textureSize(LinearizePass, 0)));
+        }
+        if (HSM_SHOW_PASS_INDEX == 5.0)
+        {
+            FragColor = texture(ColorCorrectPass, (floor(coord_for_raw_passes * vec2(textureSize(ColorCorrectPass, 0))) + vec2(0.5)) / vec2(textureSize(ColorCorrectPass, 0)));
+        }
+        if (HSM_SHOW_PASS_INDEX == 6.0)
+        {
+            FragColor = texture(DeditherPass, (floor(coord_for_raw_passes * vec2(textureSize(DeditherPass, 0))) + vec2(0.5)) / vec2(textureSize(DeditherPass, 0)));
+        }
+        if (HSM_SHOW_PASS_INDEX == 7.0)
+        {
+            FragColor = texture(DerezedPass, coord_for_raw_passes);
+        }
+        if (HSM_SHOW_PASS_INDEX == 8.0)
+        {
+            FragColor = texture(CorePass, coord_for_raw_passes);
+        }
+        if (HSM_SHOW_PASS_INDEX == 9.0)
+        {
+            FragColor = texture(BR_LayersOverCRTPass, vTexCoord);
+        }
+        if (HSM_SHOW_PASS_INDEX == 10.0)
+        {
+            FragColor = texture(BR_LayersUnderCRTPass, vTexCoord);
+        }
+        if ((HSM_SHOW_PASS_INDEX < 5.0) || (HSM_SHOW_PASS_INDEX > 8.0))
+        {
+            highp vec4 param_3 = FragColor;
+            highp float param_4 = 2.2000000476837158203125;
+            FragColor = HSM_Delinearize(param_3, param_4);
+        }
+        if (HSM_SHOW_PASS_ALPHA > 0.5)
+        {
+            FragColor = vec4(FragColor.w);
+        }
+        return;
+    }
+    highp vec2 param_5 = TUBE_DIFFUSE_COORD;
+    highp vec2 param_6 = TUBE_DIFFUSE_SCALE;
+    highp vec2 param_7 = TUBE_SCALE;
+    highp float param_8 = TUBE_DIFFUSE_ASPECT;
+    bool param_9 = false;
+    highp vec2 param_10 = BEZEL_OUTSIDE_SCALE;
+    highp vec2 param_11 = BEZEL_OUTSIDE_COORD;
+    highp vec2 param_12 = BEZEL_OUTSIDE_CURVED_COORD;
+    highp vec2 param_13 = FRAME_OUTSIDE_CURVED_COORD;
+    highp float _5640 = HSM_GetBezelCoords(param_5, param_6, param_7, param_8, param_9, param_10, param_11, param_12, param_13);
+    BEZEL_OUTSIDE_SCALE = param_10;
+    BEZEL_OUTSIDE_COORD = param_11;
+    BEZEL_OUTSIDE_CURVED_COORD = param_12;
+    FRAME_OUTSIDE_CURVED_COORD = param_13;
+    highp vec2 param_14 = BEZEL_OUTSIDE_COORD;
+    if (HHLP_IsOutsideCoordSpace(param_14))
+    {
+        highp vec4 feedback_color_test = texture(CombinePassFeedback, vec2(0.0));
+        bool _5655 = HSM_CACHE_GRAPHICS_ON > 0.5;
+        bool _5661;
+        if (_5655)
+        {
+            _5661 = feedback_color_test.w < 0.0;
+        }
+        else
+        {
+            _5661 = _5655;
+        }
+        if ((_5661 && (!CACHE_INFO_CHANGED)) && (HSM_RENDER_SIMPLE_MODE < 0.5))
+        {
+            FragColor = texture(CombinePassFeedback, UNFLIPPED_VIEWPORT_COORD);
+            return;
+        }
+    }
+    highp vec4 under_layer = texture(BR_LayersUnderCRTPass, vTexCoord);
+    highp vec3 param_15 = under_layer.xyz;
+    highp vec3 _5681 = PrepGraphicsForHDR(param_15);
+    under_layer.x = _5681.x;
+    under_layer.y = _5681.y;
+    under_layer.z = _5681.z;
+    highp vec4 out_color = under_layer;
+    highp vec4 crt_layer = texture(ReflectionPass, vTexCoord);
+    if (HSM_RENDER_SIMPLE_MODE > 0.5)
+    {
+        crt_layer.x = 0.0;
+        crt_layer.y = 0.0;
+        crt_layer.z = 0.0;
+    }
+    highp float bezel_corner_radius = HSM_BZL_INNER_CORNER_RADIUS_SCALE * global.HSM_GLOBAL_CORNER_RADIUS;
+    if (global.HSM_BZL_USE_INDEPENDENT_CURVATURE > 0.0)
+    {
+        bezel_corner_radius = HSM_BZL_INNER_CORNER_RADIUS_SCALE * 10.0;
+    }
+    highp vec2 param_16 = TUBE_DIFFUSE_COORD;
+    highp float param_17 = 1.0;
+    highp vec2 param_18 = TUBE_DIFFUSE_SCALE;
+    highp vec2 param_19 = TUBE_SCALE;
+    highp float param_20 = TUBE_DIFFUSE_ASPECT;
+    highp float param_21 = 1.0;
+    highp vec2 tube_curved_coord = HSM_GetTubeCurvedCoord(param_16, param_17, param_18, param_19, param_20, param_21);
+    highp vec2 param_22 = tube_curved_coord;
+    highp float param_23 = TUBE_DIFFUSE_ASPECT;
+    highp float param_24 = bezel_corner_radius;
+    highp float param_25 = 0.9900000095367431640625;
+    TUBE_MASK = HSM_GetCornerMask(param_22, param_23, param_24, param_25);
+    crt_layer *= (TUBE_MASK + ((1.0 - TUBE_MASK) * under_layer.w));
+    if (HSM_RENDER_SIMPLE_MODE < 0.5)
+    {
+        highp vec4 param_26 = out_color;
+        highp vec4 param_27 = crt_layer;
+        out_color = HSM_PreMultAlphaBlend(param_26, param_27);
+    }
+    highp vec4 over_layer = texture(BR_LayersOverCRTPass, vTexCoord);
+    highp vec3 param_28 = over_layer.xyz;
+    highp vec3 _5764 = PrepGraphicsForHDR(param_28);
+    over_layer.x = _5764.x;
+    over_layer.y = _5764.y;
+    over_layer.z = _5764.z;
+    highp vec4 param_29 = out_color;
+    highp vec4 param_30 = over_layer;
+    out_color = HSM_PreMultAlphaBlend(param_29, param_30);
+    FragColor = out_color;
+    if (HSM_RENDER_SIMPLE_MODE > 0.5)
+    {
+        highp vec2 param_31 = TUBE_DIFFUSE_COORD;
+        highp float param_32 = 1.0;
+        highp vec2 param_33 = TUBE_DIFFUSE_SCALE;
+        highp vec2 param_34 = TUBE_SCALE;
+        highp float param_35 = TUBE_DIFFUSE_ASPECT;
+        highp float param_36 = 1.0;
+        highp vec2 tube_curved_coord_1 = HSM_GetTubeCurvedCoord(param_31, param_32, param_33, param_34, param_35, param_36);
+        highp vec2 param_37 = TUBE_DIFFUSE_COORD;
+        highp float param_38 = global.HSM_TUBE_BLACK_EDGE_CURVATURE_SCALE / 100.0;
+        highp float param_39 = TUBE_DIFFUSE_ASPECT;
+        TUBE_DIFFUSE_CURVED_COORD = HSM_GetCurvedCoord(param_37, param_38, param_39);
+        highp vec2 param_40 = ((TUBE_DIFFUSE_CURVED_COORD - vec2(0.5)) * 1.00100004673004150390625) + vec2(0.5);
+        highp float param_41 = TUBE_DIFFUSE_ASPECT;
+        highp float param_42 = (global.HSM_GLOBAL_CORNER_RADIUS * global.HSM_TUBE_BLACK_EDGE_CORNER_RADIUS_SCALE) / 100.0;
+        highp float param_43 = global.HSM_TUBE_BLACK_EDGE_SHARPNESS / 100.0;
+        TUBE_DIFFUSE_MASK = HSM_GetCornerMask(param_40, param_41, param_42, param_43);
+        highp vec2 param_44 = tube_curved_coord_1;
+        highp float param_45 = TUBE_DIFFUSE_ASPECT;
+        highp float param_46 = bezel_corner_radius;
+        highp float param_47 = 0.9900000095367431640625;
+        TUBE_MASK = HSM_GetCornerMask(param_44, param_45, param_46, param_47);
+        highp vec2 param_48 = BEZEL_OUTSIDE_CURVED_COORD;
+        highp float param_49 = TUBE_DIFFUSE_ASPECT;
+        highp float param_50 = global.HSM_GLOBAL_CORNER_RADIUS * HSM_BZL_OUTER_CORNER_RADIUS_SCALE;
+        highp float param_51 = 0.89999997615814208984375;
+        INSIDE_BEZEL_MASK = HSM_GetCornerMask(param_48, param_49, param_50, param_51);
+        BEZEL_MASK = INSIDE_BEZEL_MASK * (1.0 - TUBE_MASK);
+        OUTSIDE_BEZEL_MASK = 1.0 - INSIDE_BEZEL_MASK;
+        highp vec2 param_52 = FRAME_OUTSIDE_CURVED_COORD;
+        highp float param_53 = TUBE_DIFFUSE_ASPECT;
+        highp float param_54 = HSM_FRM_OUTER_CORNER_RADIUS;
+        highp float param_55 = 1.0;
+        OUTSIDE_FRAME_MASK = 1.0 - HSM_GetCornerMask(param_52, param_53, param_54, param_55);
+        FRAME_MASK = OUTSIDE_BEZEL_MASK * (1.0 - OUTSIDE_FRAME_MASK);
+        if (HSM_RENDER_SIMPLE_MODE == 1.0)
+        {
+            highp vec4 param_56 = FragColor;
+            highp vec4 param_57 = vec4(0.0, 0.0, 0.0, 1.0) * TUBE_MASK;
+            FragColor = HSM_PreMultAlphaBlend(param_56, param_57);
+        }
+        if (HSM_RENDER_SIMPLE_MODE == 2.0)
+        {
+            highp vec4 param_58 = FragColor;
+            highp vec4 param_59 = vec4(0.0, 0.0, 0.0, 1.0) * (TUBE_MASK + OUTSIDE_FRAME_MASK);
+            FragColor = HSM_PreMultAlphaBlend(param_58, param_59);
+        }
+        if (HSM_RENDER_SIMPLE_MODE == 3.0)
+        {
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 0.0)
+            {
+                highp vec4 param_60 = FragColor;
+                highp vec4 param_61 = vec4(1.0, 0.0, 1.0, 1.0) * TUBE_DIFFUSE_MASK;
+                FragColor = HSM_PreMultAlphaBlend(param_60, param_61);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 1.0)
+            {
+                highp vec4 param_62 = FragColor;
+                highp vec4 param_63 = vec4(1.0, 0.0, 1.0, 1.0) * TUBE_MASK;
+                FragColor = HSM_PreMultAlphaBlend(param_62, param_63);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 2.0)
+            {
+                highp vec4 param_64 = FragColor;
+                highp vec4 param_65 = vec4(1.0, 0.0, 1.0, 1.0) * (TUBE_MASK + OUTSIDE_FRAME_MASK);
+                FragColor = HSM_PreMultAlphaBlend(param_64, param_65);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 3.0)
+            {
+                highp vec4 param_66 = FragColor;
+                highp vec4 param_67 = vec4(1.0, 0.0, 1.0, 1.0) * (1.0 - BEZEL_MASK);
+                FragColor = HSM_PreMultAlphaBlend(param_66, param_67);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 4.0)
+            {
+                highp vec4 param_68 = FragColor;
+                highp vec4 param_69 = vec4(1.0, 0.0, 1.0, 1.0) * (1.0 - FRAME_MASK);
+                FragColor = HSM_PreMultAlphaBlend(param_68, param_69);
+            }
+        }
+        if (HSM_RENDER_SIMPLE_MODE == 4.0)
+        {
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 0.0)
+            {
+                FragColor = vec4(1.0 - TUBE_DIFFUSE_MASK);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 1.0)
+            {
+                FragColor = vec4(1.0 - TUBE_MASK);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 2.0)
+            {
+                FragColor = vec4(1.0 - TUBE_MASK) - vec4(OUTSIDE_FRAME_MASK);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 3.0)
+            {
+                FragColor = vec4(BEZEL_MASK);
+            }
+            if (HSM_RENDER_SIMPLE_MASK_TYPE == 4.0)
+            {
+                FragColor = vec4(FRAME_MASK);
+            }
+        }
+    }
+    bool _5992 = UNFLIPPED_VIEWPORT_COORD.x < (2.0 / global.OutputSize.x);
+    bool _6001;
+    if (_5992)
+    {
+        _6001 = UNFLIPPED_VIEWPORT_COORD.y < (2.0 / global.OutputSize.y);
+    }
+    else
+    {
+        _6001 = _5992;
+    }
+    if (_6001)
+    {
+        FragColor.w = -1.0;
+    }
+    highp vec4 param_70 = FragColor;
+    highp float param_71 = 2.2000000476837158203125;
+    FragColor = HSM_Delinearize(param_70, param_71);
+}
+
