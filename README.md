@@ -11,6 +11,12 @@ I would like to thank @DerSchlachter from the Libretro forums for re-awakening o
 
 Installing the presets is a simple matter of downloading the repo and moving the contents of the "Compiled" folder to the "BigPEmu\Data\ScreenEffects" folder. Then selecting your preferred preset from the "Video" settings menu.
 
+#### ** Note **
+
+If you are running on a 4K display, and have any scaling done by Windows, (Usually 150% by default.) make sure to right-click the BigPEmu.exe >> Properties >> Compatability >> Change high DPI settings >> Check the "Override high DPI scaling behaviour" "Scaling performed by:" check box and select "Application" from the drop-down menu.
+
+This will insure that your CRT settings display as intended.
+
 ---
 
 Since the presets are static, (There is no parameters dialog.) some may want to customize the CRT parameters. I have included the slangp presets, the converter, and batch files to ease the conversion.
