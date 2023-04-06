@@ -716,7 +716,7 @@
                 "Constant": "HSM_CROP_MODE",
                 "Type": "float",
                 "Description": "          Crop Mode  -  OFF | CROP BLACK ONLY | CROP ANY",
-                "DefaultVal": 2.0,
+                "DefaultVal": 1.0,
                 "MinVal": 0.0,
                 "MaxVal": 2.0,
                 "StepVal": 1.0
@@ -725,7 +725,7 @@
                 "Constant": "HSM_CROP_PERCENT_ZOOM",
                 "Type": "float",
                 "Description": "          Crop Zoom %",
-                "DefaultVal": 0.0,
+                "DefaultVal": 6.0,
                 "MinVal": -50.0,
                 "MaxVal": 100.0,
                 "StepVal": 0.10000000149011612
@@ -770,7 +770,7 @@
                 "Constant": "HSM_CROP_BLACK_THRESHOLD",
                 "Type": "float",
                 "Description": "          Black Threshold for 'CROP BLACK ONLY'",
-                "DefaultVal": 0.0,
+                "DefaultVal": 10.0,
                 "MinVal": 0.0,
                 "MaxVal": 100.0,
                 "StepVal": 1.0
@@ -7016,7 +7016,7 @@
                 "Constant": "m_glow",
                 "Type": "float",
                 "Description": "          Ordinary Glow / Magic Glow -- m_glow",
-                "DefaultVal": 1.0,
+                "DefaultVal": 0.0,
                 "MinVal": 0.0,
                 "MaxVal": 1.0,
                 "StepVal": 1.0
@@ -7052,7 +7052,7 @@
                 "Constant": "glow",
                 "Type": "float",
                 "Description": "          (Magic) Glow Strength -- glow",
-                "DefaultVal": 0.20000000298023225,
+                "DefaultVal": 0.07999999821186066,
                 "MinVal": -2.0,
                 "MaxVal": 2.0,
                 "StepVal": 0.009999999776482582
@@ -7601,7 +7601,7 @@
                 "Constant": "shadowMask",
                 "Type": "float",
                 "Description": "CRT Mask: -1:None|0:CGWG|1-4:Lottes|5-12:Trinitrn -- shadowMask",
-                "DefaultVal": 7.0,
+                "DefaultVal": 0.0,
                 "MinVal": -1.0,
                 "MaxVal": 13.0,
                 "StepVal": 1.0
@@ -7610,7 +7610,7 @@
                 "Constant": "masksize",
                 "Type": "float",
                 "Description": "          Mask Size - 0:Auto | 2K | 4k -- masksize",
-                "DefaultVal": 0.0,
+                "DefaultVal": 1.0,
                 "MinVal": 0.0,
                 "MaxVal": 4.0,
                 "StepVal": 1.0
@@ -7628,7 +7628,7 @@
                 "Constant": "maskstr",
                 "Type": "float",
                 "Description": "          Mask Strength (0, 5-12) -- maskstr",
-                "DefaultVal": 0.4000000059604645,
+                "DefaultVal": 0.30000001192092898,
                 "MinVal": -0.5,
                 "MaxVal": 1.0,
                 "StepVal": 0.02500000037252903
@@ -7700,7 +7700,7 @@
                 "Constant": "slotmask",
                 "Type": "float",
                 "Description": "          Slot Mask Strength Bright Pixels -- slotmask",
-                "DefaultVal": 0.5,
+                "DefaultVal": 0.0,
                 "MinVal": 0.0,
                 "MaxVal": 1.0,
                 "StepVal": 0.05000000074505806
