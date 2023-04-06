@@ -716,7 +716,7 @@
                 "Constant": "HSM_CROP_MODE",
                 "Type": "float",
                 "Description": "          Crop Mode  -  OFF | CROP BLACK ONLY | CROP ANY",
-                "DefaultVal": 1.0,
+                "DefaultVal": 2.0,
                 "MinVal": 0.0,
                 "MaxVal": 2.0,
                 "StepVal": 1.0
@@ -725,7 +725,7 @@
                 "Constant": "HSM_CROP_PERCENT_ZOOM",
                 "Type": "float",
                 "Description": "          Crop Zoom %",
-                "DefaultVal": 6.0,
+                "DefaultVal": 0.0,
                 "MinVal": -50.0,
                 "MaxVal": 100.0,
                 "StepVal": 0.10000000149011612
@@ -770,7 +770,7 @@
                 "Constant": "HSM_CROP_BLACK_THRESHOLD",
                 "Type": "float",
                 "Description": "          Black Threshold for 'CROP BLACK ONLY'",
-                "DefaultVal": 10.0,
+                "DefaultVal": 0.0,
                 "MinVal": 0.0,
                 "MaxVal": 100.0,
                 "StepVal": 1.0
