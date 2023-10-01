@@ -1,0 +1,76 @@
+#version 430 es
+precision mediump float;
+precision highp int;
+
+layout(binding = 0, std140) uniform UBO
+{
+    highp mat4 MVP;
+} global;
+
+struct Push
+{
+    highp vec4 LinearizePassSize;
+    highp vec4 OriginalSize;
+    highp vec4 OutputSize;
+    uint FrameCount;
+    highp float glow;
+    highp float SIZEH;
+    highp float SIGMA_H;
+    highp float m_glow;
+    highp float m_glow_cutoff;
+    highp float m_glow_low;
+    highp float m_glow_high;
+    highp float m_glow_dist;
+};
+
+uniform Push params;
+
+layout(binding = 2) uniform highp sampler2D LinearizePass;
+
+layout(location = 0) in highp vec2 vTexCoord;
+layout(location = 0) out highp vec4 FragColor;
+highp float invsqrsigma;
+
+highp vec3 plant(highp vec3 tar, highp float r)
+{
+    highp float t = max(max(tar.x, tar.y), tar.z) + 9.9999997473787516355514526367188e-06;
+    return (tar * r) / vec3(t);
+}
+
+highp float gaussian(highp float x)
+{
+    return exp(((-x) * x) * invsqrsigma);
+}
+
+void main()
+{
+    invsqrsigma = 1.0 / ((2.0 * params.SIGMA_H) * params.SIGMA_H);
+    highp vec4 SourceSize1 = params.OriginalSize;
+    highp float f = fract(SourceSize1.x * vTexCoord.x);
+    f = 0.5 - f;
+    highp vec2 tex = (floor(SourceSize1.xy * vTexCoord) * SourceSize1.zw) + (SourceSize1.zw * 0.5);
+    highp vec3 color = vec3(0.0);
+    highp vec2 dx = vec2(SourceSize1.z, 0.0);
+    highp float wsum = 0.0;
+    highp float _115 = -params.SIZEH;
+    highp float n = _115;
+    do
+    {
+        highp vec3 pixel = texture(LinearizePass, tex + (dx * n)).xyz;
+        if (params.m_glow > 0.5)
+        {
+            pixel = max(pixel - vec3(params.m_glow_cutoff), vec3(0.0));
+            highp vec3 param = pixel;
+            highp float param_1 = max(max(max(pixel.x, pixel.y), pixel.z) - params.m_glow_cutoff, 0.0);
+            pixel = plant(param, param_1);
+        }
+        highp float param_2 = n + f;
+        highp float w = gaussian(param_2);
+        color += (pixel * w);
+        wsum += w;
+        n += 1.0;
+    } while (n <= params.SIZEH);
+    color /= vec3(wsum);
+    FragColor = vec4(color, 1.0);
+}
+

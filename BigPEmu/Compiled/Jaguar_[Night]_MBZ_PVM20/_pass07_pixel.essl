@@ -1,0 +1,48 @@
+#version 430 es
+precision mediump float;
+precision highp int;
+
+layout(binding = 0, std140) uniform UBO
+{
+    highp mat4 MVP;
+} global;
+
+struct Push
+{
+    highp vec4 SourceSize;
+    highp vec4 OriginalSize;
+    highp vec4 OutputSize;
+    uint FrameCount;
+    highp float PR;
+    highp float PG;
+    highp float PB;
+};
+
+uniform Push params;
+
+layout(binding = 2) uniform highp sampler2D PreCRTPass;
+layout(binding = 3) uniform highp sampler2D AfterglowPassFeedback;
+
+layout(location = 0) in highp vec2 vTexCoord;
+layout(location = 0) out highp vec4 FragColor;
+
+void main()
+{
+    highp vec2 dx = vec2(params.OriginalSize.z, 0.0);
+    highp vec2 dy = vec2(0.0, params.OriginalSize.w);
+    highp vec3 color0 = texture(PreCRTPass, vTexCoord).xyz;
+    highp vec3 color1 = texture(PreCRTPass, vTexCoord - dx).xyz;
+    highp vec3 color2 = texture(PreCRTPass, vTexCoord + dx).xyz;
+    highp vec3 color3 = texture(PreCRTPass, vTexCoord - dy).xyz;
+    highp vec3 color4 = texture(PreCRTPass, vTexCoord + dy).xyz;
+    highp vec3 color = (((((color0 * 2.5) + color1) + color2) + color3) + color4) / vec3(6.5);
+    highp vec3 accumulate = texture(AfterglowPassFeedback, vTexCoord).xyz;
+    highp float w = 1.0;
+    if (((color0.x + color0.y) + color0.z) < 0.01960784383118152618408203125)
+    {
+        w = 0.0;
+    }
+    highp vec3 result = mix(max(mix(color, accumulate, vec3(0.4900000095367431640625) + vec3(params.PR, params.PG, params.PB)) - vec3(0.007843137718737125396728515625), vec3(0.0)), color, vec3(w));
+    FragColor = vec4(result, w);
+}
+
